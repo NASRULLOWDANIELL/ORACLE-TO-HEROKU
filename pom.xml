@@ -15,8 +15,6 @@
     <groupId>com.heroku</groupId>
     <artifactId>java-getting-started</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <packaging>war</packaging> <!-- Change packaging to war -->
-
 
     <properties>
         <java.version>17</java.version>
