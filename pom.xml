@@ -39,15 +39,15 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
-<!--        <dependency>
+       <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-        </dependency>-->
-        <dependency>
+        </dependency>
+        <!-- <dependency>
     		<groupId>com.oracle.database.jdbc</groupId>
     		<artifactId>ojdbc6</artifactId>
     		<version>11.2.0.4</version>
-		</dependency>
+		</dependency> -->
         <dependency>
             <groupId>org.thymeleaf</groupId>
             <artifactId>thymeleaf</artifactId>
