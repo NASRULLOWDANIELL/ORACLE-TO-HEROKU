@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Staff Account - MYVI CAT HOTEL</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+
+        .navigation {
+            background-color: #fff;
+            border-bottom: 1px solid #596cd5;
+            padding: 15px 0;
+        }
+
+        .logo {
+            color: #596cd5;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .menu a {
+            color: #4e4e4e;
+            transition: color 0.3s ease;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            color: #596cd5;
+        }
+
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            background-color: #596cd5;
+            color: white;
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background-color: #596cd5;
+            border-color: #596cd5;
+        }
+
+        .btn-primary:hover {
+            background-color: #4a5bb3;
+            border-color: #4a5bb3;
+        }
+
+        footer {
+            background-color: #fff;
+            border-top: 1px solid #596cd5;
+            padding: 20px 0;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navigation">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-3">
+                    <a th:href="@{/}" class="logo">MYVI CAT HOTEL_</a>
+                </div>
+                <div class="col-md-9">
+                    <ul class="menu list-inline text-md-right mb-0">
+                        <li class="list-inline-item"><a th:href="@{/admindashboard}">Admin Dashboard</a></li>
+                        <li class="list-inline-item"><a th:href="@{/viewstaffaccount}" class="active">My Account
+                                (Staff)</a></li>
+                        <li class="list-inline-item"><a th:href="@{/loginStaff}"><i class="fa-solid fa-user"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="mb-0">Staff Account Details</h4>
+                    </div>
+                    <div class="card-body">
+                        <div th:if="${staff != null}">
+                            <p><strong>ID:</strong> <span th:text="${staff.staffid}"></span></p>
+                            <p><strong>Name:</strong> <span th:text="${staff.staffname}"></span></p>
+                            <p><strong>Email:</strong> <span th:text="${staff.staffemail}"></span></p>
+                            <p><strong>Password:</strong> <span>••••••••</span></p>
+                            <p><strong>Phone Number:</strong> <span th:text="${staff.staffphoneno}"></span></p>
+                            <p><strong>Staff Role:</strong> <span th:text="${staff.staffrole}"></span></p>
+                        </div>
+                        <div th:if="${staff == null}">
+                            <p>No staff details found.</p>
+                        </div>
+                        <div th:if="${error}">
+                            <p class="text-danger" th:text="${error}"></p>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a th:href="@{/updateStaffAccount}" class="btn btn-primary">Update</a>
+                        <a th:href="@{/admindashboard}" class="btn btn-secondary">Back</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p class="text-center">&copy; 2024 Myvi Cat Hotel</p>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+
+</html>

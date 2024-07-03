@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MYVI CAT HOTEL STORYBOARD</title>
+  <link rel="icon" href="image/qilin symbol.jpg" type="image/jpeg" />
+  <link rel="stylesheet" href="slotAvailability.css" />
+
+  <!-- CALENDAR LINK-->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+  <!--import font-->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet" />
+
+  <!--Import FontAwesome Icons-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: poppins;
+      background-color: #f0f0f0;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    /*navigation bar*/
+    .navigation {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 30px 75px;
+      margin: auto;
+      border-bottom: 1px solid #596cd5;
+    }
+
+    .navigation a i:hover {
+      color: #596cd5;
+      font-size: 110%;
+    }
+
+    .logo {
+      color: #596cd5;
+      font-weight: 700;
+      font-size: 1.5rem;
+      margin-left: 10%;
+    }
+
+    .logo:hover {
+      font-weight: 800;
+    }
+
+    .menu {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .menu li a {
+      color: #4e4e4e;
+      margin: 0px 10px;
+      font-weight: 400;
+      transition: all ease 0.3s;
+    }
+
+    .menu li a:hover {
+      color: #596cd5;
+      font-weight: 600;
+    }
+
+    .nav-contact {
+      width: 130px;
+      height: 40px;
+      display: flex;
+      font-size: 0.85rem;
+      justify-content: center;
+      align-items: center;
+      background-color: #596cd5;
+      border-radius: 20px;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 500;
+    }
+
+    .nav-contact:hover {
+      color: black;
+    }
+
+    footer {
+      color: #333;
+      padding: 40px 0;
+      border-top: 1px solid #596cd5;
+    }
+
+    .footer-container {
+      display: flex;
+      justify-content: space-around;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 0 20px;
+    }
+
+    h3 {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      margin-bottom: 10px;
+    }
+
+    a {
+      color: #333;
+      text-decoration: none;
+      /*margin-left: 90px;*/
+      /*scale: 10px;*/
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .social-icons {
+      margin-top: 20px;
+    }
+
+    .social-icons a {
+      display: inline-block;
+      margin-right: 10px;
+      color: #333;
+      font-size: 20px;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 14px;
+    }
+
+    /* SLOT AVAILABILITY */
+
+    .container1 {
+      width: 90vw;
+      margin: 0 auto;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    main {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100vw;
+    }
+
+    /* Style for calendar container */
+    #calendar {
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 5px;
+
+    }
+
+    .flex-container {
+      display: flex;
+      color: #151515;
+      border: none;
+      border-radius: 1px;
+      margin: 5px 5px;
+      padding: 5px 10px;
+    }
+
+    /* Style for calendar header */
+    .fc-toolbar {
+      background-color: #f0f0f0;
+      padding: 1px;
+      border-radius: 5px;
+    }
+
+    /* Style for calendar buttons */
+    .fc-button {
+      background-color: #007bff;
+      color: #151515;
+      border: none;
+      border-radius: 1px;
+      margin: 5px 5px;
+      padding: 5px 10px;
+    }
+
+    /* Hover effect for calendar buttons */
+    .fc-button:hover {
+      text-decoration: underline;
+      color: #596cd5;
+    }
+
+    /* Style for calendar event titles */
+    .fc-title {
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    /* Style for calendar events */
+    .fc-event {
+      background-color: #28a745;
+      border: 1px solid #218838;
+      color: #fff;
+      border-radius: 5px;
+      padding: 5px;
+    }
+
+    button[type="submit"] {
+      background-color: #596cd5;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      width: fit-content;
+      margin: 0 auto;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #4a5fd2;
+    }
+  </style>
+</head>
+
+<body>
+  <!--navigation bar punya bahagian-->
+  <section id="nav">
+    <header>
+      <div class="navigation">
+        <a th:href="@{/}" class="logo">MYVI CAT HOTEL_</a>
+        <ul class="menu">
+          <li><a th:href="@{/customerindex}" class="active">Home</a></li>
+          <li><a th:href="@{/viewaccount}">My Account</a></li>
+          <li><a th:href="@{/catList}">My Cat</a></li>
+          <li><a th:href="@{/roomList}">Our Hotel</a></li>
+          <li><a th:href="@{/bookingList}">Booking</a></li>
+          <!-- <li><a href="slotAvailability.html">View Slot Availability</a></li> -->
+        </ul>
+        <a th:href="@{/login}"><i class="fa-solid fa-user"></i></a>
+      </div>
+    </header>
+  </section>
+
+  <main>
+    <div class="container1">
+      <h1>Booking Calendar</h1>
+      <div id="calendar"></div>
+      <div class="flex-container">
+        <button type="submit">Back</button>
+      </div>
+    </div>
+
+    <script>
+      $(document).ready(function () {
+        $("#calendar").fullCalendar({
+          header: {
+            left: "prev,next today",
+            center: "title",
+            right: "month,agendaWeek,agendaDay",
+          },
+          defaultDate: new Date(),
+          editable: false,
+          eventTextColor: "black",
+          eventLimit: true, // allow "more" link when too many events
+          events: [
+            {
+              title: "Available",
+              start: "2024-05-09T10:00:00",
+              end: "2024-05-09T11:00:00",
+            },
+            {
+              title: "Booked",
+              start: "2024-05-09T11:00:00",
+              end: "2024-05-09T12:00:00",
+            },
+            {
+              title: "Available",
+              start: "2024-05-09T12:00:00",
+              end: "2024-05-09T13:00:00",
+            },
+            // Add more events for additional slots
+          ],
+        });
+      });
+    </script>
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <p>&copy; 2024 Myvi Cat Hotel</p>
+    </div>
+  </footer>
+</body>
+
+</html>

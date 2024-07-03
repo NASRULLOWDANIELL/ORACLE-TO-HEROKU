@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Feedback Form</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="feedbackform.css" />
+
+  <!--Import FontAwesome Icons-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!--import font-->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f0f0;
+    }
+
+    .container {
+      width: 40vw;
+      margin: 0 auto;
+      margin-top: 50px;
+      margin-bottom: 50px;
+      padding: 20px;
+      padding-right: 40px;
+      background-color: #f0f0f0;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: bold;
+    }
+
+    .form-group input[type="text"],
+    .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .form-group textarea {
+      height: 100px;
+    }
+
+    .form-group button {
+      padding: 10px 20px;
+      background-color: #596cd5;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .form-group button:hover {
+      background-color: #596cd5;
+    }
+
+    /*navigation bar*/
+    .navigation {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      width: 90%;
+      padding: 30px 0px;
+      margin: auto;
+      border-bottom: 1px solid #596cd5;
+    }
+
+    .logo {
+      color: #596cd5;
+      font-weight: 700;
+      font-size: 1.5rem;
+    }
+
+    .logo:hover {
+      font-weight: 800;
+    }
+
+    .menu {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .menu li a {
+      color: #4e4e4e;
+      margin: 0px 10px;
+      font-weight: 400;
+      transition: all ease 0.3s;
+    }
+
+    .menu li a:hover {
+      color: #596cd5;
+      font-weight: 600;
+    }
+
+    .nav-contact {
+      width: 130px;
+      height: 40px;
+      display: flex;
+      font-size: 0.85rem;
+      justify-content: center;
+      align-items: center;
+      background-color: #596cd5;
+      border-radius: 20px;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 500;
+    }
+
+    .nav-contact:hover {
+      color: black;
+    }
+
+    .feedback-form {
+      border: 1px solid #ddd;
+      padding: 15px;
+      border-radius: 5px;
+      width: 400px;
+      margin: 0 auto;
+    }
+
+    .rating {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .rating star-rating i {
+      font-size: 50px;
+    }
+
+    .rating star-rating {
+      display: inline-block;
+      width: 50px;
+      height: auto;
+      cursor: pointer;
+
+    }
+
+    .rating star-rating svg {
+      fill: #ddd;
+    }
+
+    .rating star-rating.active svg {
+      fill: gold;
+    }
+
+    .comment {
+      margin-top: 50px;
+    }
+
+    .comment textarea {
+      width: 100%;
+      height: 100px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+    }
+
+    .submit {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .submit input[type="submit"] {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 3px;
+      background-color: #596cd5;
+      color: white;
+      cursor: pointer;
+    }
+
+    footer {
+      color: #333;
+      padding: 40px 0;
+      border-top: 1px solid #596cd5;
+    }
+    .footer-container {
+      display: flex;
+      justify-content: space-around;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 0 20px;
+    }
+
+    h3 {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      margin-bottom: 10px;
+    }
+
+    a {
+      color: #333;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .social-icons {
+      margin-top: 20px;
+    }
+
+    .social-icons a {
+      display: inline-block;
+      margin-right: 10px;
+      color: #333;
+      font-size: 20px;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 14px;
+    }
+
+  </style>
+</head>
+
+<body>
+  <section id="nav">
+    <header>
+      <div class="navigation">
+        <a th:href="@{/}" class="logo">MYVI CAT HOTEL_</a>
+        <ul class="menu">
+          <li><a th:href="@{/customerindex}" class="active">Home</a></li>
+          <li><a th:href="@{/viewaccount}">My Account</a></li>
+          <li><a th:href="@{/catList}">My Cat</a></li>
+          <li><a th:href="@{/roomList}">Our Hotel</a></li>
+          <li><a th:href="@{/bookingList}">Booking</a></li>
+          <!-- <li><a href="slotAvailability.html">View Slot Availability</a></li> -->
+        </ul>
+        <a th:href="@{/login}"><i class="fa-solid fa-user"></i></a>
+      </div>
+    </header>
+  </section>
+
+  <div class="container">
+    <h2>Feedback Form</h2>
+    <form action="#" method="post">
+      <div class="rating">
+        <star-rating id="star-1" data-value="1"><i class="fas fa-star"></i></star-rating>
+        <star-rating id="star-2" data-value="2"><i class="fas fa-star"></i></star-rating>
+        <star-rating id="star-3" data-value="3"><i class="fas fa-star"></i></star-rating>
+        <star-rating id="star-4" data-value="4"><i class="fas fa-star"></i></star-rating>
+        <star-rating id="star-5" data-value="5"><i class="fas fa-star"></i></star-rating>
+      </div>
+      <div class="comment">
+        <label for="comment">Comment:</label>
+        <textarea id="comment" name="comment"></textarea>
+      </div>
+      <div class="submit">
+        <input type="submit" value="Submit Feedback" />
+      </div>
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          const starRatings = document.querySelectorAll(
+            ".rating star-rating"
+          );
+
+          starRatings.forEach((starRating) => {
+            starRating.addEventListener("click", () => {
+              const ratingValue = starRating.dataset.value;
+              starRatings.forEach((star) => star.removeAttribute("selected"));
+              for (let i = 0; i < ratingValue; i++) {
+                starRatings[i].setAttribute("selected", true);
+              }
+            });
+          });
+        });
+      </script>
+    </form>
+  </div>
+
+  <footer>
+    <div class="footer-container">
+      <p>&copy; 2024 Myvi Cat Hotel</p>
+    </div>
+  </footer>
+</body>
+
+</html>

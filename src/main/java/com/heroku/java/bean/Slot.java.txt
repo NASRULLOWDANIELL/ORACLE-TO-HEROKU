@@ -1,0 +1,43 @@
+package com.heroku.java.bean;
+
+import java.sql.Date;
+
+public class Slot {
+    private int slotid;
+    private String slotstatus;
+    private Date slotdate;
+
+    public Slot() {
+
+    }
+
+    public Slot(int slotid, String slotstatus, Date slotdate) {
+        this.slotid = slotid;
+        this.slotstatus = slotstatus;
+        this.slotdate = slotdate;
+    }
+
+    public int getSlotid() {
+        return slotid;
+    }
+
+    public void setSlotid(int slotid) {
+        this.slotid = slotid;
+    }
+
+    public String getSlotstatus() {
+        return slotstatus;
+    }
+
+    public void setSlotstatus(String slotstatus) {
+        this.slotstatus = slotstatus;
+    }
+
+    public Date getSlotdate() {
+        return slotdate;
+    }
+
+    public void setSlotdate(Date slotdate) {
+        this.slotdate = slotdate;
+    }
+}

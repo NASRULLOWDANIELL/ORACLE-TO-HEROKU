@@ -1,0 +1,73 @@
+// package com.heroku.java.controller;
+
+// import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.http.ResponseEntity;
+// import org.springframework.web.bind.annotation.*;
+// import com.heroku.java.bean.Slot;
+// import com.heroku.java.bean.Booking;
+// import javax.sql.DataSource;
+// import java.sql.*;
+// import java.util.ArrayList;
+// import java.util.List;
+// import java.util.Map;
+
+// @RestController
+// @RequestMapping("/api")
+// public class BookingApiController {
+
+//     private final DataSource dataSource;
+
+//     @Autowired
+//     public BookingApiController(DataSource dataSource) {
+//         this.dataSource = dataSource;
+//     }
+
+//     @GetMapping("/slots")
+//     public ResponseEntity<List<Slot>> getAvailableSlots(@RequestParam String date) {
+//         List<Slot> slots = new ArrayList<>();
+//         try (Connection conn = dataSource.getConnection()) {
+//             String sql = "SELECT * FROM slot WHERE slotdate = ? AND is_available = true";
+//             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+//                 pstmt.setDate(1, Date.valueOf(date));
+//                 try (ResultSet rs = pstmt.executeQuery()) {
+//                     while (rs.next()) {
+//                         Slot slot = new Slot(
+//                             rs.getInt("slotid"),
+//                             rs.getDate("slotdate"),
+//                             rs.getBoolean("is_available")
+//                         );
+//                         slots.add(slot);
+//                     }
+//                 }
+//             }
+//         } catch (SQLException e) {
+//             e.printStackTrace();
+//             return ResponseEntity.internalServerError().build();
+//         }
+//         return ResponseEntity.ok(slots);
+//     }
+
+//     @PostMapping("/book")
+//     public ResponseEntity<Map<String, String>> createBooking(@RequestBody Booking booking) {
+//         try (Connection conn = dataSource.getConnection()) {
+//             String sql = "INSERT INTO booking (name, contact, checkin_date, checkout_date, price, slot_id) VALUES (?, ?, ?, ?, ?, ?)";
+//             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+//                 pstmt.setString(1, booking.getName());
+//                 pstmt.setString(2, booking.getContact());
+//                 pstmt.setDate(3, Date.valueOf(booking.getCheckinDate()));
+//                 pstmt.setDate(4, Date.valueOf(booking.getCheckoutDate()));
+//                 pstmt.setDouble(5, booking.getPrice());
+//                 pstmt.setInt(6, booking.getSlotId());
+//                 int affectedRows = pstmt.executeUpdate();
+//                 if (affectedRows > 0) {
+//                     return ResponseEntity.ok(Map.of("message", "Booking created successfully"));
+//                 } else {
+//                     return ResponseEntity.badRequest().body(Map.of("message", "Failed to create booking"));
+//                 }
+//             }
+//         } catch (SQLException e) {
+//             e.printStackTrace();
+//             return ResponseEntity.internalServerError().body(Map.of("message", "Error creating booking"));
+//         }
+//     }
+// }

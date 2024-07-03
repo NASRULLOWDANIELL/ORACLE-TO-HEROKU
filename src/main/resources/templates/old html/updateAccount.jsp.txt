@@ -1,0 +1,86 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>MYVI CAT HOTEL STORYBOARD</title>
+    <link rel="icon" href="image/qilin symbol.jpg" type="image/jpeg">
+    <link rel="stylesheet" href="updateAccount.css">
+
+    <!--import font-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+
+    <!--Import FontAwesome Icons-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!--navigation bar punya bahagian-->
+    <section id="nav">
+        <header>
+            <div class="navigation">
+                <a href="index.html" class="logo">MYVI CAT HOTEL_</a>
+                <ul class="menu">
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="ViewAccountController">My Account</a></li>
+                    <li><a href="createCat.html">My Cat</a></li>
+                    <li><a href="CatHotel.html">Our Hotel</a></li>
+                    <li><a href="booking.html">Book an Appointment</a></li>
+                    <li><a href="slotAvailability.html">View Slot Availability</a></li>
+                </ul>
+                <!--extra contact-->
+                <a href="createacc.html"><i class="fa-solid fa-user"></i></a>
+            </div>
+        </header>
+    </section>
+
+    <h1 id="create-cat-info">Update Account Info</h1>
+    <div class="form-wrapper">
+        <div class="form-container">
+            <form action="UpdateAccountController" method="post">
+                <input type="hidden" name="id" value="${id}">
+                <div class="left">
+                    <label for="full_name">Full Name:</label>
+                    <input type="text" id="full_name" name="full_name" placeholder="Enter full name" value="${full_name}" required>
+                    
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" placeholder="Enter password" value="${password}" required>
+                </div>
+
+                <div class="right">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" placeholder="Enter email" value="${email}" required>
+                    
+                    <label for="Phone_Number">Phone Number:</label>
+                    <input type="text" id="Phone_Number" name="Phone_Number" placeholder="Enter phone number" value="${Phone_Number}" required>
+                </div>
+
+                <div class="buttons">
+                    <button type="submit" class="create-button" onclick="window.location.href='UpdateAccController'">Update</button>
+                    <button type="button" class="back-button" onclick="window.location.href='viewacc.jsp'">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-container">
+            <div class="col">
+                <p>Follow Us For More Updates!</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Myvi Cat Hotel</p>
+        </div>
+    </footer>
+</body>
+</html>

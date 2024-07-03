@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MYVI CAT HOTEL STORYBOARD</title>
+  <link rel="icon" href="image/qilin symbol.jpg" type="image/jpeg" />
+  <link rel="stylesheet" href="createCat1.css" />
+
+  <!--import font-->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet" />
+
+  <!--Import FontAwesome Icons-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    * {
+      margin: 0px;
+      padding: 0px;
+      box-sizing: border-box;
+      font-family: poppins;
+      background-color: #f0f0f0;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    /*navigation bar*/
+    .navigation {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 30px 75px;
+      margin: auto;
+      border-bottom: 1px solid #596cd5;
+    }
+
+    .navigation a i:hover {
+      color: #596cd5;
+      font-size: 110%;
+    }
+
+    .logo {
+      color: #596cd5;
+      font-weight: 700;
+      font-size: 1.5rem;
+      margin-left: 10%;
+    }
+
+    .logo:hover {
+      font-weight: 800;
+    }
+
+    .menu {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .menu li a {
+      color: #4e4e4e;
+      margin: 0px 10px;
+      font-weight: 400;
+      transition: all ease 0.3s;
+    }
+
+    .menu li a:hover {
+      color: #596cd5;
+      font-weight: 600;
+    }
+
+    .nav-contact {
+      width: 130px;
+      height: 40px;
+      display: flex;
+      font-size: 0.85rem;
+      justify-content: center;
+      align-items: center;
+      background-color: #596cd5;
+      border-radius: 20px;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 500;
+    }
+
+    .nav-contact:hover {
+      color: black;
+    }
+
+    #create-cat-info {
+      position: absolute;
+      top: 130px;
+      left: 165px;
+      color: #4a5fd2;
+    }
+
+    .form-wrapper {
+      max-width: 600px;
+      margin: 50px auto;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-container {
+      display: flex;
+      justify-content: space-between;
+      padding: 20px;
+      background-color: #f0f0f0;
+    }
+
+    .left,
+    .right {
+      flex: 1;
+      padding: 10px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    select {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .upload-section {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .upload-section label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .upload-section input[type="file"] {
+      display: inline-block;
+      margin-bottom: 3.5%;
+    }
+
+    footer {
+      color: #333;
+      padding: 40px 0;
+      border-top: 1px solid #596cd5;
+    }
+
+    .footer-container {
+      display: flex;
+      justify-content: space-around;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 0 20px;
+    }
+
+    h3 {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      margin-bottom: 10px;
+    }
+
+    a {
+      color: #333;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .social-icons {
+      margin-top: 20px;
+    }
+
+    .social-icons a {
+      display: inline-block;
+      margin-right: 10px;
+      color: #333;
+      font-size: 20px;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 14px;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      background-color: #596cd5;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .delete-button a {
+      background-color: #596cd5;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+  <!--navigation bar punya bahagian-->
+  <section id="nav">
+    <header>
+      <div class="navigation">
+        <a href="index.html" class="logo">MYVI CAT HOTEL_</a>
+        <ul class="menu">
+          <li><a href="index.html" class="active">Home</a></li>
+          <li><a href="ViewAccountController">My Account</a></li>
+          <li><a href="createCat.html">My Cat</a></li>
+          <li><a href="CatHotel.html">Our Hotel</a></li>
+          <li><a href="booking.html">Book an Appointment</a></li>
+          <li><a href="slotAvailability.html">View Slot Availability</a></li>
+        </ul>
+        <!--extra contact-->
+        <a href="createacc.html"><i class="fa-solid fa-user"></i></a>
+        <!--/nav-->
+      </div>
+    </header>
+  </section>
+
+  <main>
+    <h1 id="create-cat-info">Create Cat Info</h1>
+    <div class="form-wrapper">
+      <div class="form-container">
+        <div class="left">
+          <label for="catName">Cat Name:</label>
+          <input type="text" id="catName" name="catName" placeholder="Enter cat name" />
+
+          <div class="right">
+            <label for="age">Age:</label>
+            <input type="text" id="age" name="age" placeholder="Enter age" />
+
+            <label for="breed">Breed:</label>
+            <input type="text" id="breed" name="breed" placeholder="Enter breed" />
+          </div>
+        </div>
+        <div class="upload-section">
+          <label for="catImage">Upload Picture:</label>
+          <input type="file" id="catImage" name="catImage" accept="image/*" />
+        </div>
+        <div class="buttons">
+          <input class="delete-button" type="submit" value="Submit">
+          <input class="delete-button" type="reset" value="Reset">
+        </div>
+      </div>
+
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <div class="col">
+        <p>Follow Us For More Updates!</p>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 Myvi Cat Hotel</p>
+    </div>
+  </footer>
+</body>
+
+</html>

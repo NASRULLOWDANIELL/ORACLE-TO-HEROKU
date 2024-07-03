@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In - MYVI CAT HOTEL</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation bar -->
+    <section id="nav">
+        <header>
+            <div class="navigation">
+                <a href="index.html" class="logo">MYVI CAT HOTEL_</a>
+                <ul class="menu">
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="viewacc.html">My Account</a></li>
+                    <li><a href="createCat.html">My Cat</a></li>
+                    <li><a href="CatHotel.html">Our Hotel</a></li>
+                    <li><a href="booking.html">Book an Appointment</a></li>
+                    <li><a href="slotAvailability.html">View Slot Availability</a></li>
+                </ul>
+                <a href="@{/login}"><i class="fa-solid fa-user"></i></a>
+            </div>
+        </header>
+    </section>
+    <main>
+        <!-- LOGIN FORM -->
+        <div class="container">
+            <form th:action="@{/login}" th:object="${customer}" method="post">
+                <h1>Log In Account</h1>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" th:field="*{custemail}" placeholder="Enter your email..." required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" th:field="*{custpassword}" placeholder="Enter your password..." required>
+                </div>
+                <input type="submit" value="submit">
+                <p style="text-align: right">
+                    Don't have an account? <a th:href="@{/signup}">Create one here</a>
+                </p>
+            </form>
+        </div>
+    </main>
+    <footer>
+        <div class="footer-container">
+            <div class="col">
+                <p>Follow Us For More Updates!</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Myvi Cat Hotel</p>
+        </div>
+    </footer>
+</body>
+</html>

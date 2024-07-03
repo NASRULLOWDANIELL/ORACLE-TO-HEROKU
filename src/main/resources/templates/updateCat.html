@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Update Cat</title>
+  <link rel="icon" href="image/qilin symbol.jpg" type="image/jpeg" />
+  <link rel="stylesheet" href="updateAccount.css" />
+
+  <!--import font-->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet" />
+
+  <!--Import FontAwesome Icons-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    * {
+      margin: 0px;
+      padding: 0px;
+      box-sizing: border-box;
+      font-family: poppins;
+      background-color: #f0f0f0;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    /*navigation bar*/
+    .navigation {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 30px 75px;
+      margin: auto;
+      border-bottom: 1px solid #596cd5;
+    }
+
+    .navigation a i:hover {
+      color: #596cd5;
+      font-size: 110%;
+    }
+
+    .logo {
+      color: #596cd5;
+      font-weight: 700;
+      font-size: 1.5rem;
+      margin-left: 10%;
+    }
+
+    .logo:hover {
+      font-weight: 800;
+    }
+
+    .menu {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .menu li a {
+      color: #4e4e4e;
+      margin: 0px 10px;
+      font-weight: 400;
+      transition: all ease 0.3s;
+    }
+
+    .menu li a:hover {
+      color: #596cd5;
+      font-weight: 600;
+    }
+
+    .nav-contact {
+      width: 130px;
+      height: 40px;
+      display: flex;
+      font-size: 0.85rem;
+      justify-content: center;
+      align-items: center;
+      background-color: #596cd5;
+      border-radius: 20px;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 500;
+    }
+
+    .nav-contact:hover {
+      color: black;
+    }
+
+    #create-cat-info {
+      position: absolute;
+      top: 130px;
+      left: 100px;
+      color: #4a5fd2;
+    }
+
+    .form-wrapper {
+      max-width: 600px;
+      margin: 50px auto;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-container {
+      /* display: flex; */
+      justify-content: space-between;
+      padding: 20px;
+    }
+
+    .left,
+    .right {
+      flex: 1;
+      padding: 10px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    select {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .buttons {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    button {
+      padding: 10px 40px;
+      border: none;
+      border-radius: 5px;
+      background-color: #596cd5;
+      color: #fff;
+      cursor: pointer;
+      margin-bottom: 3.5%;
+    }
+
+    .buttons button a {
+      color: white;
+      background-color: #596cd5;
+    }
+
+    button.create-button {
+      margin-right: 10px;
+    }
+
+    button.back-button {
+      margin-left: 10px;
+    }
+
+    footer {
+      color: #333;
+      padding: 40px 0;
+      border-top: 1px solid #596cd5;
+    }
+
+    .footer-container {
+      display: flex;
+      justify-content: space-around;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 0 20px;
+    }
+
+    h3 {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      margin-bottom: 10px;
+    }
+
+    a {
+      color: #333;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .social-icons {
+      margin-top: 20px;
+    }
+
+    .social-icons a {
+      display: inline-block;
+      margin-right: 10px;
+      color: #333;
+      font-size: 20px;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+  <!--navigation bar punya bahagian-->
+  <section id="nav">
+    <header>
+      <div class="navigation">
+        <a th:href="@{/}" class="logo">MYVI CAT HOTEL_</a>
+        <ul class="menu">
+          <li><a th:href="@{/customerindex}" class="active">Home</a></li>
+          <li><a th:href="@{/viewaccount}">My Account</a></li>
+          <li><a th:href="@{/catList}">My Cat</a></li>
+          <li><a th:href="@{/roomList}">Our Hotel</a></li>
+          <li><a th:href="@{/bookingList}">Booking</a></li>
+          <!-- <li><a href="slotAvailability.html">View Slot Availability</a></li> -->
+        </ul>
+        <a th:href="@{/login}"><i class="fa-solid fa-user"></i></a>
+      </div>
+    </header>
+  </section>
+
+  <main>
+    <div class="form-wrapper">
+      <div class="form-container">
+        <h1>Update Profile</h1>
+        <form th:action="@{/updateCat}" th:object="${cat}" method="post">
+          <input type="hidden" th:field="*{catid}" />
+          <input type="hidden" th:field="*{custid}" />
+          <div th:if="${error}" class="error-message">
+            <p th:text="${error}"></p>
+          </div>
+          <div th:if="${success}" class="success-message">
+            <p th:text="${success}"></p>
+          </div>
+          <div class="form-group">
+            <label for="catname">Cat Name</label>
+            <input type="text" name="catname" th:field="*{catname}" placeholder="Enter your cat name..." required />
+          </div>
+          <div class="form-group">
+            <label for="catbreed">Cat Breed</label>
+            <input type="text" name="catbreed" th:field="*{catbreed}" placeholder="Enter cat breed..." required />
+          </div>
+          <div class="form-group">
+            <label for="catage">Cat Age</label>
+            <input type="number" name="catage" th:field="*{catage}" placeholder="Enter your cat age..." required />
+          </div>
+          <div class="buttons">
+            <button class="create-button" type="submit">Update</button>
+            <button class="back-button"><a th:href="@{/catList}">Back</a></button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <p>&copy; 2024 Myvi Cat Hotel</p>
+    </div>
+  </footer>
+</body>
+
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Cat - MYVI CAT HOTEL</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .navbar {
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .navbar-brand {
+            color: #596cd5;
+            font-weight: 600;
+            font-size: 1.5rem;
+        }
+        .nav-link {
+            color: #4e4e4e;
+        }
+        .nav-link:hover {
+            color: #596cd5;
+        }
+        .btn-custom {
+            background-color: #596cd5;
+            border-color: #596cd5;
+            color: #fff;
+        }
+        .btn-custom:hover {
+            background-color: #4a5bb3;
+            border-color: #4a5bb3;
+        }
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        footer {
+            background-color: #fff;
+            border-top: 1px solid #e9ecef;
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" th:href="@{/}">MYVI CAT HOTEL_</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" th:href="@{/customerindex}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/viewaccount}">My Account</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/catList}">My Cat</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/roomList}">Our Hotel</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/bookingList}">Booking</a></li>
+                </ul>
+                <a th:href="@{/login}" class="btn btn-outline-primary ml-2">
+                    <i class="fa-solid fa-user"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title text-center mb-4">Create Cat</h2>
+                        <form th:action="@{/createCat}" th:object="${cat}" method="post">
+                            <div class="form-group">
+                                <label for="catname">Cat Name</label>
+                                <input type="text" class="form-control" id="catname" th:field="*{catname}" placeholder="Enter your cat name..." required>
+                            </div>
+                            <div class="form-group">
+                                <label for="catbreed">Cat Breed</label>
+                                <input type="text" class="form-control" id="catbreed" th:field="*{catbreed}" placeholder="Enter your cat breed..." required>
+                            </div>
+                            <div class="form-group">
+                                <label for="catage">Cat Age</label>
+                                <input type="number" class="form-control" id="catage" th:field="*{catage}" placeholder="Enter your cat age..." required>
+                            </div>
+                            <input type="hidden" th:field="*{custid}" />
+                            <button type="submit" class="btn btn-custom btn-block">Add Cat</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="mt-5">
+        <div class="container">
+            <p class="text-center">&copy; 2024 Myvi Cat Hotel</p>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${room.roomname + ' - MYVI CAT HOTEL'}">Room Details - MYVI CAT HOTEL</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        .navigation {
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+        }
+
+        .logo {
+            color: #596cd5;
+            font-weight: 600;
+            font-size: 1.5rem;
+            text-decoration: none;
+        }
+
+        .logo:hover {
+            text-decoration: none;
+            color: #4a5bb3;
+        }
+
+        .menu a {
+            color: #4e4e4e;
+            transition: color 0.3s ease;
+            font-weight: 500;
+            margin-left: 20px;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            color: #596cd5;
+            text-decoration: none;
+        }
+
+        .room-container {
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+
+        .room-title {
+            font-size: 32px;
+            font-weight: 600;
+            color: #596cd5;
+            margin-bottom: 20px;
+        }
+
+        .room-description {
+            font-size: 18px;
+            color: #6c757d;
+            margin-bottom: 30px;
+        }
+
+        .room-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .room-price {
+            font-size: 24px;
+            font-weight: 600;
+            color: #28a745;
+            margin-bottom: 30px;
+        }
+
+        .btn-back,
+        .btn-book {
+            padding: 10px 30px;
+            font-weight: 500;
+            border-radius: 25px;
+            font-size: 16px;
+        }
+
+        .btn-back {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+
+        .btn-back:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+
+        .btn-book {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+
+        .btn-book:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+
+        footer {
+            background-color: #fff;
+            border-top: 1px solid #e9ecef;
+            padding: 20px 0;
+        }
+
+        .social-icons a {
+            color: #596cd5;
+            font-size: 1.2rem;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: #4a5bb3;
+        }
+        .footer-container {
+      display: flex;
+      justify-content: space-around;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    </style>
+</head>
+
+<body>
+    <nav class="navigation">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-3">
+                    <a th:href="@{/}" class="logo">MYVI CAT HOTEL_</a>
+                </div>
+                <div class="col-md-9">
+                    <ul class="menu list-inline text-md-right mb-0">
+                        <li class="list-inline-item"><a th:href="@{/customerindex}">Home</a></li>
+                        <li class="list-inline-item"><a th:href="@{/viewaccount}">My Account</a></li>
+                        <li class="list-inline-item"><a th:href="@{/catList}">My Cat</a></li>
+                        <li class="list-inline-item"><a th:href="@{/roomList}" class="active">Our Hotel</a></li>
+                        <li class="list-inline-item"><a th:href="@{/bookingList}">Booking</a></li>
+                        <li class="list-inline-item"><a th:href="@{/login}"><i class="fa-solid fa-user"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container room-container">
+        <h1 class="room-title" th:text="${room.roomname}">Room Name</h1>
+        <p class="room-description" th:text="${room.roomdesc}">Room Description</p>
+        <img th:if="${room.roomid == 101}" src="https://catzonia.com/cdn/shop/products/eco_new1_540x.png?v=1618895485" alt="Single Room" class="room-image">
+        <img th:if="${room.roomid == 201}" src="https://catzonia.com/cdn/shop/products/vic_new2copy_540x.png?v=1618895534" alt="Queen Room" class="room-image">
+        <img th:if="${room.roomid == 301}" src="https://catzonia.com/cdn/shop/products/vvic_540x.png?v=1618895527" alt="Apartment Room" class="room-image">
+        <div class="room-price">
+            Room Price: RM <span th:text="${#numbers.formatDecimal(room.roomprice, 1, 2)}">0.00</span>
+        </div>
+        <div class="text-center">
+            <a th:href="@{/roomList}" class="btn btn-secondary btn-back mr-3">Back to Rooms</a>
+            <a th:href="@{/createBooking}" class="btn btn-success btn-book">Book Now!</a>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-container">
+          <p>&copy; 2024 Myvi Cat Hotel</p>
+        </div>
+      </footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,228 @@
+* {
+    box-sizing: border-box;
+    font-family: poppins;
+    background-color: #f0f0f0;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+/*navigation bar*/
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 75px;
+    margin: auto;
+    border-bottom: 1px solid #596cd5;
+}
+
+.navigation a i:hover {
+    color: #596cd5;
+    font-size: 110%;
+}
+
+.logo {
+    color: #596cd5;
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin-left: 10%;
+}
+
+.logo:hover {
+    font-weight: 800;
+}
+
+.menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.menu li a {
+    color: #4e4e4e;
+    margin: 0px 10px;
+    font-weight: 400;
+    transition: all ease 0.3s;
+}
+
+.menu li a:hover {
+    color: #596cd5;
+    font-weight: 600;
+}
+
+.nav-contact {
+    width: 130px;
+    height: 40px;
+    display: flex;
+    font-size: 0.85rem;
+    justify-content: center;
+    align-items: center;
+    background-color: #596cd5;
+    border-radius: 20px;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 500;
+}
+
+.nav-contact:hover {
+    color: black;
+}
+
+footer {
+    color: #333;
+    padding: 40px 0;
+    border-top: 1px solid #596cd5;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-around;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 20px;
+}
+
+h3 {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+a {
+    color: #333;
+    text-decoration: none;
+    /*margin-left: 90px;*/
+    /*scale: 10px;*/
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.social-icons {
+    margin-top: 20px;
+}
+
+.social-icons a {
+    display: inline-block;
+    margin-right: 10px;
+    color: #333;
+    font-size: 20px;
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 14px;
+}
+
+/* SLOT AVAILABILITY */
+
+.container1 {
+    width: 90vw;
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+}
+
+/* Style for calendar container */
+#calendar {
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 5px;
+
+}
+
+.flex-container {
+    display: flex;
+    color: #151515;
+    border: none;
+    border-radius: 1px;
+    margin: 5px 5px;
+    padding: 5px 10px;
+}
+
+/* Style for calendar header */
+.fc-toolbar {
+    background-color: #f0f0f0;
+    padding: 1px;
+    border-radius: 5px;
+}
+
+/* Style for calendar buttons */
+.fc-button {
+    background-color: #007bff;
+    color: #151515;
+    border: none;
+    border-radius: 1px;
+    margin: 5px 5px;
+    padding: 5px 10px;
+}
+
+/* Hover effect for calendar buttons */
+.fc-button:hover {
+    text-decoration: underline;
+    color: #596cd5;
+}
+
+/* Style for calendar event titles */
+.fc-title {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Style for calendar events */
+.fc-event {
+    background-color: #28a745;
+    border: 1px solid #218838;
+    color: #fff;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+button[type="submit"] {
+    background-color: #596cd5;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    width: fit-content;
+    margin: 0 auto;
+}
+
+button[type="submit"]:hover {
+    background-color: #4a5fd2;
+}

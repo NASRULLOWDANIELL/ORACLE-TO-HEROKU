@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Booking List - MYVI CAT HOTEL</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+
+        .navigation {
+            background-color: #fff;
+            border-bottom: 1px solid #596cd5;
+            padding: 15px 0;
+        }
+
+        .logo {
+            color: #596cd5;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .menu a {
+            color: #4e4e4e;
+            transition: color 0.3s ease;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            color: #596cd5;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            background-color: #596cd5;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background-color: #596cd5;
+            border-color: #596cd5;
+        }
+
+        .btn-primary:hover {
+            background-color: #4a5bb3;
+            border-color: #4a5bb3;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+
+        footer {
+            background-color: #fff;
+            border-top: 1px solid #596cd5;
+            padding: 20px 0;
+            margin-top: 30px;
+        }
+
+        .footer-container {
+            display: flex;
+            justify-content: space-around;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navigation">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-3">
+                    <a th:href="@{/}" class="logo">MYVI CAT HOTEL_</a>
+                </div>
+                <div class="col-md-9">
+                    <ul class="menu list-inline text-md-right mb-0">
+                        <li class="list-inline-item"><a th:href="@{/customerindex}">Home</a></li>
+                        <li class="list-inline-item"><a th:href="@{/viewaccount}">My Account</a></li>
+                        <li class="list-inline-item"><a th:href="@{/catList}">My Cat</a></li>
+                        <li class="list-inline-item"><a th:href="@{/roomList}">Our Hotel</a></li>
+                        <li class="list-inline-item"><a th:href="@{/bookingList}" class="active">Booking</a></li>
+                        <li class="list-inline-item"><a th:href="@{/login}"><i class="fa-solid fa-user"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Your Booking List</h2>
+        <div class="mb-3">
+            <a th:href="@{/createBooking}" class="btn btn-primary">Add New Booking</a>
+        </div>
+        <div class="row">
+            <div th:each="booking : ${bookings}" class="col-md-6 col-lg-4">
+                <div class="card">
+                    <div class="card-header">
+                        Booking ID: <span th:text="${booking.bookingid}"></span>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Cat IDs:</strong> <span th:text="${booking.catIdsString}"></span></p>
+                        <p><strong>Room ID:</strong> <span th:text="${booking.roomid}"></span></p>
+                        <p><strong>Check In:</strong> <span th:text="${#dates.format(booking.bookingCheckInDate, 'dd-MM-yyyy')}"></span></p>
+                        <p><strong>Check Out:</strong> <span th:text="${#dates.format(booking.bookingCheckOutDate, 'dd-MM-yyyy')}"></span></p>
+                        <p><strong>Price:</strong> <span th:text="${'RM' + #numbers.formatDecimal(booking.bookingPrice, 1, 2)}"></span></p>
+                        <p><strong>Payment Status:</strong> <span th:text="${booking.paymentstatus + (booking.paymentType != null ? ' - ' + booking.paymentType : '')}"></span></p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <a th:href="@{/updateBooking/{bookingid}(bookingid=${booking.bookingid})}" class="btn btn-sm btn-primary mr-2">Update</a>
+                                <form th:action="@{/deleteBooking/{bookingid}(bookingid=${booking.bookingid})}" method="post" style="display:inline;"
+                                    onsubmit="return confirm('Are you sure you want to delete this booking?');">
+                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                </form>
+                            </div>
+                            <div>
+                                <a th:if="${booking.paymentstatus != 'Not Paid'}" th:href="@{/viewPayment/{bookingid}(bookingid=${booking.bookingid})}" class="btn btn-sm btn-info">View Payment</a>
+                                <a th:if="${booking.paymentstatus == 'Not Paid'}" th:href="@{/makePayment/{bookingid}(bookingid=${booking.bookingid})}" class="btn btn-sm btn-success">Make Payment</a>
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <a th:if="${booking.paymentstatus == 'Paid' && booking.feedbackId != null}" th:href="@{/viewFeedback/{feedbackId}(feedbackId=${booking.feedbackId})}" class="btn btn-sm btn-secondary">View Feedback</a>
+                            <a th:if="${booking.paymentstatus == 'Paid' && booking.feedbackId == null}" th:href="@{/submitFeedback(bookingid=${booking.bookingid})}" class="btn btn-sm btn-primary">Make Feedback</a>
+                            <span th:if="${booking.paymentstatus != 'Paid'}" class="text-muted">Complete payment to submit feedback</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div th:if="${bookings.empty}" class="alert alert-info" th:text="${message ?: 'No bookings available'}"></div>
+        <div th:if="${error}" class="alert alert-danger mt-3" th:text="${error}"></div>
+        <div th:if="${success}" class="alert alert-success mt-3" th:text="${success}"></div>
+    </div>
+    
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2024 Myvi Cat Hotel</p>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+
+</html>

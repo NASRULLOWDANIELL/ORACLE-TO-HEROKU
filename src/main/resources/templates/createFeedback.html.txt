@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Feedback Form</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f8f9fa;
+    }
+    .navigation {
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      padding: 15px 0;
+    }
+    .logo {
+      color: #596cd5;
+      font-weight: 600;
+      font-size: 1.5rem;
+    }
+    .nav-link {
+      color: #4e4e4e;
+      transition: all 0.3s ease;
+    }
+    .nav-link:hover {
+      color: #596cd5;
+      font-weight: 600;
+    }
+    .star-rating {
+      font-size: 2rem;
+      color: #ddd;
+      cursor: pointer;
+    }
+    .star-rating.active {
+      color: gold;
+    }
+    footer {
+      background-color: #fff;
+      border-top: 1px solid #596cd5;
+      padding: 20px 0;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navigation">
+    <div class="container">
+      <a class="navbar-brand logo" href="#">MYVI CAT HOTEL_</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">My Account</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">My Cat</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Our Hotel</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Booking</a></li>
+        </ul>
+        <a href="#" class="btn btn-outline-primary ml-2"><i class="fa-solid fa-user"></i></a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="card-title text-center mb-4">Feedback Form</h2>
+            <form action="#" method="post">
+              <div class="form-group text-center">
+                <div class="star-rating d-inline-block" data-rating="1"><i class="fas fa-star"></i></div>
+                <div class="star-rating d-inline-block" data-rating="2"><i class="fas fa-star"></i></div>
+                <div class="star-rating d-inline-block" data-rating="3"><i class="fas fa-star"></i></div>
+                <div class="star-rating d-inline-block" data-rating="4"><i class="fas fa-star"></i></div>
+                <div class="star-rating d-inline-block" data-rating="5"><i class="fas fa-star"></i></div>
+              </div>
+              <div class="form-group">
+                <label for="comment">Comment:</label>
+                <textarea class="form-control" id="comment" name="comment" rows="4"></textarea>
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary">Submit Feedback</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="mt-5">
+    <div class="container text-center">
+      <p>&copy; 2024 Myvi Cat Hotel</p>
+    </div>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const starRatings = document.querySelectorAll(".star-rating");
+      starRatings.forEach((star) => {
+        star.addEventListener("click", () => {
+          const ratingValue = star.dataset.rating;
+          starRatings.forEach((s, index) => {
+            if (index < ratingValue) {
+              s.classList.add("active");
+            } else {
+              s.classList.remove("active");
+            }
+          });
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

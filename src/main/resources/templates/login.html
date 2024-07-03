@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log In - MYVI CAT HOTEL</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f8f9fa;
+      color: #333;
+    }
+
+    .navigation {
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 15px 0;
+    }
+
+    .logo {
+      color: #596cd5;
+      font-weight: 600;
+      font-size: 1.5rem;
+      text-decoration: none;
+    }
+
+    .logo:hover {
+      text-decoration: none;
+      color: #4a5bb3;
+    }
+
+    .main-content {
+      padding: 60px 0;
+    }
+
+    .card {
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-custom {
+      background-color: #596cd5;
+      border-color: #596cd5;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-custom:hover {
+      background-color: #4a5bb3;
+      border-color: #4a5bb3;
+      color: #fff;
+    }
+
+    footer {
+      background-color: #fff;
+      border-top: 1px solid #e9ecef;
+      padding: 20px 0;
+      margin-top: 40px;
+    }
+
+    .social-icons a {
+      color: #596cd5;
+      font-size: 1.2rem;
+      margin: 0 10px;
+      transition: color 0.3s ease;
+    }
+
+    .social-icons a:hover {
+      color: #4a5bb3;
+    }
+    .footer-container {
+      display: flex;
+      justify-content: space-around;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navigation">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-6">
+          <a th:href="@{/}" class="logo">MYVI CAT HOTEL_</a>
+        </div>
+        <div class="col-md-6 text-right">
+          <a th:href="@{/login}" class="btn btn-outline-primary">
+            <i class="fa-solid fa-user"></i> Login
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <h2 class="card-title text-center mb-4">Log In Account</h2>
+              <form th:action="@{/login}" th:object="${customer}" method="post">
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email Address</label>
+                  <input type="email" class="form-control" id="email" th:field="*{custemail}"
+                    placeholder="Enter your email..." required>
+                </div>
+                <div class="mb-3">
+                  <label for="password" class="form-label">Password</label>
+                  <input type="password" class="form-control" id="password" th:field="*{custpassword}"
+                    placeholder="Enter your password..." required>
+                </div>
+                <div class="d-grid">
+                  <button type="submit" class="btn btn-custom">Log in</button>
+                </div>
+              </form>
+              <p class="mt-3 text-center">
+                Don't have an account? <a th:href="@{/register}">Create one here</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <p>&copy; 2024 Myvi Cat Hotel</p>
+    </div>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+
+</html>

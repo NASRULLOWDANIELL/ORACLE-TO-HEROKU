@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MYVI CAT HOTEL STORYBOARD</title>
+  <link rel="icon" href="image/qilin symbol.jpg" type="image/jpeg" />
+  <link rel="stylesheet" href="CatHotel.css" />
+
+  <!--import font-->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet" />
+
+  <!--Import FontAwesome Icons-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    * {
+      margin: 0px;
+      padding: 0px;
+      box-sizing: border-box;
+      font-family: poppins;
+      background-color: #f0f0f0;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    /*navigation bar*/
+    .navigation {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 30px 75px;
+      margin: auto;
+      border-bottom: 1px solid #596cd5;
+    }
+
+    .navigation a i:hover {
+      color: #596cd5;
+      font-size: 110%;
+    }
+
+    .logo {
+      color: #596cd5;
+      font-weight: 700;
+      font-size: 1.5rem;
+      margin-left: 10%;
+    }
+
+    .logo:hover {
+      font-weight: 800;
+    }
+
+    .menu {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .menu li a {
+      color: #4e4e4e;
+      margin: 0px 10px;
+      font-weight: 400;
+      transition: all ease 0.3s;
+    }
+
+    .menu li a:hover {
+      color: #596cd5;
+      font-weight: 600;
+    }
+
+    .nav-contact {
+      width: 130px;
+      height: 40px;
+      display: flex;
+      font-size: 0.85rem;
+      justify-content: center;
+      align-items: center;
+      background-color: #596cd5;
+      border-radius: 20px;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 500;
+    }
+
+    .nav-contact:hover {
+      color: black;
+    }
+
+    /* Main content styles */
+    h2 {
+      text-align: center;
+      margin-top: 2%;
+      margin-bottom: 2%;
+    }
+
+    main {
+      padding: 20px;
+    }
+
+    .hotel-categories {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 2%;
+    }
+
+    .hotel-categories h2 {
+      color: #596cd5;
+    }
+
+    .category {
+      text-align: center;
+
+    }
+
+    .category img {
+      max-width: auto;
+      height: auto;
+    }
+
+    .category1 {
+      padding-left: 25px;
+      width: 20vw;
+      margin: 0 auto;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .category2 {
+      padding-left: 20px;
+      width: 20vw;
+      margin: 0 auto;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .category3 {
+      padding-left: 25px;
+      width: 20vw;
+      margin: 0 auto;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    footer {
+      color: #333;
+      padding: 40px 0;
+      border-top: 1px solid #596cd5;
+    }
+
+    .footer-container {
+      display: flex;
+      justify-content: space-around;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 0 20px;
+    }
+
+    h3 {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      margin-bottom: 10px;
+    }
+
+    a {
+      color: #333;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .social-icons {
+      margin-top: 20px;
+    }
+
+    .social-icons a {
+      display: inline-block;
+      margin-right: 10px;
+      color: #333;
+      font-size: 20px;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 14px;
+    }
+
+    button {
+      background-color: #596cd5;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      width: fit-content;
+      margin: 0 auto;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    button.view-button {
+      margin-right: 30px;
+    }
+
+    button.book-button {
+      margin-left: 30px;
+    }
+  </style>
+</head>
+
+<body>
+  <!--navigation bar punya bahagian-->
+  <section id="nav">
+    <header>
+      <div class="navigation">
+        <a th:href="@{/}" class="logo">MYVI CAT HOTEL_</a>
+        <ul class="menu">
+          <li><a th:href="@{/}" class="active">Home</a></li>
+          <li><a th:href="@{/viewaccount}">My Account</a></li>
+          <li><a th:href="@{/catList}">My Cat</a></li>
+          <li><a th:href="@{/catHotelList}">Our Hotel</a></li>
+          <li><a th:href="@{/bookingList}">Book an Appointment</a></li>
+          <!-- <li><a href="slotAvailability.html">View Slot Availability</a></li> -->
+        </ul>
+        <a th:href="@{/login}"><i class="fa-solid fa-user"></i></a>
+      </div>
+    </header>
+  </section>
+
+  <div class="heading-container">
+    <h2>
+      Our Cat Hotels comes in 3 variation of hotel categories <br />
+      Single, Queen, Apartment 
+      Click on view more for more information! <br />
+    </h2>
+  </div>
+  <div class="hotel-categories">
+    <div class="category1">
+      <h2>Single Hotel</h2>
+      <img src="https://catzonia.com/cdn/shop/products/eco_new1_540x.png?v=1618895485" alt="Single Hotel" />
+      <div class="button1">
+        <a href="ViewSlotCatHotel.html">
+          <button class="view-button">View more</button>
+        </a>
+        <a href="booking.html">
+          <button class="book-button">Book Slot</button>
+        </a>
+      </div>
+    </div>
+    <div class="category2">
+      <h2>Queen Hotel</h2>
+      <img src="https://catzonia.com/cdn/shop/products/vic_new2copy_540x.png?v=1618895534" alt="Queen Hotel" />
+      <div class="button2">
+        <a href="ViewSlotCatHotel2.html">
+          <button class="view-button">View slot</button>
+        </a>
+        <button class="book-button">Book Now</button>
+      </div>
+    </div>
+    <div class="category3">
+      <h2>Apartment</h2>
+      <img src="https://catzonia.com/cdn/shop/products/vvic_540x.png?v=1618895527" alt="Apartment" />
+      <div class="button3">
+        <a href="ViewSlotCatHotel3.html">
+          <button class="view-button">View slot</button>
+        </a>
+        <button class="book-button">Book Now</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-container">
+      <div class="col">
+        <p>Follow Us For More Updates!</p>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 Myvi Cat Hotel</p>
+    </div>
+  </footer>
+</body>
+
+</html>

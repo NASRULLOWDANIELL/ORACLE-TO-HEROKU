@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>View Payment - MYVI CAT HOTEL</title>
+  <link rel="icon" href="image/qilin symbol.jpg" type="image/jpeg" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f8f9fa;
+    }
+    .navbar {
+      background-color: #ffffff;
+      box-shadow: 0 2px 4px rgba(0,0,0,.1);
+    }
+    .logo {
+      color: #596cd5;
+      font-weight: 700;
+      font-size: 1.5rem;
+    }
+    .navbar-light .navbar-nav .nav-link {
+      color: #333;
+    }
+    .navbar-light .navbar-nav .nav-link:hover {
+      color: #596cd5;
+    }
+    .card {
+      border: none;
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
+    .card-header {
+      background-color: #596cd5;
+      color: white;
+      font-weight: 600;
+    }
+    .btn-primary {
+      background-color: #596cd5;
+      border-color: #596cd5;
+    }
+    .btn-primary:hover {
+      background-color: #4a5bb3;
+      border-color: #4a5bb3;
+    }
+    .btn-success {
+      background-color: #28a745;
+      border-color: #28a745;
+    }
+    .btn-success:hover {
+      background-color: #218838;
+      border-color: #1e7e34;
+    }
+    .payment-status {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+    .pending {
+      color: #ffc107;
+    }
+    .completed {
+      color: #28a745;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container">
+      <a class="navbar-brand logo" th:href="@{/}">MYVI CAT HOTEL_</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item"><a class="nav-link" th:href="@{/customerindex}">Home</a></li>
+          <li class="nav-item"><a class="nav-link" th:href="@{/viewaccount}">My Account</a></li>
+          <li class="nav-item"><a class="nav-link" th:href="@{/catList}">My Cat</a></li>
+          <li class="nav-item"><a class="nav-link" th:href="@{/roomList}">Our Hotel</a></li>
+          <li class="nav-item"><a class="nav-link" th:href="@{/bookingList}">Booking</a></li>
+          <li class="nav-item"><a class="nav-link" th:href="@{/login}"><i class="fa-solid fa-user"></i></a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="mb-0">Payment Details</h2>
+          </div>
+          <div class="card-body">
+            <div th:if="${payment.paymentType == 'CASH' and paymentStatus == 'Pending'}" class="alert alert-warning">
+              <h4 class="alert-heading">Pending Cash Payment</h4>
+              <p>Please complete your payment through the counter.</p>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <p><strong>Payment ID:</strong> <span th:text="${payment.paymentId}"></span></p>
+                <p><strong>Booking ID:</strong> <span th:text="${payment.bookingId}"></span></p>
+                <p><strong>Payment Type:</strong> <span th:text="${payment.paymentType}"></span></p>
+              </div>
+              <div class="col-sm-6">
+                <p><strong>Payment Total:</strong> <span class="h4">RM<span th:text="${#numbers.formatDecimal(payment.paymentTotal, 1, 2)}"></span></span></p>
+                <p><strong>Payment Status:</strong> <span th:class="${paymentStatus == 'Pending' ? 'payment-status pending' : 'payment-status completed'}" th:text="${paymentStatus}"></span></p>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer bg-white">
+            <div class="d-flex justify-content-between align-items-center">
+              <a th:href="@{/bookingList}" class="btn btn-primary"><i class="fas fa-arrow-left mr-2"></i>Back to Bookings</a>
+              <form th:if="${payment.paymentType == 'CASH' and paymentStatus == 'Pending'}" th:action="@{/confirmCashPayment/{bookingId}(bookingId=${payment.bookingId})}" method="post" class="d-inline">
+                <button type="submit" class="btn btn-success"><i class="fas fa-check mr-2"></i>Confirm Payment</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="mt-5 py-3 bg-light">
+    <div class="container text-center">
+      <p class="mb-0">&copy; 2024 Myvi Cat Hotel. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+
+</html>

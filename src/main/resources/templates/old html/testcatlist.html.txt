@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MYVI CAT HOTEL STORYBOARD</title>
+    <link rel="icon" href="image/qilin symbol.jpg" type="image/jpeg" />
+    <link rel="stylesheet" href="viewCat.css" />
+
+    <!--import font-->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet" />
+
+    <!--Import FontAwesome Icons-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+            font-family: Poppins, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /*navigation bar*/
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 75px;
+            margin: auto;
+            border-bottom: 1px solid #596cd5;
+        }
+
+        .navigation a i:hover {
+            color: #596cd5;
+            font-size: 110%;
+        }
+
+        .logo {
+            color: #596cd5;
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin-left: 10%;
+        }
+
+        .logo:hover {
+            font-weight: 800;
+        }
+
+        .menu {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .menu li a {
+            color: #4e4e4e;
+            margin: 0px 10px;
+            font-weight: 400;
+            transition: all ease 0.3s;
+        }
+
+        .menu li a:hover {
+            color: #596cd5;
+            font-weight: 600;
+        }
+
+        .nav-contact {
+            width: 130px;
+            height: 40px;
+            display: flex;
+            font-size: 0.85rem;
+            justify-content: center;
+            align-items: center;
+            background-color: #596cd5;
+            border-radius: 20px;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+
+        .nav-contact:hover {
+            color: black;
+        }
+
+        /* Cat List section */
+        .cat-list {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .cat-list-container {
+            width: 90%;
+            margin: 20px auto;
+            padding: 20px;
+            /* background: #ffffff; */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .cat-list-container h1 {
+            font-size: 24px;
+            color: #333333;
+            margin-bottom: 20px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .table th,
+        .table td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #dddddd;
+        }
+
+        .table th {
+            background-color: #f2f2f2;
+            color: #333333;
+        }
+
+        .table td {
+            color: #666666;
+        }
+
+        .table tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f0f0f0;
+        }
+
+        .button {
+            background-color: #596cd5;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #485bb9;
+        }
+    </style>
+</head>
+
+<body>
+    <!--navigation bar section-->
+    <section id="nav">
+        <header>
+            <div class="navigation">
+                <a href="index.html" class="logo">MYVI CAT HOTEL_</a>
+                <ul class="menu">
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="ViewAccountController">My Account</a></li>
+                    <li><a href="createCat.html">My Cat</a></li>
+                    <li><a href="CatHotel.html">Our Hotel</a></li>
+                    <li><a href="booking.html">Book an Appointment</a></li>
+                    <li><a href="slotAvailability.html">View Slot Availability</a></li>
+                </ul>
+                <a href="createacc.html"><i class="fa-solid fa-user"></i></a>
+            </div>
+        </header>
+    </section>
+
+    <!-- Cat List section -->
+    <section class="cat-list">
+        <div class="cat-list-container">
+            <h1>List of Your Cats</h1>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Cat ID</th>
+                        <th>Name</th>
+                        <th>Breed</th>
+                        <th>Age</th>
+                        <th>Color</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>C001</td>
+                        <td>Whiskers</td>
+                        <td>Maine Coon</td>
+                        <td>5</td>
+                        <td>Gray</td>
+                        <td><button class="button">View</button></td>
+                    </tr>
+                    <tr>
+                        <td>C002</td>
+                        <td>Mittens</td>
+                        <td>Persian</td>
+                        <td>3</td>
+                        <td>White</td>
+                        <td><button class="button">View</button></td>
+                    </tr>
+                    <!-- Add more cats as needed -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Footer section -->
+    <footer>
+        <div class="footer-container">
+            <div class="col">
+                <p>Follow Us For More Updates!</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Myvi Cat Hotel</p>
+        </div>
+    </footer>
+</body>
+
+</html>

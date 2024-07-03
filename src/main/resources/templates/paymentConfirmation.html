@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Confirmation - MYVI CAT HOTEL</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Poppins, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 75px;
+            margin: auto;
+            border-bottom: 1px solid #596cd5;
+        }
+
+        .logo {
+            color: #596cd5;
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin-left: 10%;
+        }
+
+        .menu {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .menu li a {
+            color: #4e4e4e;
+            margin: 0px 10px;
+            font-weight: 400;
+            transition: all ease 0.3s;
+        }
+
+        .menu li a:hover {
+            color: #596cd5;
+            font-weight: 600;
+        }
+
+        main {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100vw;
+        }
+
+        .container {
+            width: 30vw;
+            margin: 0 auto;
+            padding: 30px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .confirmation-details {
+            margin-bottom: 20px;
+        }
+
+        .confirmation-details p {
+            margin: 10px 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #596cd5;
+            color: #fff;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        footer {
+            color: #333;
+            padding: 40px 0;
+            border-top: 1px solid #596cd5;
+        }
+
+        .footer-container {
+            display: flex;
+            justify-content: space-around;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .social-icons a {
+            display: inline-block;
+            margin-right: 10px;
+            color: #333;
+            font-size: 20px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <section id="nav">
+        <header>
+            <div class="navigation">
+                <a th:href="@{/}" class="logo">MYVI CAT HOTEL_</a>
+                <ul class="menu">
+                    <li><a th:href="@{/customerindex}" class="active">Home</a></li>
+                    <li><a th:href="@{/viewaccount}">My Account</a></li>
+                    <li><a th:href="@{/catList}">My Cat</a></li>
+                    <li><a th:href="@{/roomList}">Our Hotel</a></li>
+                    <li><a th:href="@{/bookingList}">Booking</a></li>
+                </ul>
+                <a th:href="@{/login}"><i class="fa-solid fa-user"></i></a>
+            </div>
+        </header>
+    </section>
+    <br>
+    <!DOCTYPE html>
+    <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <!-- Head content remains the same -->
+    </head>
+
+    <body>
+        <!-- Navigation section remains the same -->
+        <main>
+            <div class="container">
+                <h1>Payment Confirmation</h1>
+                <div class="confirmation-details" th:if="${payment != null}">
+                    <p><strong>Payment ID:</strong> <span th:text="${payment.paymentId}"></span></p>
+                    <p><strong>Payment Type:</strong> <span th:text="${payment.paymentType}"></span></p>
+                    <p><strong>Payment Total:</strong> RM<span
+                            th:text="${#numbers.formatDecimal(payment.paymentTotal, 1, 2)}"></span></p>
+                    <p><strong>Booking ID:</strong> <span th:text="${payment.bookingId}"></span></p>
+                    <th:block th:if="${payment.paymentType == 'CARD' and payment.card != null}">
+                        <p><strong>Card Type:</strong> <span th:text="${payment.card.cardType}"></span></p>
+                        <p><strong>Card Number:</strong> **** **** **** <span
+                                th:text="${#strings.substring(payment.card.cardNumber, -4)}"></span></p>
+                    </th:block>
+                </div>
+                <div th:if="${payment == null}">
+                    <p>No payment details found.</p>
+                </div>
+                <a th:href="@{/bookingList}" class="btn">Return to Bookings</a>
+            </div>
+        </main>
+        <br>
+        <footer>
+            <div class="footer-container">
+              <p>&copy; 2024 Myvi Cat Hotel</p>
+            </div>
+          </footer>
+    </body>
+
+    </html>

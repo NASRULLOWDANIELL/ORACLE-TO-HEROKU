@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>View Feedback - MYVI CAT HOTEL</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f8f9fa;
+    }
+    .navbar {
+      background-color: #ffffff;
+      box-shadow: 0 2px 4px rgba(0,0,0,.1);
+    }
+    .logo {
+      color: #596cd5;
+      font-weight: 700;
+      font-size: 1.5rem;
+    }
+    .navbar-light .navbar-nav .nav-link {
+      color: #333;
+    }
+    .navbar-light .navbar-nav .nav-link:hover {
+      color: #596cd5;
+    }
+    .card {
+      border: none;
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
+    .card-header {
+      background-color: #596cd5;
+      color: white;
+      font-weight: 600;
+    }
+    .btn-primary {
+      background-color: #596cd5;
+      border-color: #596cd5;
+    }
+    .btn-primary:hover {
+      background-color: #4a5bb3;
+      border-color: #4a5bb3;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container">
+      <a class="navbar-brand logo" th:href="@{/}">MYVI CAT HOTEL_</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item"><a class="nav-link" th:href="@{/customerindex}">Home</a></li>
+          <li class="nav-item"><a class="nav-link" th:href="@{/viewaccount}">My Account</a></li>
+          <li class="nav-item"><a class="nav-link" th:href="@{/catList}">My Cat</a></li>
+          <li class="nav-item"><a class="nav-link" th:href="@{/roomList}">Our Hotel</a></li>
+          <li class="nav-item"><a class="nav-link" th:href="@{/bookingList}">Booking</a></li>
+          <li class="nav-item"><a class="nav-link" th:href="@{/login}"><i class="fa-solid fa-user"></i></a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="mb-0">Feedback Details</h2>
+          </div>
+          <div class="card-body">
+            <div th:if="${feedback != null}">
+              <div class="row">
+                <div class="col-sm-6">
+                  <p><strong>Feedback ID:</strong> <span th:text="${feedback.feedbackId}"></span></p>
+                  <p><strong>Booking ID:</strong> <span th:text="${feedback.bookingId}"></span></p>
+                </div>
+                <div class="col-sm-6">
+                  <p><strong>Rating:</strong> <span th:text="${feedback.feedbackRating}"></span></p>
+                </div>
+              </div>
+              <p><strong>Comment:</strong> <span th:text="${feedback.feedbackComment}"></span></p>
+            </div>
+            <div th:unless="${feedback != null}">
+              <p class="text-center" th:text="${error ?: 'No feedback found.'}"></p>
+            </div>
+          </div>
+          <div class="card-footer bg-white">
+            <div class="d-flex justify-content-between align-items-center">
+              <a th:href="@{/bookingList}" class="btn btn-primary"><i class="fas fa-arrow-left mr-2"></i>Back to Bookings</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="mt-5 py-3 bg-light">
+    <div class="container text-center">
+      <p class="mb-0">&copy; 2024 Myvi Cat Hotel. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,226 @@
+// package com.heroku.java.controller;
+
+// import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.stereotype.Controller;
+// import org.springframework.ui.Model;
+// import org.springframework.web.bind.annotation.GetMapping;
+// import org.springframework.web.bind.annotation.PostMapping;
+// import org.springframework.web.bind.annotation.RequestParam;
+// import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+// import org.springframework.security.access.prepost.PreAuthorize;
+// import com.heroku.java.bean.Slot;
+// import javax.sql.DataSource;
+// import java.sql.*;
+// import java.util.ArrayList;
+// import java.util.List;
+// import java.util.logging.Level;
+// import java.util.logging.Logger;
+
+// @Controller
+// public class SlotController {
+
+//     private static final Logger LOGGER = Logger.getLogger(SlotController.class.getName());
+
+//     private final DataSource dataSource;
+
+//     @Autowired
+//     public SlotController(DataSource dataSource) {
+//         this.dataSource = dataSource;
+//     }
+
+//     @GetMapping("/viewSlots")
+//     public String viewSlots(Model model) {
+//         try (Connection connection = dataSource.getConnection()) {
+//             List<Slot> availableSlots = getAvailableSlots(connection);
+//             model.addAttribute("slots", availableSlots);
+//             return "viewSlots";
+//         } catch (SQLException e) {
+//             LOGGER.log(Level.SEVERE, "Error retrieving available slots: " + e.getMessage(), e);
+//             model.addAttribute("error", "An error occurred while retrieving slots. Please try again.");
+//             return "error";
+//         }
+//     }
+
+//     @PostMapping("/updateSlotStatus")
+//     @PreAuthorize("hasRole('STAFF')")
+//     public String updateSlotStatus(@RequestParam int slotId, @RequestParam String status,
+//             RedirectAttributes redirectAttributes) {
+//         try (Connection connection = dataSource.getConnection()) {
+//             String updateSql = "UPDATE slots SET slotstatus = ? WHERE slotid = ?";
+//             try (PreparedStatement statement = connection.prepareStatement(updateSql)) {
+//                 statement.setString(1, status);
+//                 statement.setInt(2, slotId);
+//                 int rowsAffected = statement.executeUpdate();
+//                 if (rowsAffected == 0) {
+//                     redirectAttributes.addFlashAttribute("error", "Failed to update slot status. Please try again.");
+//                 } else {
+//                     redirectAttributes.addFlashAttribute("success", "Slot status updated successfully.");
+//                 }
+//             }
+//         } catch (SQLException e) {
+//             LOGGER.log(Level.SEVERE, "Error updating slot status: " + e.getMessage(), e);
+//             redirectAttributes.addFlashAttribute("error",
+//                     "An error occurred while updating slot status. Please try again.");
+//         }
+//         return "redirect:/staffDashboard";
+//     }
+
+//     @PostMapping("/createSlot")
+//     @PreAuthorize("hasRole('STAFF')")
+//     public String createSlot(@RequestParam Date slotDate, @RequestParam String status,
+//             RedirectAttributes redirectAttributes) {
+//         try (Connection connection = dataSource.getConnection()) {
+//             connection.setAutoCommit(false);
+
+//             int slotId = generateSlotID(connection);
+//             if (slotId == 0) {
+//                 redirectAttributes.addFlashAttribute("error", "Unable to generate slot ID. Please try again.");
+//                 return "redirect:/staffDashboard";
+//             }
+
+//             String insertSql = "INSERT INTO slots (slotid, slotdate, slotstatus) VALUES (?, ?, ?)";
+//             try (PreparedStatement statement = connection.prepareStatement(insertSql)) {
+//                 statement.setInt(1, slotId);
+//                 statement.setDate(2, slotDate);
+//                 statement.setString(3, status);
+
+//                 int rowsAffected = statement.executeUpdate();
+//                 if (rowsAffected == 0) {
+//                     connection.rollback();
+//                     redirectAttributes.addFlashAttribute("error", "Failed to create slot. Please try again.");
+//                 } else {
+//                     connection.commit();
+//                     redirectAttributes.addFlashAttribute("success", "Slot created successfully.");
+//                 }
+//             }
+//         } catch (SQLException e) {
+//             LOGGER.log(Level.SEVERE, "Error creating slot: " + e.getMessage(), e);
+//             redirectAttributes.addFlashAttribute("error",
+//                     "An error occurred while creating the slot. Please try again.");
+//         }
+//         return "redirect:/staffDashboard";
+//     }
+
+//     private List<Slot> getAvailableSlots(Connection connection) throws SQLException {
+//         List<Slot> slots = new ArrayList<>();
+//         String sql = "SELECT * FROM slots WHERE slotstatus = 'available' ORDER BY slotdate";
+//         try (PreparedStatement statement = connection.prepareStatement(sql);
+//                 ResultSet resultSet = statement.executeQuery()) {
+//             while (resultSet.next()) {
+//                 Slot slot = new Slot();
+//                 slot.setSlotid(resultSet.getInt("slotid"));
+//                 slot.setSlotdate(resultSet.getDate("slotdate"));
+//                 slot.setSlotstatus(resultSet.getString("slotstatus"));
+//                 slots.add(slot);
+//             }
+//         }
+//         return slots;
+//     }
+
+//     private int generateSlotID(Connection connection) throws SQLException {
+//         String query = "SELECT MAX(slotid) FROM slots";
+//         try (PreparedStatement statement = connection.prepareStatement(query);
+//                 ResultSet resultSet = statement.executeQuery()) {
+//             if (resultSet.next()) {
+//                 int lastID = resultSet.getInt(1);
+//                 return lastID + 1;
+//             } else {
+//                 return 1000; // Start with 1000 if no records found
+//             }
+//         }
+//     }
+// }
+
+package com.heroku.java.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.ui.Model;
+
+import com.heroku.java.bean.Slot;
+import com.heroku.java.bean.Booking;
+
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+@Controller
+public class SlotController {
+
+    private final DataSource dataSource;
+
+    @Autowired
+    public SlotController(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
+    @GetMapping("/slotAvailability")
+    public String checkSlotAvailability(@RequestParam("date") String date, Model model) {
+        List<Slot> availableSlots = new ArrayList<>();
+
+        try (Connection connection = dataSource.getConnection()) {
+            String sql = "SELECT * FROM slots WHERE slotdate = ? AND slotstatus = 'available'";
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setString(1, date);
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        Slot slot = new Slot();
+                        slot.setSlotid(rs.getInt("slotid"));
+                        slot.setSlotdate(rs.getDate("slotdate"));
+                        // slot.setSlotstart(rs.getTime("slotstart"));
+                        // slot.setSlotend(rs.getTime("slotend"));
+                        slot.setSlotstatus(rs.getString("slotstatus"));
+                        availableSlots.add(slot);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            model.addAttribute("error", "An error occurred while retrieving slot availability. Please try again.");
+        }
+
+        model.addAttribute("availableSlots", availableSlots);
+        model.addAttribute("selectedDate", date);
+        return "slotAvailability";
+    }
+
+    @GetMapping("/bookSlot/{slotid}")
+    public String bookSlot(@PathVariable("slotid") int slotid, Model model) {
+        Slot selectedSlot = null;
+
+        try (Connection connection = dataSource.getConnection()) {
+            String sql = "SELECT * FROM slots WHERE slotid = ?";
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setInt(1, slotid);
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        selectedSlot = new Slot();
+                        selectedSlot.setSlotid(rs.getInt("slotid"));
+                        selectedSlot.setSlotdate(rs.getDate("slotdate"));
+                        // selectedSlot.setSlotstart(rs.getTime("slotstart"));
+                        // selectedSlot.setSlotend(rs.getTime("slotend"));
+                        selectedSlot.setSlotstatus(rs.getString("slotstatus"));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            model.addAttribute("error", "An error occurred while retrieving slot details. Please try again.");
+            return "redirect:/slotAvailability";
+        }
+
+        if (selectedSlot != null && selectedSlot.getSlotstatus() == "available") {
+            model.addAttribute("selectedSlot", selectedSlot);
+            Booking booking = new Booking();
+            booking.setSlot(selectedSlot);
+            model.addAttribute("booking", booking);
+            return "createBooking";
+        } else {
+            model.addAttribute("error", "Selected slot is not available. Please choose another slot.");
+            return "redirect:/slotAvailability";
+        }
+    }
+}

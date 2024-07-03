@@ -1,0 +1,133 @@
+package com.heroku.java.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.heroku.java.DAO.CustomerDAO;
+import com.heroku.java.bean.Customer;
+
+import jakarta.servlet.http.HttpSession;
+import javax.sql.DataSource;
+import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+@Controller
+public class customerController {
+    private final DataSource dataSource;
+
+    @Autowired
+    public customerController(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
+    // insert cust into database
+    @PostMapping("/register")
+    public String addAccount(HttpSession session, @ModelAttribute("customer") Customer customer, Model model) {
+        try {
+            CustomerDAO customerDAO = new CustomerDAO(dataSource);
+            customerDAO.addCustomer(customer);
+            model.addAttribute("registrationSuccess", true);
+            return "redirect:/login";
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("error", "An error occurred during registration. Please try again.");
+            return "register";
+        }
+    }
+
+    @GetMapping("/register")
+    public String showRegisterForm(Model model) {
+        model.addAttribute("customer", new Customer());
+        return "register"; // Ensure this matches your HTML file name
+    }
+
+    // @GetMapping("/createacc")
+    // public String showSignupForm(Model model) {
+    // model.addAttribute("customer", new Customer());
+    // return "signup";
+    // }
+
+    // viewacc
+    @GetMapping("/viewaccount")
+    public String viewProfile(HttpSession session, Model model) {
+//        String custemail = (String) session.getAttribute("loggedInUser");
+//    	Integer custid = (Integer) session.getAttribute(loginController.SESSION_USER_ID);
+    	String custemail = (String) session.getAttribute(loginController.SESSION_USER_EMAIL);
+        System.out.println("Logged in user email: " + custemail);
+
+        if (custemail != null) {
+            CustomerDAO customerDAO = new CustomerDAO(dataSource);
+            try {
+                Customer customer = customerDAO.getCustomerByCustemail(custemail);
+                if (customer != null) {
+                    model.addAttribute("customer", customer);
+                    System.out.println("Customer details: " + customer);
+                } else {
+                    model.addAttribute("error", "Customer details not found.");
+                    System.out.println("Customer details not found.");
+                }
+            } catch (SQLException e) {
+                System.out.println("Error retrieving customer data");
+                e.printStackTrace();
+                model.addAttribute("error", "An error occurred while retrieving your profile. Please try again.");
+            }
+        } else {
+            return "redirect:/login";
+        }
+        System.out.println("Model attributes: " + model.asMap());
+        return "viewaccount";
+    }
+
+    @GetMapping("/updateAccount")
+    public String showUpdateForm(HttpSession session, Model model) {
+//        String custemail = (String) session.getAttribute("loggedInUser");
+//    	Integer custid = (Integer) session.getAttribute(loginController.SESSION_USER_ID);
+    	String custemail = (String) session.getAttribute(loginController.SESSION_USER_EMAIL);
+    	if (custemail != null) {
+            CustomerDAO customerDAO = new CustomerDAO(dataSource);
+            try {
+                Customer customer = customerDAO.getCustomerByCustemail(custemail);
+                if (customer != null) {
+                    model.addAttribute("customer", customer);
+                } else {
+                    model.addAttribute("error", "Customer details not found.");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                model.addAttribute("error", "An error occurred while retrieving your profile. Please try again.");
+            }
+        } else {
+            return "redirect:/login";
+        }
+        return "updateAccount"; // Return the updateProfile view
+    }
+
+    // Update Profile Customer
+    @PostMapping("/updateAccount")
+    public String updateProfile(HttpSession session, @ModelAttribute("customer") Customer customer, Model model) {
+//        String custemail = (String) session.getAttribute("loggedInUser");
+//    	Integer custid = (Integer) session.getAttribute(loginController.SESSION_USER_ID);
+    	String custemail = (String) session.getAttribute(loginController.SESSION_USER_EMAIL);
+        if (custemail != null) {
+            customer.setCustemail(custemail); // Ensure email is not changed
+            CustomerDAO customerDAO = new CustomerDAO(dataSource);
+            try {
+                customerDAO.updateCustomer(customer);
+                model.addAttribute("success", "Profile updated successfully.");
+            } catch (SQLException e) {
+                e.printStackTrace();
+                model.addAttribute("error", "An error occurred while updating your profile. Please try again.");
+            }
+        } else {
+            return "redirect:/login";
+        }
+        return "updateAccount"; // Return the updateProfile view
+    }
+
+}

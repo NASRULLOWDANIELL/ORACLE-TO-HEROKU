@@ -1,0 +1,128 @@
+package com.heroku.java.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+
+import com.heroku.java.DAO.StaffDAO;
+import com.heroku.java.bean.Staff;
+
+import jakarta.servlet.http.HttpSession;
+import javax.sql.DataSource;
+import java.sql.SQLException;
+import java.util.List;
+
+@Controller
+public class staffController {
+    private final DataSource dataSource;
+
+    @Autowired
+    public staffController(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
+    @PostMapping("/registerStaff")
+    public String addStaffAccount(HttpSession session, @ModelAttribute("staff") Staff staff, Model model,
+            RedirectAttributes redirectAttributes) {
+        try {
+            StaffDAO staffDAO = new StaffDAO(dataSource);
+            Staff addedStaff = staffDAO.addStaff(staff);
+            System.out.println("Staff added successfully with ID: " + addedStaff.getStaffid());
+            redirectAttributes.addFlashAttribute("message", "Registration successful. Please log in.");
+            return "redirect:/loginStaff";
+        } catch (SQLException e) {
+            e.printStackTrace();
+            model.addAttribute("error", "An error occurred during registration. Please try again.");
+            return "registerStaff";
+        }
+    }
+
+    @GetMapping("/registerStaff")
+    public String showStaffRegisterForm(Model model) {
+        model.addAttribute("staff", new Staff());
+        return "registerStaff";
+    }
+
+    @GetMapping("/viewstaffaccount")
+    public String viewStaffProfile(HttpSession session, Model model) {
+        String staffemail = (String) session.getAttribute(staffloginController.SESSION_STAFF_EMAIL);
+        System.out.println("Logged in staff email: " + staffemail);
+
+        if (staffemail != null) {
+            StaffDAO staffDAO = new StaffDAO(dataSource);
+            try {
+                Staff staff = staffDAO.getStaffByStaffemail(staffemail);
+                if (staff != null) {
+                    model.addAttribute("staff", staff);
+                    System.out.println("Staff details: " + staff);
+                } else {
+                    model.addAttribute("error", "Staff details not found.");
+                    System.out.println("Staff details not found.");
+                }
+            } catch (SQLException e) {
+                System.out.println("Error retrieving staff data");
+                e.printStackTrace();
+                model.addAttribute("error", "An error occurred while retrieving your profile. Please try again.");
+            }
+        } else {
+            return "redirect:/loginStaff";
+        }
+
+        System.out.println("Model attributes: " + model.asMap());
+        return "viewstaffaccount";
+    }
+
+    @GetMapping("/updateStaffAccount")
+    public String showUpdateForm(HttpSession session, Model model) {
+        String staffemail = (String) session.getAttribute(staffloginController.SESSION_STAFF_EMAIL);
+        if (staffemail != null) {
+            StaffDAO staffDAO = new StaffDAO(dataSource);
+            try {
+                Staff staff = staffDAO.getStaffByStaffemail(staffemail);
+                if (staff != null) {
+                    model.addAttribute("staff", staff);
+                    List<Staff> managers = staffDAO.getAllManagerStaffs(); // This fetches managers
+                    model.addAttribute("staffs", managers);
+                } else {
+                    model.addAttribute("error", "Staff details not found.");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                model.addAttribute("error", "An error occurred while retrieving your profile. Please try again.");
+            }
+        } else {
+            return "redirect:/loginStaff";
+        }
+        return "updateStaffAccount";
+    }
+
+    @PostMapping("/updateStaffAccount")
+    public String updateProfile(HttpSession session, @ModelAttribute("staff") Staff staff, Model model) {
+        String staffemail = (String) session.getAttribute(staffloginController.SESSION_STAFF_EMAIL);
+        if (staffemail != null) {
+            staff.setStaffemail(staffemail); // Ensure email is not changed
+            StaffDAO staffDAO = new StaffDAO(dataSource);
+            try {
+                staffDAO.updateStaff(staff);
+                model.addAttribute("success", "Profile updated successfully.");
+            } catch (SQLException e) {
+                e.printStackTrace();
+                model.addAttribute("error", "An error occurred while updating your profile. Please try again.");
+            }
+            try {
+                List<Staff> managers = staffDAO.getAllManagerStaffs();
+                model.addAttribute("staffs", managers);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                model.addAttribute("Error fetching managers", e);
+            }
+        } else {
+            return "redirect:/loginStaff";
+        }
+        return "updateStaffAccount";
+    }
+}

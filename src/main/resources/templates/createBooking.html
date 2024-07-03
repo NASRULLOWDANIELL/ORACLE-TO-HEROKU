@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Booking - MYVI CAT HOTEL</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .navbar {
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .navbar-brand {
+            color: #596cd5;
+            font-weight: 600;
+            font-size: 1.5rem;
+        }
+        .nav-link {
+            color: #4e4e4e;
+        }
+        .nav-link:hover {
+            color: #596cd5;
+        }
+        .btn-custom {
+            background-color: #596cd5;
+            border-color: #596cd5;
+            color: #fff;
+        }
+        .btn-custom:hover {
+            background-color: #4a5bb3;
+            border-color: #4a5bb3;
+        }
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        footer {
+            background-color: #fff;
+            border-top: 1px solid #e9ecef;
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" th:href="@{/}">MYVI CAT HOTEL_</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" th:href="@{/customerindex}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/viewaccount}">My Account</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/catList}">My Cat</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/roomList}">Our Hotel</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/bookingList}">Booking</a></li>
+                </ul>
+                <a th:href="@{/login}" class="btn btn-outline-primary ml-2">
+                    <i class="fa-solid fa-user"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title text-center mb-4">Create Booking</h2>
+                        <form th:action="@{/createBooking}" th:object="${booking}" method="post" id="bookingForm" novalidate>
+                            <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+                            <div class="form-group">
+                                <label for="roomSelect">Choose Cat Hotel</label>
+                                <select class="form-control" name="roomid" th:field="*{roomid}" id="roomSelect" required onchange="toggleCatSelection(); updateBookingPrice()">
+                                    <option value="0" disabled selected>Choose Cat Hotel</option>
+                                    <option value="101">Single</option>
+                                    <option value="201">Queen</option>
+                                    <option value="301">Apartment</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="bookingPrice">Booking Price (RM)</label>
+                                <input type="number" step="0.01" th:field="*{bookingPrice}" id="bookingPrice" name="bookingPrice" class="form-control" readonly>
+                            </div>
+                            <div class="form-group" id="catSelectionGroup">
+                                <label for="catSelection">Select Cats</label>
+                                <select class="form-control" name="selectedCats" id="catSelection" multiple>
+                                    <option th:each="cat : ${cats}" th:value="${cat.catid}" th:text="${cat.catid + ' - ' + cat.catname}"></option>
+                                </select>
+                                <small class="form-text text-muted" th:if="${cats == null or cats.empty}">No cats available for booking. Please add a cat to your profile first.</small>
+                            </div>
+                            <input type="hidden" name="catIdsString" id="catIdsString">
+                            <div class="form-group">
+                                <label for="bookingCheckInDate">Booking Check In Date</label>
+                                <input type="date" class="form-control" name="bookingCheckInDate" id="bookingCheckInDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="bookingCheckOutDate">Booking Check Out Date</label>
+                                <input type="date" class="form-control" name="bookingCheckOutDate" id="bookingCheckOutDate" required>
+                            </div>
+                            <div id="availabilityMessage" class="alert alert-danger" style="display: none;"></div>
+                            <button type="submit" class="btn btn-custom btn-block">Create Booking</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="mt-5">
+        <div class="container">
+            <p class="text-center">&copy; 2024 Myvi Cat Hotel</p>
+        </div>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script>
+        function updateBookingPrice() {
+            var select = document.getElementById('roomSelect');
+            var priceInput = document.getElementById('bookingPrice');
+            var selectedValue = select.value;
+
+            switch (selectedValue) {
+                case '101':
+                    priceInput.value = '50.00';
+                    break;
+                case '201':
+                    priceInput.value = '100.00';
+                    break;
+                case '301':
+                    priceInput.value = '150.00';
+                    break;
+                default:
+                    priceInput.value = '';
+            }
+            toggleCatSelection();
+        }
+
+        function toggleCatSelection() {
+            var roomSelect = document.getElementById('roomSelect');
+            var catSelectionGroup = document.getElementById('catSelectionGroup');
+            var catSelection = document.getElementById('catSelection');
+
+            if (roomSelect.value === '101') { // Single room
+                catSelectionGroup.style.display = 'block';
+                catSelection.multiple = false;
+                catSelection.size = 1;
+            } else if (roomSelect.value === '201' || roomSelect.value === '301') { // Queen or Apartment
+                catSelectionGroup.style.display = 'block';
+                catSelection.multiple = true;
+                catSelection.size = 5; // Show 5 options at once
+            } else {
+                catSelectionGroup.style.display = 'none';
+            }
+
+            catSelection.required = true;
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            toggleCatSelection();
+            updateBookingPrice();
+
+            document.getElementById('bookingForm').onsubmit = function (event) {
+                var selectedCats = Array.from(document.getElementById('catSelection').selectedOptions).map(option => option.value);
+                document.getElementById('catIdsString').value = selectedCats.join(',');
+
+                if (!validateForm()) {
+                    event.preventDefault();
+                }
+            };
+
+            document.getElementById('bookingCheckOutDate').addEventListener('change', function () {
+                var checkIn = new Date(document.getElementById('bookingCheckInDate').value);
+                var checkOut = new Date(this.value);
+                if (checkOut <= checkIn) {
+                    alert('Check-out date must be after check-in date');
+                    this.value = '';
+                } else {
+                    checkAvailability();
+                }
+            });
+
+            document.getElementById('bookingCheckInDate').addEventListener('change', function () {
+                var checkOut = document.getElementById('bookingCheckOutDate');
+                if (checkOut.value) {
+                    checkAvailability();
+                }
+            });
+        });
+
+        function validateForm() {
+            var roomSelect = document.getElementById('roomSelect');
+            var catSelection = document.getElementById('catSelection');
+            var checkIn = document.getElementById('bookingCheckInDate');
+            var checkOut = document.getElementById('bookingCheckOutDate');
+
+            if (roomSelect.value === "0") {
+                alert("Please select a room");
+                return false;
+            }
+
+            if (catSelection.selectedOptions.length === 0) {
+                alert("Please select at least one cat");
+                return false;
+            }
+
+            if (!checkIn.value || !checkOut.value) {
+                alert("Please select both check-in and check-out dates");
+                return false;
+            }
+
+            return true;
+        }
+
+        // function checkAvailability() {
+        //     var roomId = document.getElementById('roomSelect').value;
+        //     var checkIn = document.getElementById('bookingCheckInDate').value;
+        //     var checkOut = document.getElementById('bookingCheckOutDate').value;
+
+        //     if (roomId && checkIn && checkOut) {
+        //         fetch(`/checkAvailability?roomId=${roomId}&checkIn=${checkIn}&checkOut=${checkOut}`)
+        //             .then(response => response.json())
+        //             .then(data => {
+        //                 var availabilityMessage = document.getElementById('availabilityMessage');
+        //                 if (data.available) {
+        //                     availabilityMessage.style.display = 'none';
+        //                     document.querySelector('.submit').disabled = false;
+        //                 } else {
+        //                     availabilityMessage.textContent = 'This room is not available for the selected dates.';
+        //                     availabilityMessage.style.display = 'block';
+        //                     document.querySelector('.submit').disabled = true;
+        //                 }
+        //             })
+        //             .catch(error => console.error('Error:', error));
+        //     }
+        // }
+    </script>
+</body>
+
+</html>

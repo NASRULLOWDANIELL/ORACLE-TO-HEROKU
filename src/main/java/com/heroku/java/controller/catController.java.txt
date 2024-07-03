@@ -1,0 +1,123 @@
+package com.heroku.java.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import com.heroku.java.DAO.CatDAO;
+import com.heroku.java.bean.Cat;
+
+import jakarta.servlet.http.HttpSession;
+import javax.sql.DataSource;
+import java.sql.SQLException;
+import java.util.List;
+
+@Controller
+public class catController {
+    private final DataSource dataSource;
+
+    @Autowired
+    public catController(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
+    @PostMapping("/createCat")
+    public String createCat(HttpSession session, @ModelAttribute("cat") Cat cat, Model model) {
+        Integer custid = (Integer) session.getAttribute(loginController.SESSION_USER_ID);
+        if (custid != null) {
+            try {
+                CatDAO catDAO = new CatDAO(dataSource);
+                cat.setCustid(custid);
+                catDAO.addCat(cat);
+                return "redirect:/catList";
+            } catch (SQLException e) {
+                e.printStackTrace();
+                model.addAttribute("error", "An error occurred while creating the cat. Please try again.");
+                return "createCat";
+            }
+        } else {
+            return "redirect:/login";
+        }
+    }
+
+    @GetMapping("/createCat")
+    public String showCreateCatForm(Model model) {
+        model.addAttribute("cat", new Cat());
+        return "createCat";
+    }
+
+    @GetMapping("/catList")
+    public String viewCatList(HttpSession session, Model model) {
+        Integer custid = (Integer) session.getAttribute(loginController.SESSION_USER_ID);
+        String userEmail = (String) session.getAttribute(loginController.SESSION_USER_EMAIL);
+        System.out.println("Logged in customer email: " + userEmail);
+        System.out.println("Customer ID retrieved from session in viewCatList: " + custid);
+
+        if (custid != null && custid != 0) {
+            CatDAO catDAO = new CatDAO(dataSource);
+            try {
+                List<Cat> cats = catDAO.getCatsByCustid(custid);
+                model.addAttribute("cats", cats);
+                if (cats.isEmpty()) {
+                    model.addAttribute("message", "You have no cats registered. Add a new cat to get started!");
+                }
+            } catch (SQLException e) {
+                System.out.println("Error retrieving cat data");
+                e.printStackTrace();
+                model.addAttribute("error", "An error occurred while retrieving your cat profiles. Please try again.");
+            }
+        } else {
+            System.out.println("Customer ID not found in session.");
+            return "redirect:/login";
+        }
+        System.out.println("Model attributes: " + model.asMap());
+        return "catList";
+    }
+
+    @GetMapping("/updateCat/{catid}")
+    public String showUpdateCatForm(@PathVariable("catid") int catid, Model model) {
+        CatDAO catDAO = new CatDAO(dataSource);
+        try {
+            Cat cat = catDAO.getCatByCatid(catid);
+            if (cat != null) {
+                model.addAttribute("cat", cat);
+            } else {
+                model.addAttribute("error", "Cat details not found.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            model.addAttribute("error", "An error occurred while retrieving the cat profile. Please try again.");
+        }
+        return "updateCat";
+    }
+
+    @PostMapping("/updateCat")
+    public String updateCatProfile(@ModelAttribute("cat") Cat cat, Model model) {
+        CatDAO catDAO = new CatDAO(dataSource);
+        try {
+            catDAO.updateCat(cat);
+            model.addAttribute("success", "Cat Profile updated successfully.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            model.addAttribute("error", "An error occurred while updating the cat profile. Please try again.");
+        }
+        return "updateCat";
+    }
+
+    @PostMapping("/deleteCat/{catid}")
+    public String deleteCat(@PathVariable("catid") int catid, Model model) {
+        CatDAO catDAO = new CatDAO(dataSource);
+        try {
+            catDAO.deleteCat(catid);
+            model.addAttribute("success", "Cat deleted successfully.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            model.addAttribute("error", "An error occurred while deleting the cat. Please try again.");
+        }
+        return "redirect:/catList";
+    }
+}
