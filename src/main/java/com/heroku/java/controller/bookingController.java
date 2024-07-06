@@ -121,7 +121,7 @@ public class bookingController {
             model.addAttribute("error", "Please select both check-in and check-out dates.");
             return "createBooking";
         }
-
+        
         LocalDate checkInDate = new java.sql.Date(booking.getBookingCheckInDate().getTime()).toLocalDate();
         LocalDate checkOutDate = new java.sql.Date(booking.getBookingCheckOutDate().getTime()).toLocalDate();
 
@@ -202,71 +202,6 @@ public class bookingController {
         }
     }
 
-    // @GetMapping("/bookingList")
-    // public String viewBookingList(HttpSession session, Model model) {
-    // Integer custid = (Integer) session.getAttribute(SESSION_USER_ID);
-    // if (custid == null || custid == 0) {
-    // LOGGER.warning("Customer ID not found in session.");
-    // return "redirect:/login";
-    // }
-
-    // List<Booking> bookings = new ArrayList<>();
-
-    // try (Connection connection = dataSource.getConnection()) {
-    // String sql = "SELECT b.bookingid, b.bookingcheckindate,
-    // b.bookingcheckoutdate, " +
-    // "b.bookingprice, b.roomid, b.paymentstatus, b.feedbackId, " +
-    // "STRING_AGG(bc.cat_id::text, ',') as cat_ids, " +
-    // "bp.paymenttype " +
-    // "FROM booking b " +
-    // "JOIN booking_cat bc ON b.bookingid = bc.booking_id " +
-    // "JOIN cat ct ON bc.cat_id = ct.catid " +
-    // "LEFT JOIN bookingpayment bp ON b.bookingid = bp.bookingid " +
-    // "WHERE ct.custid = ? " +
-    // "GROUP BY b.bookingid, b.bookingcheckindate, b.bookingcheckoutdate, " +
-    // "b.bookingprice, b.roomid, b.paymentstatus, b.feedbackId, bp.paymenttype";
-    // try (PreparedStatement ps = connection.prepareStatement(sql)) {
-    // ps.setInt(1, custid);
-    // try (ResultSet rs = ps.executeQuery()) {
-    // while (rs.next()) {
-    // Booking booking = new Booking();
-    // booking.setBookingid(rs.getInt("bookingid"));
-    // booking.setBookingCheckInDate(rs.getDate("bookingcheckindate"));
-    // booking.setBookingCheckOutDate(rs.getDate("bookingcheckoutdate"));
-    // booking.setBookingPrice(rs.getBigDecimal("bookingprice"));
-    // booking.setRoomid(rs.getInt("roomid"));
-    // String paymentStatus = rs.getString("paymentstatus");
-    // booking.setPaymentstatus(paymentStatus != null ? paymentStatus : "NOT PAID");
-    // booking.setCatIdsString(rs.getString("cat_ids"));
-    // int feedbackId = rs.getInt("feedbackId");
-    // if (rs.wasNull()) {
-    // booking.setFeedbackId(null);
-    // LOGGER.info("Booking " + booking.getBookingid() + " has no feedback");
-    // } else {
-    // booking.setFeedbackId(feedbackId);
-    // LOGGER.info("Booking " + booking.getBookingid() + " has feedback ID: " +
-    // feedbackId);
-    // }
-    // String paymentType = rs.getString("paymenttype");
-    // if (paymentType != null) {
-    // booking.setPaymentType(paymentType);
-    // }
-    // bookings.add(booking);
-    // }
-    // }
-    // }
-
-    // bookings.sort(Comparator.comparingInt(Booking::getBookingid));
-    // model.addAttribute("bookings", bookings);
-
-    // } catch (SQLException e) {
-    // LOGGER.log(Level.SEVERE, "Error fetching booking list", e);
-    // model.addAttribute("error", "An error occurred while retrieving bookings.
-    // Please try again.");
-    // }
-
-    // return "bookingList";
-    // }
     @GetMapping("/bookingList")
     public String viewBookingList(HttpSession session, Model model) {
         Integer custid = (Integer) session.getAttribute(SESSION_USER_ID);
@@ -275,58 +210,57 @@ public class bookingController {
             return "redirect:/login";
         }
 
-        Map<Integer, Booking> bookingsMap = new LinkedHashMap<>();
+        List<Booking> bookings = new ArrayList<>();
 
         try (Connection connection = dataSource.getConnection()) {
             String sql = "SELECT b.bookingid, b.bookingcheckindate, b.bookingcheckoutdate, " +
-                    "b.bookingprice, b.roomid, b.paymentstatus, b.feedbackId, " +
-                    "b.bookingstatus, ct.catid, ct.catname, c.custname, " +
-                    "bp.paymenttype " +
-                    "FROM booking b " +
-                    "JOIN booking_cat bc ON b.bookingid = bc.booking_id " +
-                    "JOIN cat ct ON bc.cat_id = ct.catid " +
-                    "JOIN customer c ON ct.custid = c.custid " +
-                    "LEFT JOIN bookingpayment bp ON b.bookingid = bp.bookingid " +
-                    "WHERE ct.custid = ? " +
-                    "ORDER BY b.bookingid";
+                                "b.bookingprice, b.roomid, b.paymentstatus, b.feedbackId, " +
+                                "STRING_AGG(bc.cat_id::text, ',') as cat_ids, " +
+                                "bp.paymenttype " +
+                        "FROM booking b " +
+                        "JOIN booking_cat bc ON b.bookingid = bc.booking_id " +
+                        "JOIN cat ct ON bc.cat_id = ct.catid " +
+                        "LEFT JOIN bookingpayment bp ON b.bookingid = bp.bookingid " +
+                        "WHERE ct.custid = ? " +
+                        "GROUP BY b.bookingid, b.bookingcheckindate, b.bookingcheckoutdate, " +
+                                "b.bookingprice, b.roomid, b.paymentstatus, b.feedbackId, bp.paymenttype";
             try (PreparedStatement ps = connection.prepareStatement(sql)) {
                 ps.setInt(1, custid);
                 try (ResultSet rs = ps.executeQuery()) {
                     while (rs.next()) {
-                        int bookingId = rs.getInt("bookingid");
-                        Booking booking = bookingsMap.computeIfAbsent(bookingId, id -> {
-                            Booking newBooking = new Booking();
-                            newBooking.setBookingid(id);
-                            try {
-                                newBooking.setBookingCheckInDate(rs.getDate("bookingcheckindate"));
-                                newBooking.setBookingCheckOutDate(rs.getDate("bookingcheckoutdate"));
-                                newBooking.setBookingPrice(rs.getBigDecimal("bookingprice"));
-                                newBooking.setRoomid(rs.getInt("roomid"));
-                                newBooking.setPaymentstatus(rs.getString("paymentstatus"));
-                                newBooking.setFeedbackId(rs.getInt("feedbackId"));
-                                newBooking.setBookingstatus(rs.getString("bookingstatus"));
-                                newBooking.setPaymentType(rs.getString("paymenttype"));
-                                newBooking.setCustname(rs.getString("custname"));
-                            } catch (SQLException e) {
-                                LOGGER.log(Level.SEVERE, "Error setting booking details", e);
-                            }
-                            newBooking.setCats(new ArrayList<>());
-                            return newBooking;
-                        });
-
-                        Cat cat = new Cat();
-                        try {
-                            cat.setCatid(rs.getInt("catid"));
-                            cat.setCatname(rs.getString("catname"));
-                            booking.getCats().add(cat);
-                        } catch (SQLException e) {
-                            LOGGER.log(Level.SEVERE, "Error setting cat details", e);
+                        Booking booking = new Booking();
+                        booking.setBookingid(rs.getInt("bookingid"));
+                        booking.setBookingCheckInDate(rs.getDate("bookingcheckindate"));
+                        booking.setBookingCheckOutDate(rs.getDate("bookingcheckoutdate"));
+                        booking.setBookingPrice(rs.getBigDecimal("bookingprice"));
+                        booking.setRoomid(rs.getInt("roomid"));
+                        String paymentStatus = rs.getString("paymentstatus");
+                        booking.setPaymentstatus(paymentStatus != null ? paymentStatus : "NOT PAID");
+                        booking.setCatIdsString(rs.getString("cat_ids"));
+                        int feedbackId = rs.getInt("feedbackId");
+                        if (rs.wasNull()) {
+                            booking.setFeedbackId(null);
+                            LOGGER.info("Booking " + booking.getBookingid() + " has no feedback");
+                        } else {
+                            booking.setFeedbackId(feedbackId);
+                            LOGGER.info("Booking " + booking.getBookingid() + " has feedback ID: " + feedbackId);
                         }
+                        String paymentType = rs.getString("paymenttype");
+                        if (paymentType != null) {
+                            booking.setPaymentType(paymentType);
+                        }
+                        bookings.add(booking);
                     }
                 }
             }
 
-            model.addAttribute("bookings", new ArrayList<>(bookingsMap.values()));
+            bookings.sort(Comparator.comparingInt(Booking::getBookingid));
+            model.addAttribute("bookings", bookings);
+
+            // if (bookings.isEmpty()) {
+            // model.addAttribute("message", "You have no bookings. Create a new booking
+            // now!");
+            // }
 
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Error fetching booking list", e);
