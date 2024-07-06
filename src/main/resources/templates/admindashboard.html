@@ -205,6 +205,7 @@
                   <th>Check In Date</th>
                   <th>Check Out Date</th>
                   <th>Payment Status</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -216,6 +217,12 @@
                   <td th:text="${#dates.format(booking.bookingCheckOutDate, 'dd-MM-yyyy')}"></td>
                   <td
                     th:text="${booking.paymentstatus + (booking.paymentType != null ? ' - ' + booking.paymentType : '')}">
+                  </td>
+                  <td>
+                    <a th:if="${booking.paymentstatus != 'Not Paid'}"
+                      th:href="@{/viewPayment/{id}(id=${booking.bookingid})}" class="btn btn-primary btn-sm">
+                      <i class="fas fa-eye"></i> View Payment
+                    </a>
                   </td>
                 </tr>
               </tbody>

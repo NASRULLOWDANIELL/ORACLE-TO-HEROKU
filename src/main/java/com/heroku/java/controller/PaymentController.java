@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 
 @Controller
 public class PaymentController {
+    public static final String SESSION_STAFF_ID = staffloginController.SESSION_STAFF_ID;
     private static final String SESSION_USER_ID = loginController.SESSION_USER_ID;
     private static final Logger LOGGER = Logger.getLogger(PaymentController.class.getName());
 
@@ -36,9 +37,14 @@ public class PaymentController {
     @GetMapping("/viewPayment/{bookingId}")
     public String viewPayment(@PathVariable("bookingId") int bookingId, Model model, HttpSession session) {
         Integer custID = (Integer) session.getAttribute(SESSION_USER_ID);
-        if (custID == null) {
+        Integer staffID = (Integer) session.getAttribute(staffloginController.SESSION_STAFF_ID);
+
+        if (custID == null && staffID == null) {
             return "redirect:/login";
         }
+
+        boolean isStaff = (staffID != null);
+        model.addAttribute("isStaff", isStaff);
 
         try (Connection connection = dataSource.getConnection()) {
             Payment payment = getPaymentDetails(connection, bookingId);
@@ -116,7 +122,7 @@ public class PaymentController {
                 if ("CARD".equals(payment.getPaymentType())) {
                     insertCardPayment(connection, paymentId, payment.getCard());
                     // Update booking payment status and payment id
-                    updateBookingPaymentStatus(connection, payment.getBookingId(), "PAID");
+                    updateBookingPaymentStatus(connection, payment.getBookingId(), "Paid");
                     updateBookingPaymentId(connection, payment.getBookingId(), paymentId);
                 } else if ("CASH".equals(payment.getPaymentType())) {
                     insertCashPayment(connection, paymentId);
@@ -224,7 +230,7 @@ public class PaymentController {
         }
 
         try (Connection connection = dataSource.getConnection()) {
-            updateBookingPaymentStatus(connection, bookingId, "PAID");
+            updateBookingPaymentStatus(connection, bookingId, "Paid");
             return "redirect:/viewPayment/" + bookingId;
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Error confirming cash payment", e);
