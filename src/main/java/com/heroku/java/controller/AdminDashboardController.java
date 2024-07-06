@@ -4,6 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import com.heroku.java.bean.Staff;
 import com.heroku.java.bean.Booking;
 import com.heroku.java.bean.Feedback;
@@ -69,6 +73,29 @@ public class AdminDashboardController {
             }
         }
         return staffList;
+    }
+
+    @PostMapping("/updateManager")
+    public String updateManager(@RequestParam("staffId") int staffId,
+            @RequestParam("managerId") int managerId,
+            RedirectAttributes redirectAttributes) {
+        try (Connection connection = dataSource.getConnection()) {
+            String sql = "UPDATE staff SET managerid = ? WHERE staffid = ?";
+            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+                stmt.setInt(1, managerId);
+                stmt.setInt(2, staffId);
+                int rowsAffected = stmt.executeUpdate();
+                if (rowsAffected > 0) {
+                    redirectAttributes.addFlashAttribute("success", "Manager updated successfully");
+                } else {
+                    redirectAttributes.addFlashAttribute("error", "Failed to update manager");
+                }
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error updating manager", e);
+            redirectAttributes.addFlashAttribute("error", "An error occurred while updating the manager");
+        }
+        return "redirect:/admindashboard";
     }
 
     private List<Booking> getAllBookings(Connection connection) throws SQLException {

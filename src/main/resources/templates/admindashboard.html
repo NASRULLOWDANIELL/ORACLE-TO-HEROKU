@@ -151,6 +151,38 @@
       <h1 class="text-center mb-4">Admin Dashboard</h1>
 
       <!-- Staff List Section -->
+      <!-- <div class="card">
+        <div class="card-header">
+          Staff List
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Staff ID</th>
+                  <th>Name</th>
+                  <th>Role</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Manager ID</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="staff : ${staffList}">
+                  <td th:text="${staff.staffid}"></td>
+                  <td th:text="${staff.staffname}"></td>
+                  <td th:text="${staff.staffrole}"></td>
+                  <td th:text="${staff.staffemail}"></td>
+                  <td th:text="${staff.staffphoneno}"></td>
+                  <td th:text="${staff.managerid}"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div> -->
+      <!-- Staff List Section -->
       <div class="card">
         <div class="card-header">
           Staff List
@@ -166,7 +198,7 @@
                   <th>Email</th>
                   <th>Phone</th>
                   <th>Manager ID</th>
-                  <!-- <th>Manager Action</th> -->
+                  <th>Manager Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -177,14 +209,13 @@
                   <td th:text="${staff.staffemail}"></td>
                   <td th:text="${staff.staffphoneno}"></td>
                   <td th:text="${staff.managerid}"></td>
-                  <!-- <td>
-                   <div th:if="${currentStaff.staffrole == 'Manager'}">
-                      <button class="btn btn-primary btn-sm"
-                        th:onclick="'updateStaffAccount(' + ${staff.staffid} + ')'">
-                        Update Staff
+                  <td>
+                    <div th:if="${staff.staffrole == 'Manager'}">
+                      <button class="btn btn-primary btn-sm" th:onclick="'updateManagerId(' + ${staff.staffid} + ')'">
+                        Update Manager ID
                       </button>
                     </div>
-                  </td> -->
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -192,47 +223,6 @@
         </div>
       </div>
 
-      <!-- Booking List Section
-      <div class="card">
-        <div class="card-header">
-          Booking List
-        </div>
-        <div class="card-body">
-          <div class="table-responsive">
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>Booking ID</th>
-                  <th>Customer Name</th>
-                  <th>Cat Name</th>
-                  <th>Check In Date</th>
-                  <th>Check Out Date</th>
-                  <th>Payment Status</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr th:each="booking : ${bookingList}">
-                  <td th:text="${booking.bookingid}"></td>
-                  <td th:text="${booking.custname}"></td>
-                  <td th:text="${booking.catname}"></td>
-                  <td th:text="${#dates.format(booking.bookingCheckInDate, 'dd-MM-yyyy')}"></td>
-                  <td th:text="${#dates.format(booking.bookingCheckOutDate, 'dd-MM-yyyy')}"></td>
-                  <td
-                    th:text="${booking.paymentstatus + (booking.paymentType != null ? ' - ' + booking.paymentType : '')}">
-                  </td>
-                  <td>
-                    <a th:if="${booking.paymentstatus != 'NOT PAID'}"
-                      th:href="@{/viewPayment/{id}(id=${booking.bookingid})}" class="btn btn-primary btn-sm">
-                      <i class="fas fa-eye"></i> View Payment
-                    </a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div> -->
       <!-- Booking List Section -->
       <div class="card">
         <div class="card-header">
@@ -346,8 +336,37 @@
     </div>
   </footer>
   <script>
-    function updateStaffAccount(staffid) {
-      window.location.href = '/updateStaffAccount?staffid=' + staffid;
+    function updateManagerId(staffId) {
+      // You can implement a modal or form to input the new manager ID
+      let newManagerId = prompt("Enter new Manager ID:");
+
+      if (newManagerId !== null && newManagerId !== "") {
+        // Send an AJAX request to update the manager ID
+        fetch('/updateManagerId', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            staffId: staffId,
+            newManagerId: newManagerId
+          })
+        })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              alert('Manager ID updated successfully');
+              // Refresh the page or update the table
+              location.reload();
+            } else {
+              alert('Failed to update Manager ID');
+            }
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+            alert('An error occurred while updating Manager ID');
+          });
+      }
     }
   </script>
 
