@@ -210,11 +210,10 @@
                   <td th:text="${staff.staffphoneno}"></td>
                   <td th:text="${staff.managerid}"></td>
                   <td>
-                    <div th:if="${staff.staffrole == 'Manager'}">
-                      <button class="btn btn-primary btn-sm" th:onclick="'updateManagerId(' + ${staff.staffid} + ')'">
-                        Update Manager ID
-                      </button>
-                    </div>
+                    <button th:if="${staff.staffrole != 'Staff'}" class="btn btn-primary btn-sm"
+                      th:onclick="'updateManagerId(' + ${staff.staffid} + ')'"><i class="fas fa-eye"></i>
+                      Update Manager ID
+                    </button>
                   </td>
                 </tr>
               </tbody>
