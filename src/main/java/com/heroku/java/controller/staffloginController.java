@@ -71,7 +71,7 @@ public class staffloginController {
         // Invalidate the entire session
         session.invalidate();
 
-        return "redirect:/loginStaff";
+        return "redirect:/";
     }
 
 }
