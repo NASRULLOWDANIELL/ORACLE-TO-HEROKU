@@ -5,79 +5,105 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update Account - MYVI CAT HOTEL</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #f8f9fa;
+            background-color: #f0f0f0;
+            color: #333;
         }
-        .navbar {
+
+        .navigation {
             background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid #596cd5;
+            padding: 15px 0;
         }
-        .navbar-brand {
+
+        .logo {
             color: #596cd5;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 1.5rem;
         }
-        .nav-link {
+
+        .menu a {
             color: #4e4e4e;
+            transition: color 0.3s ease;
         }
-        .nav-link:hover {
+
+        .menu a:hover,
+        .menu a.active {
             color: #596cd5;
         }
-        .btn-custom {
+
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            background-color: #596cd5;
+            color: white;
+            font-weight: bold;
+        }
+
+        .btn-primary {
             background-color: #596cd5;
             border-color: #596cd5;
-            color: #fff;
         }
-        .btn-custom:hover {
+
+        .btn-primary:hover {
             background-color: #4a5bb3;
             border-color: #4a5bb3;
         }
-        .card {
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
+
         footer {
             background-color: #fff;
-            border-top: 1px solid #e9ecef;
+            border-top: 1px solid #596cd5;
             padding: 20px 0;
-            margin-top: 40px;
+            margin-top: 30px;
         }
     </style>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light">
+    <nav class="navigation">
         <div class="container">
-            <a class="navbar-brand" th:href="@{/}">MYVI CAT HOTEL_</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item"><a class="nav-link" th:href="@{/customerindex}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/viewaccount}">My Account</a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/catList}">My Cat</a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/roomList}">Our Hotel</a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/bookingList}">Booking</a></li>
-                </ul>
-                <a th:href="@{/login}" class="btn btn-outline-primary ml-2">
-                    <i class="fa-solid fa-user"></i>
-                </a>
+            <div class="row align-items-center">
+                <div class="col-md-3">
+                    <a th:href="@{/}" class="logo">MYVI CAT HOTEL_</a>
+                </div>
+                <div class="col-md-9">
+                    <ul class="menu list-inline text-md-right mb-0">
+                        <li class="list-inline-item"><a th:href="@{/customerindex}">Home</a></li>
+                        <li class="list-inline-item"><a th:href="@{/viewaccount}" class="active">My Account</a></li>
+                        <li class="list-inline-item"><a th:href="@{/catList}">My Cat</a></li>
+                        <li class="list-inline-item"><a th:href="@{/roomList}">Our Hotel</a></li>
+                        <li class="list-inline-item"><a th:href="@{/bookingList}">Booking</a></li>
+                        <li class="list-inline-item"><a th:href="@{/login}"><i class="fa-solid fa-user"></i></a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </nav>
 
-    <main class="container mt-5">
+    <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card">
+                    <div class="card-header">
+                        <h4 class="mb-0">Update Profile</h4>
+                    </div>
                     <div class="card-body">
-                        <h2 class="card-title text-center mb-4">Update Profile</h2>
                         <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
                         <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
                         <form th:action="@{/updateAccount}" th:object="${customer}" method="post">
@@ -95,7 +121,7 @@
                                 <input type="text" class="form-control" id="custphoneno" name="custphoneno" th:field="*{custphoneno}" placeholder="Enter your phone number..." required />
                             </div>
                             <div class="text-center">
-                                <button type="submit" class="btn btn-custom mr-2">Update</button>
+                                <button type="submit" class="btn btn-primary mr-2">Update</button>
                                 <a th:href="@{/viewaccount}" class="btn btn-secondary">Back</a>
                             </div>
                         </form>
@@ -103,9 +129,9 @@
                 </div>
             </div>
         </div>
-    </main>
+    </div>
 
-    <footer class="mt-5">
+    <footer>
         <div class="container">
             <p class="text-center">&copy; 2024 Myvi Cat Hotel</p>
         </div>
