@@ -14,7 +14,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -70,25 +72,38 @@ public class AdminDashboardController {
     }
 
     private List<Booking> getAllBookings(Connection connection) throws SQLException {
-        List<Booking> bookingList = new ArrayList<>();
-        String sql = "SELECT b.*, c.custname, cat.catname FROM booking b " +
+        Map<Integer, Booking> bookingMap = new LinkedHashMap<>();
+        String sql = "SELECT b.*, c.custname, cat.catid, cat.catname FROM booking b " +
                 "JOIN booking_cat bc ON b.bookingid = bc.booking_id " +
                 "JOIN cat ON bc.cat_id = cat.catid " +
-                "JOIN customer c ON cat.custid = c.custid";
+                "JOIN customer c ON cat.custid = c.custid " +
+                "ORDER BY b.bookingid";
         try (PreparedStatement stmt = connection.prepareStatement(sql);
                 ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
-                Booking booking = new Booking();
-                booking.setBookingid(rs.getInt("bookingid"));
-                booking.setCustname(rs.getString("custname"));
-                booking.setCatname(rs.getString("catname"));
-                booking.setBookingCheckInDate(rs.getDate("bookingCheckInDate"));
-                booking.setBookingCheckOutDate(rs.getDate("bookingCheckOutDate"));
-                booking.setPaymentstatus(rs.getString("paymentstatus"));
-                bookingList.add(booking);
+                int bookingId = rs.getInt("bookingid");
+                Booking booking = bookingMap.computeIfAbsent(bookingId, id -> {
+                    Booking newBooking = new Booking();
+                    try {
+                        newBooking.setBookingid(id);
+                        newBooking.setCustname(rs.getString("custname"));
+                        newBooking.setBookingCheckInDate(rs.getDate("bookingCheckInDate"));
+                        newBooking.setBookingCheckOutDate(rs.getDate("bookingCheckOutDate"));
+                        newBooking.setPaymentstatus(rs.getString("paymentstatus"));
+                        newBooking.setCats(new ArrayList<>());
+                    } catch (SQLException e) {
+                        LOGGER.log(Level.SEVERE, "Error setting booking details", e);
+                    }
+                    return newBooking;
+                });
+
+                Cat cat = new Cat();
+                cat.setCatid(rs.getInt("catid"));
+                cat.setCatname(rs.getString("catname"));
+                booking.getCats().add(cat);
             }
         }
-        return bookingList;
+        return new ArrayList<>(bookingMap.values());
     }
 
     private List<Feedback> getAllFeedback(Connection connection) throws SQLException {
