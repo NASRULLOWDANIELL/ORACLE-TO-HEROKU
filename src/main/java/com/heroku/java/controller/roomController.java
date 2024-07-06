@@ -105,7 +105,7 @@ public class roomController {
     }
 
     private Room getRoomDetails(Connection connection, int roomId) throws SQLException {
-        String sql = "SELECT * FROM cathotel WHERE roomid = ?";
+        String sql = "SELECT * FROM room WHERE roomid = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, roomId);
             try (ResultSet rs = stmt.executeQuery()) {
@@ -142,7 +142,7 @@ public class roomController {
 
     private List<Room> getRoomList(Connection connection) throws SQLException {
         List<Room> rooms = new ArrayList<>();
-        String sql = "SELECT * FROM cathotel";
+        String sql = "SELECT * FROM room";
         try (Statement stmt = connection.createStatement();
                 ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
