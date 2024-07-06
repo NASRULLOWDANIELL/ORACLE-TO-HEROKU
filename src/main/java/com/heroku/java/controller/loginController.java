@@ -80,6 +80,6 @@ public class loginController {
         // Invalidate the entire session
         session.invalidate();
 
-        return "redirect:/login";
+        return "redirect:/index";
     }
 }

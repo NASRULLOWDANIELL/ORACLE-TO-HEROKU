@@ -141,12 +141,13 @@
         .social-icons a:hover {
             color: #4a5bb3;
         }
+
         .footer-container {
-      display: flex;
-      justify-content: space-around;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
+            display: flex;
+            justify-content: space-around;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
     </style>
 </head>
 
@@ -164,7 +165,11 @@
                         <li class="list-inline-item"><a th:href="@{/catList}">My Cat</a></li>
                         <li class="list-inline-item"><a th:href="@{/roomList}" class="active">Our Hotel</a></li>
                         <li class="list-inline-item"><a th:href="@{/bookingList}">Booking</a></li>
-                        <li class="list-inline-item"><a th:href="@{/login}"><i class="fa-solid fa-user"></i></a></li>
+                        <li class="nav-item" th:if="${session.custid != null}">
+                            <a class="nav-link" th:href="@{/logout}" class="btn btn-outline-primary ml-2"> <i
+                                    class="fa-solid fa-user"></i>
+                                Logout</a>
+                        </li>
                     </ul>
                 </div>
             </div>

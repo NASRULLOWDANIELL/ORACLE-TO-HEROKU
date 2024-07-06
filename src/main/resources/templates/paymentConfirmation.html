@@ -136,8 +136,12 @@
                     <li><a th:href="@{/catList}">My Cat</a></li>
                     <li><a th:href="@{/roomList}">Our Hotel</a></li>
                     <li><a th:href="@{/bookingList}">Booking</a></li>
+                    <li class="nav-item" th:if="${session.custid != null}">
+                        <a class="nav-link" th:href="@{/logout}" class="btn btn-outline-primary ml-2"> <i
+                                class="fa-solid fa-user"></i>
+                            Logout</a>
+                    </li>
                 </ul>
-                <a th:href="@{/login}"><i class="fa-solid fa-user"></i></a>
             </div>
         </header>
     </section>
@@ -175,9 +179,9 @@
         <br>
         <footer>
             <div class="footer-container">
-              <p>&copy; 2024 Myvi Cat Hotel</p>
+                <p>&copy; 2024 Myvi Cat Hotel</p>
             </div>
-          </footer>
+        </footer>
     </body>
 
     </html>

@@ -13,18 +13,22 @@
       font-family: 'Poppins', sans-serif;
       background-color: #f0f0f0;
     }
+
     .logo {
       color: #596cd5;
       font-weight: 700;
       font-size: 1.5rem;
     }
+
     .navbar-light .navbar-nav .nav-link:hover {
       color: #596cd5;
     }
+
     .btn-primary {
       background-color: #596cd5;
       border-color: #596cd5;
     }
+
     .btn-primary:hover {
       background-color: #4a5bb3;
       border-color: #4a5bb3;
@@ -46,7 +50,11 @@
           <li class="nav-item"><a class="nav-link" th:href="@{/catList}">My Cat</a></li>
           <li class="nav-item"><a class="nav-link" th:href="@{/roomList}">Our Hotel</a></li>
           <li class="nav-item"><a class="nav-link" th:href="@{/bookingList}">Booking</a></li>
-          <li class="nav-item"><a class="nav-link" th:href="@{/login}"><i class="fa-solid fa-user"></i></a></li>
+          <li class="nav-item" th:if="${session.custid != null}">
+            <a class="nav-link" th:href="@{/logout}" class="btn btn-outline-primary ml-2"> <i
+                class="fa-solid fa-user"></i>
+              Logout</a>
+          </li>
         </ul>
       </div>
     </div>

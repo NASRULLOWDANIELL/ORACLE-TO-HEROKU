@@ -130,12 +130,13 @@
         .social-icons a:hover {
             color: #4a5bb3;
         }
+
         .footer-container {
-      display: flex;
-      justify-content: space-around;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
+            display: flex;
+            justify-content: space-around;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
     </style>
 </head>
 
@@ -153,7 +154,11 @@
                         <li class="list-inline-item"><a th:href="@{/catList}">My Cat</a></li>
                         <li class="list-inline-item"><a th:href="@{/roomList}" class="active">Our Hotel</a></li>
                         <li class="list-inline-item"><a th:href="@{/bookingList}">Booking</a></li>
-                        <li class="list-inline-item"><a th:href="@{/login}"><i class="fa-solid fa-user"></i></a></li>
+                        <li class="nav-item" th:if="${session.custid != null}">
+                            <a class="nav-link" th:href="@{/logout}" class="btn btn-outline-primary ml-2"> <i
+                                    class="fa-solid fa-user"></i>
+                                Logout</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -163,9 +168,13 @@
     <div class="container room-container">
         <h1 class="room-title" th:text="${room.roomname}">Room Name</h1>
         <p class="room-description" th:text="${room.roomdesc}">Room Description</p>
-        <img th:if="${room.roomid == 101}" src="https://catzonia.com/cdn/shop/products/eco_new1_540x.png?v=1618895485" alt="Single Room" class="room-image">
-        <img th:if="${room.roomid == 201}" src="https://catzonia.com/cdn/shop/products/vic_new2copy_540x.png?v=1618895534" alt="Queen Room" class="room-image">
-        <img th:if="${room.roomid == 301}" src="https://catzonia.com/cdn/shop/products/vvic_540x.png?v=1618895527" alt="Apartment Room" class="room-image">
+        <img th:if="${room.roomid == 101}" src="https://catzonia.com/cdn/shop/products/eco_new1_540x.png?v=1618895485"
+            alt="Single Room" class="room-image">
+        <img th:if="${room.roomid == 201}"
+            src="https://catzonia.com/cdn/shop/products/vic_new2copy_540x.png?v=1618895534" alt="Queen Room"
+            class="room-image">
+        <img th:if="${room.roomid == 301}" src="https://catzonia.com/cdn/shop/products/vvic_540x.png?v=1618895527"
+            alt="Apartment Room" class="room-image">
         <div class="room-price">
             Room Price: RM <span th:text="${#numbers.formatDecimal(room.roomprice, 1, 2)}">0.00</span>
         </div>
@@ -177,9 +186,9 @@
 
     <footer>
         <div class="footer-container">
-          <p>&copy; 2024 Myvi Cat Hotel</p>
+            <p>&copy; 2024 Myvi Cat Hotel</p>
         </div>
-      </footer>
+    </footer>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
