@@ -235,7 +235,7 @@ public class bookingController {
                         booking.setBookingPrice(rs.getBigDecimal("bookingprice"));
                         booking.setRoomid(rs.getInt("roomid"));
                         String paymentStatus = rs.getString("paymentstatus");
-                        booking.setPaymentstatus(paymentStatus != null ? paymentStatus : "Not Paid");
+                        booking.setPaymentstatus(paymentStatus != null ? paymentStatus : "NOT PAID");
                         booking.setCatIdsString(rs.getString("cat_ids"));
                         int feedbackId = rs.getInt("feedbackId");
                         if (rs.wasNull()) {

@@ -149,22 +149,22 @@
                                     </form>
                                 </div>
                                 <div>
-                                    <a th:if="${booking.paymentstatus != 'Not Paid'}"
+                                    <a th:if="${booking.paymentstatus != 'NOT PAID'}"
                                         th:href="@{/viewPayment/{bookingid}(bookingid=${booking.bookingid})}"
                                         class="btn btn-sm btn-info">View Payment</a>
-                                    <a th:if="${booking.paymentstatus == 'Not Paid'}"
+                                    <a th:if="${booking.paymentstatus == 'NOT PAID'}"
                                         th:href="@{/makePayment/{bookingid}(bookingid=${booking.bookingid})}"
                                         class="btn btn-sm btn-success">Make Payment</a>
                                 </div>
                             </div>
                             <div class="mt-2">
-                                <a th:if="${booking.paymentstatus == 'Paid' && booking.feedbackId != null}"
+                                <a th:if="${booking.paymentstatus == 'PAID' && booking.feedbackId != null}"
                                     th:href="@{/viewFeedback/{feedbackId}(feedbackId=${booking.feedbackId})}"
                                     class="btn btn-sm btn-secondary">View Feedback</a>
-                                <a th:if="${booking.paymentstatus == 'Paid' && booking.feedbackId == null}"
+                                <a th:if="${booking.paymentstatus == 'PAID' && booking.feedbackId == null}"
                                     th:href="@{/submitFeedback(bookingid=${booking.bookingid})}"
                                     class="btn btn-sm btn-primary">Make Feedback</a>
-                                <span th:if="${booking.paymentstatus != 'Paid'}" class="text-muted">Complete payment to
+                                <span th:if="${booking.paymentstatus != 'PAID'}" class="text-muted">Complete payment to
                                     submit feedback</span>
                             </div>
                         </div>
