@@ -175,88 +175,13 @@
                   <td th:text="${staff.staffrole}"></td>
                   <td th:text="${staff.staffemail}"></td>
                   <td th:text="${staff.staffphoneno}"></td>
-                  <input type="hidden" id="isManagerInput" th:value="${isManager}">
-                  <td th:text="${staff.managerid}" th:id="'managerid-' + ${staff.staffid}"></td>
-                  <td>
-                    <button th:if="${staff.staffrole == 'Staff'}" class="btn btn-primary btn-sm update-manager-btn"
-                      style="display: none;" th:data-staffid="${staff.staffid}">
-                      Update Manager ID
-                    </button>
-                  </td>
+                  <td th:text="${staff.managerid}"></td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
       </div>
-      <!-- Add this script at the end of your HTML file, just before the closing </body> tag -->
-      <script>
-        document.addEventListener('DOMContentLoaded', function () {
-          // Get all staff rows
-          var staffRows = document.querySelectorAll('table tbody tr');
-
-          staffRows.forEach(function (row) {
-            var roleCell = row.querySelector('td:nth-child(3)'); // Assuming role is in the 3rd column
-            var updateButton = row.querySelector('.update-manager-btn');
-
-            // If the current user is a manager, show the update buttons for staff
-            if (isCurrentUserManager()) {
-              if (roleCell.textContent.trim() === 'Staff' && updateButton) {
-                updateButton.style.display = 'inline-block';
-              }
-            }
-          });
-
-          // Add click event listener to all update buttons
-          var updateButtons = document.querySelectorAll('.update-manager-btn');
-          updateButtons.forEach(function (button) {
-            button.addEventListener('click', function () {
-              var staffId = this.getAttribute('data-staffid');
-              var newManagerId = prompt("Enter new Manager ID for Staff " + staffId + ":");
-
-              if (newManagerId !== null && newManagerId.trim() !== '') {
-                updateManagerId(staffId, newManagerId);
-              }
-            });
-          });
-        });
-
-        function isCurrentUserManager() {
-          var isManagerInput = document.getElementById('isManagerInput');
-          return isManagerInput && isManagerInput.value === 'true';
-        }
-
-        function updateManagerId(staffId, newManagerId) {
-          // Send an AJAX request to update the manager ID
-          fetch('/updateManagerId', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              staffId: staffId,
-              newManagerId: newManagerId
-            })
-          })
-            .then(response => response.json())
-            .then(data => {
-              if (data.success) {
-                // Update the manager ID in the table
-                var managerIdCell = document.getElementById('managerid-' + staffId);
-                if (managerIdCell) {
-                  managerIdCell.textContent = newManagerId;
-                }
-                alert('Manager ID updated successfully');
-              } else {
-                alert('Failed to update Manager ID');
-              }
-            })
-            .catch((error) => {
-              console.error('Error:', error);
-              alert('An error occurred while updating Manager ID');
-            });
-        }
-      </script>
 
       <!-- Booking List Section -->
       <div class="card">

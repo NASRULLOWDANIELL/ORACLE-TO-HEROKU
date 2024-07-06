@@ -1,16 +1,10 @@
 package com.heroku.java.controller;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import com.heroku.java.bean.Staff;
-
-import jakarta.servlet.http.HttpSession;
-
 import com.heroku.java.bean.Booking;
 import com.heroku.java.bean.Feedback;
 import com.heroku.java.bean.Cat;
@@ -29,7 +23,6 @@ import java.util.logging.Logger;
 @Controller
 public class AdminDashboardController {
 
-    public static final String SESSION_STAFF_ID = "staffid";
     private static final Logger LOGGER = Logger.getLogger(AdminDashboardController.class.getName());
     private final DataSource dataSource;
 
@@ -39,34 +32,7 @@ public class AdminDashboardController {
     }
 
     @GetMapping("/admindashboard")
-    public String showAdminDashboard(HttpSession session, Model model) {
-        Integer staffId = (Integer) session.getAttribute("SESSION_STAFF_ID");
-        boolean isManager = false;
-
-        if (staffId != null) {
-            // If staffId is in the session, determine if they're a manager
-            try (Connection connection = dataSource.getConnection()) {
-                String sql = "SELECT staffrole FROM staff WHERE staffid = ?";
-                try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-                    stmt.setInt(1, staffId);
-                    try (ResultSet rs = stmt.executeQuery()) {
-                        if (rs.next()) {
-                            String role = rs.getString("staffrole");
-                            isManager = "Manager".equalsIgnoreCase(role);
-                        }
-                    }
-                }
-            } catch (SQLException e) {
-                LOGGER.log(Level.SEVERE, "Error checking staff role", e);
-            }
-        }
-
-        model.addAttribute("isManager", isManager);
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        isManager = auth.getAuthorities().stream()
-                .anyMatch(r -> r.getAuthority().equals("ROLE_MANAGER"));
-        model.addAttribute("isManager", isManager);
-
+    public String showAdminDashboard(Model model) {
         try (Connection connection = dataSource.getConnection()) {
             List<Staff> staffList = getAllStaff(connection);
             List<Booking> bookingList = getAllBookings(connection);
