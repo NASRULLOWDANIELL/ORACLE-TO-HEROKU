@@ -102,7 +102,7 @@
                         <li class="list-inline-item"><a th:href="@{/roomList}">Our Hotel</a></li>
                         <li class="list-inline-item"><a th:href="@{/bookingList}" class="active">Booking</a></li>
                         <li class="nav-item" th:if="${session.custid != null}">
-                            <a class="nav-link" th:href="@{/logout}"> <i class="fa-solid fa-user"></i>
+                            <a class="btn btn-outline-primary ml-2" th:href="@{/logout}"> <i class="fa-solid fa-user"></i>
                                 Logout</a>
                         </li>
                     </ul>
