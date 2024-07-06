@@ -13,34 +13,42 @@
             font-family: 'Poppins', sans-serif;
             background-color: #f8f9fa;
         }
+
         .navbar {
             background-color: #fff;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+
         .navbar-brand {
             color: #596cd5;
             font-weight: 600;
             font-size: 1.5rem;
         }
+
         .nav-link {
             color: #4e4e4e;
         }
+
         .nav-link:hover {
             color: #596cd5;
         }
+
         .btn-custom {
             background-color: #596cd5;
             border-color: #596cd5;
             color: #fff;
         }
+
         .btn-custom:hover {
             background-color: #4a5bb3;
             border-color: #4a5bb3;
         }
+
         .card {
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
+
         footer {
             background-color: #fff;
             border-top: 1px solid #e9ecef;
@@ -54,7 +62,8 @@
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
             <a class="navbar-brand" th:href="@{/}">MYVI CAT HOTEL_</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -78,11 +87,13 @@
                 <div class="card">
                     <div class="card-body">
                         <h2 class="card-title text-center mb-4">Create Booking</h2>
-                        <form th:action="@{/createBooking}" th:object="${booking}" method="post" id="bookingForm" novalidate>
+                        <form th:action="@{/createBooking}" th:object="${booking}" method="post" id="bookingForm"
+                            novalidate>
                             <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
                             <div class="form-group">
                                 <label for="roomSelect">Choose Cat Hotel</label>
-                                <select class="form-control" name="roomid" th:field="*{roomid}" id="roomSelect" required onchange="toggleCatSelection(); updateBookingPrice()">
+                                <select class="form-control" name="roomid" th:field="*{roomid}" id="roomSelect" required
+                                    onchange="toggleCatSelection(); updateBookingPrice()">
                                     <option value="0" disabled selected>Choose Cat Hotel</option>
                                     <option value="101">Single</option>
                                     <option value="201">Queen</option>
@@ -91,23 +102,28 @@
                             </div>
                             <div class="form-group">
                                 <label for="bookingPrice">Booking Price (RM)</label>
-                                <input type="number" step="0.01" th:field="*{bookingPrice}" id="bookingPrice" name="bookingPrice" class="form-control" readonly>
+                                <input type="number" step="0.01" th:field="*{bookingPrice}" id="bookingPrice"
+                                    name="bookingPrice" class="form-control" readonly>
                             </div>
                             <div class="form-group" id="catSelectionGroup">
                                 <label for="catSelection">Select Cats</label>
                                 <select class="form-control" name="selectedCats" id="catSelection" multiple>
-                                    <option th:each="cat : ${cats}" th:value="${cat.catid}" th:text="${cat.catid + ' - ' + cat.catname}"></option>
+                                    <option th:each="cat : ${cats}" th:value="${cat.catid}"
+                                        th:text="${cat.catid + ' - ' + cat.catname}"></option>
                                 </select>
-                                <small class="form-text text-muted" th:if="${cats == null or cats.empty}">No cats available for booking. Please add a cat to your profile first.</small>
+                                <small class="form-text text-muted" th:if="${cats == null or cats.empty}">No cats
+                                    available for booking. Please add a cat to your profile first.</small>
                             </div>
                             <input type="hidden" name="catIdsString" id="catIdsString">
                             <div class="form-group">
                                 <label for="bookingCheckInDate">Booking Check In Date</label>
-                                <input type="date" class="form-control" name="bookingCheckInDate" id="bookingCheckInDate" required>
+                                <input type="date" class="form-control" name="bookingCheckInDate"
+                                    id="bookingCheckInDate" required>
                             </div>
                             <div class="form-group">
                                 <label for="bookingCheckOutDate">Booking Check Out Date</label>
-                                <input type="date" class="form-control" name="bookingCheckOutDate" id="bookingCheckOutDate" required>
+                                <input type="date" class="form-control" name="bookingCheckOutDate"
+                                    id="bookingCheckOutDate" required>
                             </div>
                             <div id="availabilityMessage" class="alert alert-danger" style="display: none;"></div>
                             <button type="submit" class="btn btn-custom btn-block">Create Booking</button>
@@ -223,6 +239,12 @@
 
             return true;
         }
+
+        // Get today's date in YYYY-MM-DD format
+        const today = new Date().toISOString().split('T')[0];
+        // Set the min attribute of the date input to today's date
+        document.getElementById('bookingCheckInDate').setAttribute('min', today);
+        document.getElementById('bookingCheckOutDate').setAttribute('min', today);
 
         // function checkAvailability() {
         //     var roomId = document.getElementById('roomSelect').value;
