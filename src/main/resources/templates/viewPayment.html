@@ -138,7 +138,7 @@
             <div class="row">
               <div class="col-sm-12">
                 <p><strong>Payment Status:</strong> <span
-                    th:class="${paymentStatus == 'Pending' ? 'payment-status pending' : 'payment-status completed'}"
+                    th:class="${paymentStatus == 'PENDING' ? 'payment-status pending' : 'payment-status completed'}"
                     th:text="${paymentStatus}"></span></p>
               </div>
             </div>
@@ -151,7 +151,7 @@
               <p>RM<span th:text="${#numbers.formatDecimal(payment.paymentTotal, 1, 2)}"></span></p>
             </div>
           </div>
-          <div th:if="${payment.paymentType == 'CASH' and paymentStatus == 'Pending'}" class="alert alert-warning mt-3">
+          <div th:if="${payment.paymentType == 'CASH' and paymentStatus == 'PENDING'}" class="alert alert-warning mt-3">
             <h4 class="alert-heading">Pending Cash Payment</h4>
             <p>Please complete your payment through the counter.</p>
           </div>
@@ -162,7 +162,7 @@
             <a th:if="${isStaff}" th:href="@{/admindashboard}" class="btn btn-primary">
               <i class="fas fa-arrow-left mr-2"></i>Back to Dashboard
             </a>
-            <form th:if="${isStaff and payment.paymentType == 'CASH' and paymentStatus == 'Pending'}"
+            <form th:if="${isStaff and payment.paymentType == 'CASH' and paymentStatus == 'PENDING'}"
               th:action="@{/confirmCashPayment/{bookingId}(bookingId=${payment.bookingId})}" method="post"
               class="d-inline ml-2">
               <button type="submit" class="btn btn-success"><i class="fas fa-check mr-2"></i>Confirm Payment</button>
