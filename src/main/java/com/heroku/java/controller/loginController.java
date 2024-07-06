@@ -70,4 +70,16 @@ public class loginController {
         // Use secure password verification logic here
         return inputPassword.equals(storedPassword); // Replace this with a secure hash comparison in a real application
     }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        // Remove specific attributes
+        session.removeAttribute(SESSION_USER_ID);
+        session.removeAttribute(SESSION_USER_EMAIL);
+
+        // Invalidate the entire session
+        session.invalidate();
+
+        return "redirect:/login";
+    }
 }

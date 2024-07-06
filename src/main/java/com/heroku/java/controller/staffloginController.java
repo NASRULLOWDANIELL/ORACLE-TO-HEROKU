@@ -62,10 +62,16 @@ public class staffloginController {
         }
     }
 
-    // @GetMapping("/logoutStaff")
-    // public String logout(HttpSession session) {
-    // session.invalidate();
-    // return "redirect:/loginStaff";
-    // }
+    @GetMapping("/logoutStaff")
+    public String logoutStaff(HttpSession session) {
+        // Remove specific attributes
+        session.removeAttribute(SESSION_STAFF_ID);
+        session.removeAttribute(SESSION_STAFF_EMAIL);
+
+        // Invalidate the entire session
+        session.invalidate();
+
+        return "redirect:/loginStaff";
+    }
 
 }

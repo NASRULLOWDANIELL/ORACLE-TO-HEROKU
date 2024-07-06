@@ -135,11 +135,14 @@
           <li class="nav-item">
             <a class="nav-link" th:href="@{/viewstaffaccount}">My Account (Staff)</a>
           </li>
+          <li class="nav-item" th:if="${session.staffid != null}">
+            <a class="nav-link" th:href="@{/logoutStaff}">Logout</a>
+          </li>
         </ul>
       </div>
-      <a th:href="@{/login}" class="btn btn-outline-primary ml-2">
+      <!-- <a th:href="@{/login}" class="btn btn-outline-primary ml-2">
         <i class="fa-solid fa-user"></i>
-      </a>
+      </a> -->
     </div>
   </nav>
 
