@@ -5,256 +5,128 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Submit Feedback - MYVI CAT HOTEL</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" href="image/qilin symbol.jpg" type="image/jpeg" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <style>
-        * {
-            margin: 0px;
-            padding: 0px;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-            background-color: #f0f0f0;
-        }
-
         body {
-            background-color: #f0f0f0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
         }
 
-        a {
-            text-decoration: none;
-        }
-
-        ul {
-            list-style: none;
-        }
-
-        .navigation {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 30px 75px;
-            margin: auto;
-            border-bottom: 1px solid #596cd5;
-        }
-
-        .navigation a i:hover {
-            color: #596cd5;
-            font-size: 110%;
+        .navbar {
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
         }
 
         .logo {
             color: #596cd5;
             font-weight: 700;
             font-size: 1.5rem;
-            margin-left: 10%;
         }
 
-        .logo:hover {
-            font-weight: 800;
+        .navbar-light .navbar-nav .nav-link {
+            color: #333;
         }
 
-        .menu {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .menu li a {
-            color: #4e4e4e;
-            margin: 0px 10px;
-            font-weight: 400;
-            transition: all ease 0.3s;
-        }
-
-        .menu li a:hover {
+        .navbar-light .navbar-nav .nav-link:hover {
             color: #596cd5;
-            font-weight: 600;
         }
 
-        footer {
-            color: #333;
-            padding: 40px 0;
-            border-top: 1px solid #596cd5;
+        .feedback-container {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            padding: 2rem;
+            margin-top: 2rem;
         }
 
-        .footer-container {
-            display: flex;
-            justify-content: space-around;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .col {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            margin: 0 20px;
-        }
-
-        h3 {
-            font-size: 18px;
-            margin-bottom: 20px;
-        }
-
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        li {
-            margin-bottom: 10px;
-        }
-
-        a {
-            color: #333;
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        .social-icons {
-            margin-top: 20px;
-        }
-
-        .social-icons a {
-            display: inline-block;
-            margin-right: 10px;
-            color: #333;
-            font-size: 20px;
-        }
-
-        .footer-bottom {
+        .feedback-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #596cd5;
             text-align: center;
-            margin-top: 40px;
-            font-size: 14px;
+            margin-bottom: 1.5rem;
         }
 
-        .cbtn btn-success {
+        .btn-primary {
             background-color: #596cd5;
+            border-color: #596cd5;
         }
 
-        button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            background-color: #596cd5;
-            color: #fff;
-            cursor: pointer;
-        }
-
-        .delete-button {
-            background-color: #596cd5;
-            color: white;
-        }
-
-        .delete-button-2 {
-            background-color: red;
-        }
-
-        .table-container {
-            max-height: 400px;
-            /* Adjust this value based on your needs */
-            overflow-y: auto;
-            margin-top: 20px;
-        }
-
-        .submit {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            background-color: #596cd5;
-            color: #fff;
-            cursor: pointer;
-        }
-
-        .feedback-form {
-            width: 30vw;
-            margin: 0 auto;
-            padding: 30px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .feedback-form h1 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .feedback-form select,
-        .feedback-form textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-            margin-bottom: 15px;
-        }
-
-        .feedback-form textarea {
-            resize: vertical;
+        .btn-primary:hover {
+            background-color: #4a5bb3;
+            border-color: #4a5bb3;
         }
     </style>
 </head>
 
 <body>
-    <!-- Navigation bar -->
-    <section id="nav">
-        <header>
-            <div class="navigation">
-                <a th:href="@{/}" class="logo">MYVI CAT HOTEL_</a>
-                <ul class="menu">
-                    <li><a th:href="@{/customerindex}" class="active">Home</a></li>
-                    <li><a th:href="@{/viewaccount}">My Account</a></li>
-                    <li><a th:href="@{/catList}">My Cat</a></li>
-                    <li><a th:href="@{/roomList}">Our Hotel</a></li>
-                    <li><a th:href="@{/bookingList}">Booking</a></li>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand logo" th:href="@{/}">MYVI CAT HOTEL_</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" th:href="@{/customerindex}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/viewaccount}">My Account</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/catList}">My Cat</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/roomList}">Our Hotel</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/bookingList}">Booking</a></li>
                     <li class="nav-item" th:if="${session.custid != null}">
-                        <a th:href="@{/logout}" class="btn btn-outline-primary ml-2"> <i
-                                class="fa-solid fa-user"></i>
-                            Logout</a>
+                        <a th:href="@{/logout}" class="btn btn-outline-primary ml-2">
+                            <i class="fa-solid fa-user"></i> Logout
+                        </a>
                     </li>
                 </ul>
             </div>
-        </header>
-    </section>
-    <br>
-    <main>
-        <div class="feedback-form">
-            <h1>Submit Feedback</h1>
-            <form th:action="@{/submitFeedback}" th:object="${feedback}" method="post">
-                <input type="hidden" th:field="*{bookingId}" />
+        </div>
+    </nav>
 
-                <div class="form-group">
-                    <label for="feedbackrating">Rating:</label>
-                    <select th:field="*{feedbackRating}" required>
-                        <option value="1">1 - Poor</option>
-                        <option value="2">2 - Fair</option>
-                        <option value="3">3 - Good</option>
-                        <option value="4">4 - Very Good</option>
-                        <option value="5">5 - Excellent</option>
-                    </select>
+    <main class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="feedback-container">
+                    <h1 class="feedback-title">Submit Feedback</h1>
+                    <form th:action="@{/submitFeedback}" th:object="${feedback}" method="post">
+                        <input type="hidden" th:field="*{bookingId}" />
+
+                        <div class="form-group">
+                            <label for="feedbackrating">Rating:</label>
+                            <select th:field="*{feedbackRating}" class="form-control" required>
+                                <option value="1">1 - Poor</option>
+                                <option value="2">2 - Fair</option>
+                                <option value="3">3 - Good</option>
+                                <option value="4">4 - Very Good</option>
+                                <option value="5">5 - Excellent</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="feedbackcomment">Comment:</label>
+                            <textarea th:field="*{feedbackComment}" class="form-control" rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Submit Feedback</button>
+                    </form>
+
+                    <div th:if="${error}" class="alert alert-danger mt-3" th:text="${error}"></div>
                 </div>
-
-                <div class="form-group">
-                    <label for="feedbackcomment">Comment:</label>
-                    <textarea th:field="*{feedbackComment}" rows="4" required></textarea>
-                </div>
-                <input type="submit" value="Submit Feedback" class="submit">
-            </form>
-
-            <div th:if="${error}" th:text="${error}" style="color: red;"></div>
+            </div>
         </div>
     </main>
-    <br>
-    <footer>
-        <div class="footer-container">
-            <p>&copy; 2024 Myvi Cat Hotel</p>
+
+    <footer class="mt-5 py-3 bg-light">
+        <div class="container text-center">
+            <p class="mb-0">&copy; 2024 Myvi Cat Hotel. All rights reserved.</p>
         </div>
     </footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 
 </html>

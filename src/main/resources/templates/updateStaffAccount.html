@@ -86,7 +86,7 @@
                     <ul class="menu list-inline text-md-right mb-0">
                         <li class="list-inline-item"><a th:href="@{/admindashboard}">Admin Dashboard</a></li>
                         <li class="list-inline-item"><a th:href="@{/viewstaffaccount}">My Account (Staff)</a></li>
-                        <li class="nav-item" th:if="${session.custid != null}">
+                        <li class="list-inline-item" th:if="${session.custid != null}">
                             <a th:href="@{/logoutStaff}"> <i class="fa-solid fa-user"></i>
                                 Logout</a>
                         </li>

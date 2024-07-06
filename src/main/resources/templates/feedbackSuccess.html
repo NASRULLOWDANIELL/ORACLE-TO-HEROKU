@@ -5,160 +5,110 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Feedback Submitted - MYVI CAT HOTEL</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" href="image/qilin symbol.jpg" type="image/jpeg" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <style>
-        * {
-            box-sizing: border-box;
-            font-family: Poppins, sans-serif;
-            background-color: #f0f0f0;
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
         }
 
-        a {
-            text-decoration: none;
-        }
-
-        ul {
-            list-style: none;
-        }
-
-        .navigation {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 30px 75px;
-            margin: auto;
-            border-bottom: 1px solid #596cd5;
-        }
-
-        .navigation a i:hover {
-            color: #596cd5;
-            font-size: 110%;
+        .navbar {
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
         }
 
         .logo {
             color: #596cd5;
             font-weight: 700;
             font-size: 1.5rem;
-            margin-left: 10%;
         }
 
-        .logo:hover {
-            font-weight: 800;
+        .navbar-light .navbar-nav .nav-link {
+            color: #333;
         }
 
-        .menu {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .menu li a {
-            color: #4e4e4e;
-            margin: 0px 10px;
-            font-weight: 400;
-            transition: all ease 0.3s;
-        }
-
-        .menu li a:hover {
+        .navbar-light .navbar-nav .nav-link:hover {
             color: #596cd5;
-            font-weight: 600;
         }
 
-        .success-message {
-            width: 30vw;
-            margin: 50px auto;
-            padding: 30px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        .success-container {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            padding: 2rem;
+            margin-top: 2rem;
             text-align: center;
         }
 
-        .success-message h1 {
+        .success-title {
+            font-size: 1.5rem;
+            font-weight: 700;
             color: #596cd5;
-            margin-bottom: 20px;
+            margin-bottom: 1rem;
         }
 
-        .success-message p {
-            margin-bottom: 20px;
-        }
-
-        .button {
-            display: inline-block;
-            padding: 10px 20px;
+        .btn-primary {
             background-color: #596cd5;
-            color: white;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
+            border-color: #596cd5;
         }
 
-        .button:hover {
-            background-color: #4a5ab3;
-        }
-
-        footer {
-            color: #333;
-            padding: 40px 0;
-            border-top: 1px solid #596cd5;
-        }
-
-        .footer-container {
-            display: flex;
-            justify-content: space-around;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .social-icons a {
-            display: inline-block;
-            margin-right: 10px;
-            color: #333;
-            font-size: 20px;
-        }
-
-        .footer-bottom {
-            text-align: center;
-            margin-top: 40px;
-            font-size: 14px;
+        .btn-primary:hover {
+            background-color: #4a5bb3;
+            border-color: #4a5bb3;
         }
     </style>
 </head>
 
 <body>
-    <!-- Navigation bar -->
-    <section id="nav">
-        <header>
-            <div class="navigation">
-                <a th:href="@{/}" class="logo">MYVI CAT HOTEL_</a>
-                <ul class="menu">
-                    <li><a th:href="@{/customerindex}" class="active">Home</a></li>
-                    <li><a th:href="@{/viewaccount}">My Account</a></li>
-                    <li><a th:href="@{/catList}">My Cat</a></li>
-                    <li><a th:href="@{/roomList}">Our Hotel</a></li>
-                    <li><a th:href="@{/bookingList}">Booking</a></li>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand logo" th:href="@{/}">MYVI CAT HOTEL_</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" th:href="@{/customerindex}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/viewaccount}">My Account</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/catList}">My Cat</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/roomList}">Our Hotel</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/bookingList}">Booking</a></li>
                     <li class="nav-item" th:if="${session.custid != null}">
-                        <a th:href="@{/logout}" class="btn btn-outline-primary ml-2"> <i
-                                class="fa-solid fa-user"></i>
-                            Logout</a>
+                        <a th:href="@{/logout}" class="btn btn-outline-primary ml-2">
+                            <i class="fa-solid fa-user"></i> Logout
+                        </a>
                     </li>
                 </ul>
             </div>
-        </header>
-    </section>
-    <main>
-        <div class="success-message">
-            <h1>Thank You for Your Feedback!</h1>
-            <p>Your feedback has been successfully submitted.</p>
-            <a th:href="@{/bookingList}" class="button">Return to Bookings</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="success-container">
+                    <h1 class="success-title">Thank You for Your Feedback!</h1>
+                    <p class="mb-4">Your feedback has been successfully submitted.</p>
+                    <a th:href="@{/bookingList}" class="btn btn-primary">
+                        <i class="fas fa-arrow-left mr-2"></i>Return to Bookings
+                    </a>
+                </div>
+            </div>
         </div>
     </main>
-    <footer>
-        <div class="footer-container">
-            <p>&copy; 2024 Myvi Cat Hotel</p>
+
+    <footer class="mt-5 py-3 bg-light">
+        <div class="container text-center">
+            <p class="mb-0">&copy; 2024 Myvi Cat Hotel. All rights reserved.</p>
         </div>
     </footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 
 </html>
