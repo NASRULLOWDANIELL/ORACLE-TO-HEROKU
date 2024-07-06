@@ -214,16 +214,17 @@ public class bookingController {
 
         try (Connection connection = dataSource.getConnection()) {
             String sql = "SELECT b.bookingid, b.bookingcheckindate, b.bookingcheckoutdate, " +
-                    "b.bookingprice, b.roomid, b.paymentstatus, b.feedbackId, " +
-                    "STRING_AGG(bc.cat_id::text, ',') as cat_ids, " +
-                    "bp.paymenttype " +
-                    "FROM booking b " +
-                    "JOIN booking_cat bc ON b.bookingid = bc.booking_id " +
-                    "JOIN cat ct ON bc.cat_id = ct.catid " +
-                    "LEFT JOIN bookingpayment bp ON b.bookingid = bp.bookingid " +
-                    "WHERE ct.custid = ? " +
-                    "GROUP BY b.bookingid, b.bookingcheckindate, b.bookingcheckoutdate, " +
-                    "b.bookingprice, b.roomid, b.paymentstatus, b.feedbackId, bp.paymenttype";
+                                "b.bookingprice, b.roomid, b.paymentstatus, b.feedbackId, " +
+                                "STRING_AGG(bc.cat_id::text, ',') as cat_ids, " +
+                                "STRING_AGG(ct.catname, ',') as cat_names," +
+                                "bp.paymenttype " +
+                        "FROM booking b " +
+                        "JOIN booking_cat bc ON b.bookingid = bc.booking_id " +
+                        "JOIN cat ct ON bc.cat_id = ct.catid " +
+                        "LEFT JOIN bookingpayment bp ON b.bookingid = bp.bookingid " +
+                        "WHERE ct.custid = ? " +
+                        "GROUP BY b.bookingid, b.bookingcheckindate, b.bookingcheckoutdate, " +
+                                "b.bookingprice, b.roomid, b.paymentstatus, b.feedbackId, bp.paymenttype";
             try (PreparedStatement ps = connection.prepareStatement(sql)) {
                 ps.setInt(1, custid);
                 try (ResultSet rs = ps.executeQuery()) {

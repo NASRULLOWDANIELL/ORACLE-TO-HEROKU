@@ -135,9 +135,14 @@
                             <h5 class="card-title" th:text="${'Booking #' + booking.bookingid}"></h5>
                         </div>
                         <div class="card-body">
-                            <p class="card-text"><strong>Cat: </strong><span th:text="${booking.cat.catname}"></span>
+                            <p class="card-text"><strong>CatIDs: </strong><span
+                                    th:each="catId, catStat : ${booking.catIds}">
+                                    <span th:text="${catId + ': ' + booking.catNames[catStat.index]}"></span>
+                                    <span th:unless="${catStat.last}">, </span>
+                                </span>
                             </p>
-                            <p class="card-text"><strong>Room: </strong><span th:text="${booking.room.roomname}"></span>
+                            <p class="card-text"><strong>RoomID: </strong><span
+                                    th:text="${booking.room.roomname}"></span>
                             </p>
                             <p class="card-text"><strong>Check-in: </strong><span
                                     th:text="${booking.checkindate}"></span></p>

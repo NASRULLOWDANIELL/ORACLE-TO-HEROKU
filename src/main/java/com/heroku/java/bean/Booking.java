@@ -14,6 +14,7 @@ public class Booking {
     private BigDecimal bookingPrice;
     private Integer catid;
     private String catIdsString;
+    private String catNamesString;
     private Integer roomid;
     private String paymentstatus;
     private Integer feedbackId;
@@ -136,7 +137,17 @@ public class Booking {
         this.paymentstatus = paymentstatus;
     }
 
-    // Getter and setter for catIdsString
+    public void setCatNamesString(String catNamesString) {
+        this.catNamesString = catNamesString;
+    }
+
+    public List<String> getCatNames() {
+        if (catNamesString == null || catNamesString.isEmpty()) {
+            return new ArrayList<>();
+        }
+        return Arrays.asList(catNamesString.split(","));
+    }
+
     public String getCatIdsString() {
         return catIdsString;
     }
