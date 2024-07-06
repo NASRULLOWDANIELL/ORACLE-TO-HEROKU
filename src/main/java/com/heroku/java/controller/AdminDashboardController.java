@@ -1,5 +1,7 @@
 package com.heroku.java.controller;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,6 +35,11 @@ public class AdminDashboardController {
 
     @GetMapping("/admindashboard")
     public String showAdminDashboard(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean isManager = auth.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("ROLE_MANAGER"));
+        model.addAttribute("isManager", isManager);
+        
         try (Connection connection = dataSource.getConnection()) {
             List<Staff> staffList = getAllStaff(connection);
             List<Booking> bookingList = getAllBookings(connection);
