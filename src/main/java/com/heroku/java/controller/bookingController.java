@@ -12,7 +12,8 @@ import com.heroku.java.bean.Cat;
 import jakarta.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import java.sql.*;
-import java.sql.Date;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -92,6 +93,15 @@ public class bookingController {
             return "redirect:/login";
         }
 
+        // Always add cats to the model to prevent them from disappearing
+        try {
+            model.addAttribute("cats", getCustomerCats(dataSource.getConnection(), custid));
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error fetching cats", e);
+            model.addAttribute("error", "An error occurred while fetching your cats. Please try again.");
+            return "createBooking";
+        }
+
         if (booking.getRoomid() == null || booking.getRoomid() == 0) {
             model.addAttribute("error", "Please select a room.");
             return "createBooking";
@@ -103,16 +113,23 @@ public class bookingController {
             return "createBooking";
         }
 
-        Date currentDate = new Date(System.currentTimeMillis());
+        // Use LocalDate for date comparisons
+        LocalDate currentDate = LocalDate.now();
         if (booking.getBookingCheckInDate() == null || booking.getBookingCheckOutDate() == null) {
             model.addAttribute("error", "Please select both check-in and check-out dates.");
             return "createBooking";
         }
-        if (booking.getBookingCheckInDate().before(currentDate)) {
+
+        LocalDate checkInDate = booking.getBookingCheckInDate().toInstant().atZone(ZoneId.systemDefault())
+                .toLocalDate();
+        LocalDate checkOutDate = booking.getBookingCheckOutDate().toInstant().atZone(ZoneId.systemDefault())
+                .toLocalDate();
+
+        if (checkInDate.isBefore(currentDate)) {
             model.addAttribute("error", "Check-in date cannot be in the past.");
             return "createBooking";
         }
-        if (booking.getBookingCheckOutDate().before(booking.getBookingCheckInDate())) {
+        if (checkOutDate.isBefore(checkInDate)) {
             model.addAttribute("error", "Check-out date must be after check-in date.");
             return "createBooking";
         }
@@ -123,8 +140,6 @@ public class bookingController {
             // Check room availability
             if (!isRoomAvailable(connection, booking)) {
                 model.addAttribute("error", "The selected room is not available for the chosen dates.");
-                // Ensure cats are always in the model
-                model.addAttribute("cats", getCustomerCats(connection, custid));
                 return "createBooking";
             }
 
@@ -142,12 +157,6 @@ public class bookingController {
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Error creating booking", e);
             model.addAttribute("error", "An error occurred while creating the booking. Please try again.");
-            try {
-                // Ensure cats are always in the model
-                model.addAttribute("cats", getCustomerCats(dataSource.getConnection(), custid));
-            } catch (SQLException ex) {
-                LOGGER.log(Level.SEVERE, "Error fetching cats after booking creation failure", ex);
-            }
             return "createBooking";
         }
     }
@@ -249,7 +258,8 @@ public class bookingController {
             model.addAttribute("bookings", bookings);
 
             // if (bookings.isEmpty()) {
-            //     model.addAttribute("message", "You have no bookings. Create a new booking now!");
+            // model.addAttribute("message", "You have no bookings. Create a new booking
+            // now!");
             // }
 
         } catch (SQLException e) {
