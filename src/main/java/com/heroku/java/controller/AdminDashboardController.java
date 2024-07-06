@@ -51,9 +51,9 @@ public class AdminDashboardController {
     @GetMapping("/admindashboard")
     public String showAdminDashboard(Model model, HttpSession session) {
         Staff currentStaff = getCurrentStaff(session);
-        if (currentStaff == null) {
-            return "redirect:/login"; // or wherever you want to redirect if not logged in
-        }
+        // if (currentStaff == null) {
+        //     return "redirect:/login"; // or wherever you want to redirect if not logged in
+        // }
 
         try (Connection connection = dataSource.getConnection()) {
             List<Staff> staffList = getAllStaff(connection);
