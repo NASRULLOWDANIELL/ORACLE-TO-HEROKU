@@ -278,7 +278,7 @@ public class bookingController {
         }
         try (Connection connection = dataSource.getConnection()) {
             String sql = "SELECT b.bookingid, b.bookingcheckindate, b.bookingcheckoutdate, " +
-                    "LISTAGG(bc.cat_id, ',') WITHIN GROUP (ORDER BY bc.cat_id) as cat_ids " +
+                    "STRING_AGG(bc.cat_id::text, ',') as cat_ids " +
                     "FROM booking b " +
                     "JOIN booking_cat bc ON b.bookingid = bc.booking_id " +
                     "WHERE b.bookingid = ? " +
@@ -318,8 +318,7 @@ public class bookingController {
             // Check if the new dates are already booked
             String checkSql = "SELECT COUNT(*) FROM booking " +
                     "WHERE bookingid <> ? " +
-                    "AND bookingcheckindate <= ? " +
-                    "AND bookingcheckoutdate >= ?";
+                    "AND (bookingcheckindate, bookingcheckoutdate) OVERLAPS (?, ?)";
             try (PreparedStatement checkPs = connection.prepareStatement(checkSql)) {
                 checkPs.setInt(1, booking.getBookingid());
                 checkPs.setDate(2, new java.sql.Date(booking.getBookingCheckOutDate().getTime()));
