@@ -7,44 +7,51 @@
     <title>Your Booking List - MYVI CAT HOTEL</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #f0f0f0;
+            background-color: #f8f9fa;
             color: #333;
         }
 
         .navigation {
             background-color: #fff;
-            border-bottom: 1px solid #596cd5;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             padding: 15px 0;
         }
 
         .logo {
             color: #596cd5;
-            font-weight: 700;
+            font-weight: 600;
             font-size: 1.5rem;
+            text-decoration: none;
+        }
+
+        .logo:hover {
+            text-decoration: none;
+            color: #4a5bb3;
         }
 
         .menu a {
             color: #4e4e4e;
             transition: color 0.3s ease;
+            font-weight: 500;
+            margin-left: 20px;
         }
 
         .menu a:hover,
         .menu a.active {
             color: #596cd5;
+            text-decoration: none;
         }
 
         .card {
-            background-color: #fff;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease-in-out;
         }
 
@@ -54,8 +61,14 @@
 
         .card-header {
             background-color: #596cd5;
-            color: #fff;
-            font-weight: bold;
+            color: white;
+            font-weight: 600;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .card-footer {
+            background-color: #f8f9fa;
+            border-top: none;
         }
 
         .btn-primary {
@@ -68,21 +81,11 @@
             border-color: #4a5bb3;
         }
 
-        .btn-danger {
-            background-color: #dc3545;
-            border-color: #dc3545;
-        }
-
-        .btn-danger:hover {
-            background-color: #c82333;
-            border-color: #bd2130;
-        }
-
         footer {
             background-color: #fff;
-            border-top: 1px solid #596cd5;
+            border-top: 1px solid #e9ecef;
             padding: 20px 0;
-            margin-top: 30px;
+            margin-top: 40px;
         }
 
         .footer-container {
@@ -117,51 +120,62 @@
 
     <div class="container mt-5">
         <h2 class="text-center mb-4">Your Booking List</h2>
-        <div class="mb-3">
-            <a th:href="@{/createBooking}" class="btn btn-primary">Add New Booking</a>
+        <div th:if="${bookings.empty}" class="alert alert-info">
+            <p>Your booking list is empty. Create a new booking now!</p>
+            <a th:href="@{/createBooking}" class="btn btn-primary mt-2">Create New Booking</a>
         </div>
-        <div class="row">
-            <div th:each="booking : ${bookings}" class="col-md-6 col-lg-4">
-                <div class="card">
-                    <div class="card-header">
-                        Booking ID: <span th:text="${booking.bookingid}"></span>
-                    </div>
-                    <div class="card-body">
-                        <p><strong>Cat IDs:</strong> <span th:text="${booking.catIdsString}"></span></p>
-                        <p><strong>Room ID:</strong> <span th:text="${booking.roomid}"></span></p>
-                        <p><strong>Check In:</strong> <span th:text="${#dates.format(booking.bookingCheckInDate, 'dd-MM-yyyy')}"></span></p>
-                        <p><strong>Check Out:</strong> <span th:text="${#dates.format(booking.bookingCheckOutDate, 'dd-MM-yyyy')}"></span></p>
-                        <p><strong>Price:</strong> <span th:text="${'RM' + #numbers.formatDecimal(booking.bookingPrice, 1, 2)}"></span></p>
-                        <p><strong>Payment Status:</strong> <span th:text="${booking.paymentstatus + (booking.paymentType != null ? ' - ' + booking.paymentType : '')}"></span></p>
-                    </div>
-                    <div class="card-footer">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <a th:href="@{/updateBooking/{bookingid}(bookingid=${booking.bookingid})}" class="btn btn-sm btn-primary mr-2">Update</a>
-                                <form th:action="@{/deleteBooking/{bookingid}(bookingid=${booking.bookingid})}" method="post" style="display:inline;"
-                                    onsubmit="return confirm('Are you sure you want to delete this booking?');">
-                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                                </form>
-                            </div>
-                            <div>
-                                <a th:if="${booking.paymentstatus != 'Not Paid'}" th:href="@{/viewPayment/{bookingid}(bookingid=${booking.bookingid})}" class="btn btn-sm btn-info">View Payment</a>
-                                <a th:if="${booking.paymentstatus == 'Not Paid'}" th:href="@{/makePayment/{bookingid}(bookingid=${booking.bookingid})}" class="btn btn-sm btn-success">Make Payment</a>
-                            </div>
+        <div th:unless="${bookings.empty}">
+            <div class="mb-3">
+                <a th:href="@{/createBooking}" class="btn btn-primary">Add New Booking</a>
+            </div>
+            <div class="row">
+                <div th:each="booking : ${bookings}" class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            <h5 class="card-title" th:text="${'Booking #' + booking.bookingid}"></h5>
                         </div>
-                        <div class="mt-2">
-                            <a th:if="${booking.paymentstatus == 'Paid' && booking.feedbackId != null}" th:href="@{/viewFeedback/{feedbackId}(feedbackId=${booking.feedbackId})}" class="btn btn-sm btn-secondary">View Feedback</a>
-                            <a th:if="${booking.paymentstatus == 'Paid' && booking.feedbackId == null}" th:href="@{/submitFeedback(bookingid=${booking.bookingid})}" class="btn btn-sm btn-primary">Make Feedback</a>
-                            <span th:if="${booking.paymentstatus != 'Paid'}" class="text-muted">Complete payment to submit feedback</span>
+                        <div class="card-body">
+                            <p class="card-text"><strong>Cat: </strong><span th:text="${booking.cat.catname}"></span></p>
+                            <p class="card-text"><strong>Room: </strong><span th:text="${booking.room.roomname}"></span></p>
+                            <p class="card-text"><strong>Check-in: </strong><span th:text="${booking.checkindate}"></span></p>
+                            <p class="card-text"><strong>Check-out: </strong><span th:text="${booking.checkoutdate}"></span></p>
+                        </div>
+                        <div class="card-footer">
+                            <a th:href="@{/updateBooking/{bookingid}(bookingid=${booking.bookingid})}" class="btn btn-sm btn-primary">Update</a>
+                            <button type="button" class="btn btn-sm btn-danger" data-toggle="modal"
+                                th:data-target="'#deleteModal' + ${booking.bookingid}">Cancel</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div th:if="${bookings.empty}" class="alert alert-info" th:text="${message ?: 'No bookings available'}"></div>
         <div th:if="${error}" class="alert alert-danger mt-3" th:text="${error}"></div>
         <div th:if="${success}" class="alert alert-success mt-3" th:text="${success}"></div>
     </div>
-    
+
+    <!-- Delete Confirmation Modal -->
+    <div th:each="booking : ${bookings}" class="modal fade" th:id="'deleteModal' + ${booking.bookingid}" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm Cancellation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to cancel this booking?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <form th:action="@{/deleteBooking/{bookingid}(bookingid=${booking.bookingid})}" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-danger">Cancel Booking</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <footer>
         <div class="footer-container">
             <p>&copy; 2024 Myvi Cat Hotel</p>
