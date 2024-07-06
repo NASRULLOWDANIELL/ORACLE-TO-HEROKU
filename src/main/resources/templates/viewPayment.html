@@ -157,7 +157,7 @@
           </div>
           <div th:if="${payment.paymentType == 'CASH' and paymentStatus == 'PENDING'}" class="alert alert-warning mt-3">
             <h4 class="alert-heading">Pending Cash Payment</h4>
-            <p>Please complete your payment through the counter.</p>
+            <p>Please complete your payment through the counter and ask a Staff to confirm the payment.</p>
           </div>
           <div class="mt-4 text-center">
             <a th:if="${!isStaff}" th:href="@{/bookingList}" class="btn btn-primary">

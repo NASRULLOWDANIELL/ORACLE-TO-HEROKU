@@ -5,183 +5,148 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment Confirmation - MYVI CAT HOTEL</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" href="image/qilin symbol.jpg" type="image/jpeg" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <style>
-        * {
-            box-sizing: border-box;
-            font-family: Poppins, sans-serif;
-            background-color: #f0f0f0;
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
         }
 
-        a {
-            text-decoration: none;
-        }
-
-        ul {
-            list-style: none;
-        }
-
-        .navigation {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 30px 75px;
-            margin: auto;
-            border-bottom: 1px solid #596cd5;
+        .navbar {
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
         }
 
         .logo {
             color: #596cd5;
             font-weight: 700;
             font-size: 1.5rem;
-            margin-left: 10%;
         }
 
-        .menu {
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        .navbar-light .navbar-nav .nav-link {
+            color: #333;
         }
 
-        .menu li a {
-            color: #4e4e4e;
-            margin: 0px 10px;
-            font-weight: 400;
-            transition: all ease 0.3s;
-        }
-
-        .menu li a:hover {
+        .navbar-light .navbar-nav .nav-link:hover {
             color: #596cd5;
-            font-weight: 600;
         }
 
-        main {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100vw;
+        .confirmation-container {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            padding: 2rem;
+            margin-top: 2rem;
         }
 
-        .container {
-            width: 30vw;
-            margin: 0 auto;
-            padding: 30px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
+        .confirmation-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #596cd5;
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 1.5rem;
         }
 
         .confirmation-details {
-            margin-bottom: 20px;
+            border-top: 1px dashed #ddd;
+            border-bottom: 1px dashed #ddd;
+            padding: 1rem 0;
+            margin-bottom: 1rem;
         }
 
-        .confirmation-details p {
-            margin: 10px 0;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
+        .btn-primary {
             background-color: #596cd5;
-            color: #fff;
-            cursor: pointer;
-            text-align: center;
+            border-color: #596cd5;
         }
 
-        footer {
-            color: #333;
-            padding: 40px 0;
-            border-top: 1px solid #596cd5;
-        }
-
-        .footer-container {
-            display: flex;
-            justify-content: space-around;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .social-icons a {
-            display: inline-block;
-            margin-right: 10px;
-            color: #333;
-            font-size: 20px;
-        }
-
-        .footer-bottom {
-            text-align: center;
-            margin-top: 40px;
-            font-size: 14px;
+        .btn-primary:hover {
+            background-color: #4a5bb3;
+            border-color: #4a5bb3;
         }
     </style>
 </head>
 
 <body>
-    <section id="nav">
-        <header>
-            <div class="navigation">
-                <a th:href="@{/}" class="logo">MYVI CAT HOTEL_</a>
-                <ul class="menu">
-                    <li><a th:href="@{/customerindex}" class="active">Home</a></li>
-                    <li><a th:href="@{/viewaccount}">My Account</a></li>
-                    <li><a th:href="@{/catList}">My Cat</a></li>
-                    <li><a th:href="@{/roomList}">Our Hotel</a></li>
-                    <li><a th:href="@{/bookingList}">Booking</a></li>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand logo" th:href="@{/}">MYVI CAT HOTEL_</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" th:href="@{/customerindex}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/viewaccount}">My Account</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/catList}">My Cat</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/roomList}">Our Hotel</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/bookingList}">Booking</a></li>
                     <li class="nav-item" th:if="${session.custid != null}">
-                        <a th:href="@{/logout}" class="btn btn-outline-primary ml-2"> <i
-                                class="fa-solid fa-user"></i>
-                            Logout</a>
+                        <a th:href="@{/logout}" class="btn btn-outline-primary ml-2">
+                            <i class="fa-solid fa-user"></i> Logout
+                        </a>
                     </li>
                 </ul>
             </div>
-        </header>
-    </section>
-    <br>
-    <!DOCTYPE html>
-    <html lang="en" xmlns:th="http://www.thymeleaf.org">
+        </div>
+    </nav>
 
-    <head>
-        <!-- Head content remains the same -->
-    </head>
-
-    <body>
-        <!-- Navigation section remains the same -->
-        <main>
-            <div class="container">
-                <h1>Payment Confirmation</h1>
-                <div class="confirmation-details" th:if="${payment != null}">
-                    <p><strong>Payment ID:</strong> <span th:text="${payment.paymentId}"></span></p>
-                    <p><strong>Payment Type:</strong> <span th:text="${payment.paymentType}"></span></p>
-                    <p><strong>Payment Total:</strong> RM<span
-                            th:text="${#numbers.formatDecimal(payment.paymentTotal, 1, 2)}"></span></p>
-                    <p><strong>Booking ID:</strong> <span th:text="${payment.bookingId}"></span></p>
-                    <th:block th:if="${payment.paymentType == 'CARD' and payment.card != null}">
-                        <p><strong>Card Type:</strong> <span th:text="${payment.card.cardType}"></span></p>
-                        <p><strong>Card Number:</strong> **** **** **** <span
-                                th:text="${#strings.substring(payment.card.cardNumber, -4)}"></span></p>
-                    </th:block>
+    <main class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="confirmation-container">
+                    <h1 class="confirmation-title">Payment Confirmation</h1>
+                    <div class="confirmation-details" th:if="${payment != null}">
+                        <div class="row mb-3">
+                            <div class="col-sm-6">
+                                <p><strong>Payment ID:</strong> <span th:text="${payment.paymentId}"></span></p>
+                                <p><strong>Date:</strong> <span th:text="${#dates.format(#dates.createNow(), 'dd-MM-yyyy HH:mm')}"></span></p>
+                            </div>
+                            <div class="col-sm-6">
+                                <p><strong>Booking ID:</strong> <span th:text="${payment.bookingId}"></span></p>
+                                <p><strong>Payment Method:</strong> <span th:text="${payment.paymentType}"></span></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <p><strong>Payment Total:</strong> RM<span th:text="${#numbers.formatDecimal(payment.paymentTotal, 1, 2)}"></span></p>
+                            </div>
+                        </div>
+                        <th:block th:if="${payment.paymentType == 'CARD' and payment.card != null}">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <p><strong>Card Type:</strong> <span th:text="${payment.card.cardType}"></span></p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p><strong>Card Number:</strong> **** **** **** <span th:text="${#strings.substring(payment.card.cardNumber, -4)}"></span></p>
+                                </div>
+                            </div>
+                        </th:block>
+                    </div>
+                    <div th:if="${payment == null}" class="alert alert-warning">
+                        <p>No payment details found.</p>
+                    </div>
+                    <div class="text-center mt-4">
+                        <a th:href="@{/bookingList}" class="btn btn-primary">
+                            <i class="fas fa-arrow-left mr-2"></i>Return to Bookings
+                        </a>
+                    </div>
                 </div>
-                <div th:if="${payment == null}">
-                    <p>No payment details found.</p>
-                </div>
-                <a th:href="@{/bookingList}" class="btn">Return to Bookings</a>
             </div>
-        </main>
-        <br>
-        <footer>
-            <div class="footer-container">
-                <p>&copy; 2024 Myvi Cat Hotel</p>
-            </div>
-        </footer>
-    </body>
+        </div>
+    </main>
 
-    </html>
+    <footer class="mt-5 py-3 bg-light">
+        <div class="container text-center">
+            <p class="mb-0">&copy; 2024 Myvi Cat Hotel. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+
+</html>
