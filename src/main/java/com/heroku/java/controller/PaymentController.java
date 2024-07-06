@@ -122,12 +122,12 @@ public class PaymentController {
                 if ("CARD".equals(payment.getPaymentType())) {
                     insertCardPayment(connection, paymentId, payment.getCard());
                     // Update booking payment status and payment id
-                    updateBookingPaymentStatus(connection, payment.getBookingId(), "Paid");
+                    updateBookingPaymentStatus(connection, payment.getBookingId(), "PAID");
                     updateBookingPaymentId(connection, payment.getBookingId(), paymentId);
                 } else if ("CASH".equals(payment.getPaymentType())) {
                     insertCashPayment(connection, paymentId);
                     // Update booking payment status and payment id
-                    updateBookingPaymentStatus(connection, payment.getBookingId(), "Pending");
+                    updateBookingPaymentStatus(connection, payment.getBookingId(), "PENDING");
                     updateBookingPaymentId(connection, payment.getBookingId(), paymentId);
                 }
             }
@@ -230,7 +230,7 @@ public class PaymentController {
         }
 
         try (Connection connection = dataSource.getConnection()) {
-            updateBookingPaymentStatus(connection, bookingId, "Paid");
+            updateBookingPaymentStatus(connection, bookingId, "PAID");
             return "redirect:/viewPayment/" + bookingId;
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Error confirming cash payment", e);

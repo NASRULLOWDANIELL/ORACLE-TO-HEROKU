@@ -219,7 +219,7 @@
                     th:text="${booking.paymentstatus + (booking.paymentType != null ? ' - ' + booking.paymentType : '')}">
                   </td>
                   <td>
-                    <a th:if="${booking.paymentstatus != 'Not Paid'}"
+                    <a th:if="${booking.paymentstatus != 'NOT PAID'}"
                       th:href="@{/viewPayment/{id}(id=${booking.bookingid})}" class="btn btn-primary btn-sm">
                       <i class="fas fa-eye"></i> View Payment
                     </a>
