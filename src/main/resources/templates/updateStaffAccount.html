@@ -2,300 +2,155 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Update Staff Account</title>
-  <link rel="icon" href="image/qilin symbol.jpg" type="image/jpeg" />
-  <link rel="stylesheet" href="updateAccount.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Staff Account - MYVI CAT HOTEL</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+        }
 
-  <!--import font-->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-    rel="stylesheet" />
+        .navigation {
+            background-color: #fff;
+            border-bottom: 1px solid #596cd5;
+            padding: 15px 0;
+        }
 
-  <!--Import FontAwesome Icons-->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <style>
-    * {
-      margin: 0px;
-      padding: 0px;
-      box-sizing: border-box;
-      font-family: poppins;
-      background-color: #f0f0f0;
-    }
+        .logo {
+            color: #596cd5;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
 
-    a {
-      text-decoration: none;
-    }
+        .menu a {
+            color: #4e4e4e;
+            transition: color 0.3s ease;
+        }
 
-    ul {
-      list-style: none;
-    }
+        .menu a:hover,
+        .menu a.active {
+            color: #596cd5;
+        }
 
-    /*navigation bar*/
-    .navigation {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 30px 75px;
-      margin: auto;
-      border-bottom: 1px solid #596cd5;
-    }
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
 
-    .navigation a i:hover {
-      color: #596cd5;
-      font-size: 110%;
-    }
+        .card:hover {
+            transform: translateY(-5px);
+        }
 
-    .logo {
-      color: #596cd5;
-      font-weight: 700;
-      font-size: 1.5rem;
-      margin-left: 10%;
-    }
+        .card-header {
+            background-color: #596cd5;
+            color: white;
+            font-weight: bold;
+        }
 
-    .logo:hover {
-      font-weight: 800;
-    }
+        .btn-primary {
+            background-color: #596cd5;
+            border-color: #596cd5;
+        }
 
-    .menu {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+        .btn-primary:hover {
+            background-color: #4a5bb3;
+            border-color: #4a5bb3;
+        }
 
-    .menu li a {
-      color: #4e4e4e;
-      margin: 0px 10px;
-      font-weight: 400;
-      transition: all ease 0.3s;
-    }
-
-    .menu li a:hover {
-      color: #596cd5;
-      font-weight: 600;
-    }
-
-    .nav-contact {
-      width: 130px;
-      height: 40px;
-      display: flex;
-      font-size: 0.85rem;
-      justify-content: center;
-      align-items: center;
-      background-color: #596cd5;
-      border-radius: 20px;
-      color: #ffffff;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      font-weight: 500;
-    }
-
-    .nav-contact:hover {
-      color: black;
-    }
-
-    #create-cat-info {
-      position: absolute;
-      top: 130px;
-      left: 100px;
-      color: #4a5fd2;
-    }
-
-    .form-wrapper {
-      max-width: 600px;
-      margin: 50px auto;
-      background-color: #fff;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .form-container {
-      /* display: flex; */
-      justify-content: space-between;
-      padding: 20px;
-    }
-
-    .left,
-    .right {
-      flex: 1;
-      padding: 10px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 5px;
-    }
-
-    input[type="text"],
-    select {
-      width: 100%;
-      padding: 8px;
-      margin-bottom: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    .buttons {
-      text-align: center;
-      margin-top: 20px;
-    }
-
-    button {
-      padding: 10px 40px;
-      border: none;
-      border-radius: 5px;
-      background-color: #596cd5;
-      color: #fff;
-      cursor: pointer;
-      margin-bottom: 3.5%;
-    }
-
-    .buttons button a {
-      color: white;
-      background-color: #596cd5;
-    }
-
-    button.create-button {
-      margin-right: 10px;
-    }
-
-    button.back-button {
-      margin-left: 10px;
-    }
-
-    footer {
-      color: #333;
-      padding: 40px 0;
-      border-top: 1px solid #596cd5;
-    }
-
-    .footer-container {
-      display: flex;
-      justify-content: space-around;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .col {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      margin: 0 20px;
-    }
-
-    h3 {
-      font-size: 18px;
-      margin-bottom: 20px;
-    }
-
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    li {
-      margin-bottom: 10px;
-    }
-
-    a {
-      color: #333;
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    .social-icons {
-      margin-top: 20px;
-    }
-
-    .social-icons a {
-      display: inline-block;
-      margin-right: 10px;
-      color: #333;
-      font-size: 20px;
-    }
-
-    .footer-bottom {
-      text-align: center;
-      margin-top: 40px;
-      font-size: 14px;
-    }
-  </style>
+        footer {
+            background-color: #fff;
+            border-top: 1px solid #596cd5;
+            padding: 20px 0;
+            margin-top: 30px;
+        }
+    </style>
 </head>
 
 <body>
-  <!--navigation bar punya bahagian-->
-  <section id="navi">
-    <header>
-      <div class="navigation">
-        <a th:href="@{/}" class="logo">MYVI CAT HOTEL_</a>
-        <ul class="menu">
-          <li><a th:href="@{/admindashboard}" class="active">Admin Dashboard</a></li>
-          <li><a th:href="@{/viewstaffaccount}">My Account (Staff)</a></li>
-        </ul>
-        <a th:href="@{/loginStaff}"><i class="fa-solid fa-user"></i></a>
-      </div>
-    </header>
-  </section>
+    <nav class="navigation">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-3">
+                    <a th:href="@{/}" class="logo">MYVI CAT HOTEL_</a>
+                </div>
+                <div class="col-md-9">
+                    <ul class="menu list-inline text-md-right mb-0">
+                        <li class="list-inline-item"><a th:href="@{/admindashboard}">Admin Dashboard</a></li>
+                        <li class="list-inline-item"><a th:href="@{/viewstaffaccount}">My Account (Staff)</a></li>
+                        <li class="list-inline-item"><a th:href="@{/loginStaff}"><i class="fa-solid fa-user"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
 
-  <main>
-    <div class="form-wrapper">
-      <div class="form-container">
-        <h1>Update Profile</h1>
-        <form th:action="@{/updateStaffAccount}" th:object="${staff}" method="post">
-          <div th:if="${error}" class="error-message">
-            <p th:text="${error}"></p>
-          </div>
-          <div th:if="${success}" class="success-message">
-            <p th:text="${success}"></p>
-          </div>
-          <input type="hidden" th:field="*{staffid}" />
-          <div class="form-group">
-            <label for="staffname">Name</label>
-            <input type="text" name="staffname" th:field="*{staffname}" placeholder="Enter your name..." required />
-          </div>
-          <div class="form-group">
-            <label for="staffpassword">Password</label>
-            <input type="password" name="staffpassword" th:field="*{staffpassword}" placeholder="Enter your password..."
-              required />
-          </div>
-          <div class="form-group">
-            <label for="staffphoneno">Phone Number</label>
-            <input type="text" name="staffphoneno" th:field="*{staffphoneno}" placeholder="Enter your phone number..."
-              required />
-          </div>
-          <div class="form-group">
-            <label for="managerid">Manager ID</label>
-            <select name="managerid" th:field="*{managerid}">
-              <option value="">Select a manager</option>
-              <option th:each="manager : ${managers}" th:value="${manager.staffid}"
-                th:text="${manager.staffid + ' - ' + manager.staffname}"
-                th:selected="${manager.staffid == staff.managerid}">
-              </option>
-            </select>
-          </div>
-          <div class="buttons">
-            <button class="create-button" type="submit">Update</button>
-            <button class="back-button">
-              <a th:href="@{/viewstaffaccount}">Back</a>
-            </button>
-          </div>
-        </form>
-      </div>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="mb-0">Update Staff Account</h4>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/updateStaffAccount}" th:object="${staff}" method="post">
+                            <div th:if="${error}" class="alert alert-danger" role="alert">
+                                <p th:text="${error}"></p>
+                            </div>
+                            <div th:if="${success}" class="alert alert-success" role="alert">
+                                <p th:text="${success}"></p>
+                            </div>
+                            <input type="hidden" th:field="*{staffid}" />
+                            <div class="form-group">
+                                <label for="staffname">Name</label>
+                                <input type="text" class="form-control" name="staffname" th:field="*{staffname}" placeholder="Enter your name..." required />
+                            </div>
+                            <div class="form-group">
+                                <label for="staffpassword">Password</label>
+                                <input type="password" class="form-control" name="staffpassword" th:field="*{staffpassword}" placeholder="Enter your password..." required />
+                            </div>
+                            <div class="form-group">
+                                <label for="staffphoneno">Phone Number</label>
+                                <input type="text" class="form-control" name="staffphoneno" th:field="*{staffphoneno}" placeholder="Enter your phone number..." required />
+                            </div>
+                            <div class="form-group">
+                                <label for="managerid">Manager ID</label>
+                                <select class="form-control" name="managerid" th:field="*{managerid}">
+                                    <option value="">Select a manager</option>
+                                    <option th:each="manager : ${managers}" th:value="${manager.staffid}"
+                                        th:text="${manager.staffid + ' - ' + manager.staffname}"
+                                        th:selected="${manager.staffid == staff.managerid}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Update</button>
+                                <a th:href="@{/viewstaffaccount}" class="btn btn-secondary">Back</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </main>
 
-  <footer>
-    <div class="footer-container">
-      <p>&copy; 2024 Myvi Cat Hotel</p>
-    </div>
-  </footer>
+    <footer>
+        <div class="container">
+            <p class="text-center">&copy; 2024 Myvi Cat Hotel</p>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 
 </html>

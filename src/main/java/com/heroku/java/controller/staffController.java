@@ -123,6 +123,31 @@ public class staffController {
         }
     }
 
+    private Staff getStaffDetails(Connection connection, Integer staffid) throws SQLException {
+        String staffSql = "SELECT * FROM staff WHERE staffid = ?";
+        try (PreparedStatement staffStatement = connection.prepareStatement(staffSql)) {
+            staffStatement.setInt(1, staffid);
+            try (ResultSet resultSet = staffStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    Staff staff = new Staff();
+                    staff.setStaffid(resultSet.getInt("staffid"));
+                    staff.setStaffname(resultSet.getString("staffname"));
+                    staff.setStaffemail(resultSet.getString("staffemail"));
+                    staff.setStaffpassword(resultSet.getString("staffpassword").toString());
+                    staff.setStaffrole(resultSet.getString("staffrole"));
+                    staff.setStaffphoneno(resultSet.getString("staffphoneno"));
+                    int managerid = resultSet.getInt("managerid");
+                    if (!resultSet.wasNull()) {
+                        staff.setManagerid(managerid);
+                    }
+                    return staff;
+                } else {
+                    return null; // Staff not found
+                }
+            }
+        }
+    }
+
     @GetMapping("/updateStaffAccount")
     public String updateStaffAccount(HttpSession session, Model model) {
         Integer staffid = (Integer) session.getAttribute(SESSION_STAFF_ID);
@@ -210,31 +235,6 @@ public class staffController {
                 LOGGER.log(Level.SEVERE, "Error retrieving managers", ex);
             }
             return "updateStaffAccount";
-        }
-    }
-
-    private Staff getStaffDetails(Connection connection, Integer staffid) throws SQLException {
-        String staffSql = "SELECT * FROM staff WHERE staffid = ?";
-        try (PreparedStatement staffStatement = connection.prepareStatement(staffSql)) {
-            staffStatement.setInt(1, staffid);
-            try (ResultSet resultSet = staffStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    Staff staff = new Staff();
-                    staff.setStaffid(resultSet.getInt("staffid"));
-                    staff.setStaffname(resultSet.getString("staffname"));
-                    staff.setStaffemail(resultSet.getString("staffemail"));
-                    staff.setStaffpassword(resultSet.getString("staffpassword").toString());
-                    staff.setStaffrole(resultSet.getString("staffrole"));
-                    staff.setStaffphoneno(resultSet.getString("staffphoneno"));
-                    int managerid = resultSet.getInt("managerid");
-                    if (!resultSet.wasNull()) {
-                        staff.setManagerid(managerid);
-                    }
-                    return staff;
-                } else {
-                    return null; // Staff not found
-                }
-            }
         }
     }
 }
