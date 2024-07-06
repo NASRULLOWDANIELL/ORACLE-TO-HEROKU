@@ -4,14 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import com.heroku.java.bean.Staff;
-
-import jakarta.servlet.http.HttpSession;
-
 import com.heroku.java.bean.Booking;
 import com.heroku.java.bean.Feedback;
 import com.heroku.java.bean.Cat;
@@ -30,7 +23,6 @@ import java.util.logging.Logger;
 @Controller
 public class AdminDashboardController {
 
-    // public static final String SESSION_STAFF_ID = "staffid";
     private static final Logger LOGGER = Logger.getLogger(AdminDashboardController.class.getName());
     private final DataSource dataSource;
 
@@ -39,22 +31,8 @@ public class AdminDashboardController {
         this.dataSource = dataSource;
     }
 
-    // Add this method to get the current staff
-    private Staff getCurrentStaff(HttpSession session) {
-        Object staffObj = session.getAttribute("currentStaff");
-        if (staffObj instanceof Staff) {
-            return (Staff) staffObj;
-        }
-        return null;
-    }
-
     @GetMapping("/admindashboard")
-    public String showAdminDashboard(Model model, HttpSession session) {
-        Staff currentStaff = getCurrentStaff(session);
-        // if (currentStaff == null) {
-        //     return "redirect:/login"; // or wherever you want to redirect if not logged in
-        // }
-
+    public String showAdminDashboard(Model model) {
         try (Connection connection = dataSource.getConnection()) {
             List<Staff> staffList = getAllStaff(connection);
             List<Booking> bookingList = getAllBookings(connection);
@@ -65,7 +43,6 @@ public class AdminDashboardController {
             model.addAttribute("bookingList", bookingList);
             model.addAttribute("feedbackList", feedbackList);
             model.addAttribute("catList", catList);
-            model.addAttribute("currentStaff", currentStaff);
 
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Error fetching data for admin dashboard", e);
@@ -92,37 +69,6 @@ public class AdminDashboardController {
             }
         }
         return staffList;
-    }
-
-    @PostMapping("/updateManager")
-    public String updateManager(@RequestParam("staffId") int staffId,
-            @RequestParam("managerId") int managerId,
-            RedirectAttributes redirectAttributes,
-            HttpSession session) {
-        Staff currentStaff = getCurrentStaff(session);
-        if (currentStaff == null || !"Manager".equals(currentStaff.getStaffrole())) {
-            redirectAttributes.addFlashAttribute("error", "You don't have permission to perform this action");
-            return "redirect:/admindashboard";
-        }
-
-        try (Connection connection = dataSource.getConnection()) {
-            String sql = "UPDATE staff SET managerid = ? WHERE staffid = ? AND staffrole = 'Staff'";
-            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-                stmt.setInt(1, managerId);
-                stmt.setInt(2, staffId);
-                int rowsAffected = stmt.executeUpdate();
-                if (rowsAffected > 0) {
-                    redirectAttributes.addFlashAttribute("success", "Manager updated successfully");
-                } else {
-                    redirectAttributes.addFlashAttribute("error",
-                            "Failed to update manager. Make sure the staff exists and is not a manager.");
-                }
-            }
-        } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Error updating manager", e);
-            redirectAttributes.addFlashAttribute("error", "An error occurred while updating the manager");
-        }
-        return "redirect:/admindashboard";
     }
 
     private List<Booking> getAllBookings(Connection connection) throws SQLException {
