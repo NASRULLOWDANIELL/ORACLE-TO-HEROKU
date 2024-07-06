@@ -121,7 +121,7 @@
     <div class="container mt-5">
         <h2 class="text-center mb-4">Your Booking List</h2>
         <div th:if="${message}" th:text="${message}"></div>
-        <div th:if="${bookings.empty}">
+        <div th:if="${bookings.empty}" class="alert alert-info">
             <p>You have no bookings. <a href="/createBooking">Create a new booking now!</a></p>
         </div>
         <div th:unless="${bookings.empty}">
