@@ -30,7 +30,7 @@ import java.util.logging.Logger;
 @Controller
 public class AdminDashboardController {
 
-    public static final String SESSION_STAFF_ID = "staffid";
+    // public static final String SESSION_STAFF_ID = "staffid";
     private static final Logger LOGGER = Logger.getLogger(AdminDashboardController.class.getName());
     private final DataSource dataSource;
 
@@ -39,8 +39,22 @@ public class AdminDashboardController {
         this.dataSource = dataSource;
     }
 
+    // Add this method to get the current staff
+    private Staff getCurrentStaff(HttpSession session) {
+        Object staffObj = session.getAttribute("currentStaff");
+        if (staffObj instanceof Staff) {
+            return (Staff) staffObj;
+        }
+        return null;
+    }
+
     @GetMapping("/admindashboard")
-    public String showAdminDashboard(Model model) {
+    public String showAdminDashboard(Model model, HttpSession session) {
+        Staff currentStaff = getCurrentStaff(session);
+        if (currentStaff == null) {
+            return "redirect:/login"; // or wherever you want to redirect if not logged in
+        }
+
         try (Connection connection = dataSource.getConnection()) {
             List<Staff> staffList = getAllStaff(connection);
             List<Booking> bookingList = getAllBookings(connection);
@@ -51,7 +65,7 @@ public class AdminDashboardController {
             model.addAttribute("bookingList", bookingList);
             model.addAttribute("feedbackList", feedbackList);
             model.addAttribute("catList", catList);
-            model.addAttribute("currentStaff", SESSION_STAFF_ID); // Add this line
+            model.addAttribute("currentStaff", currentStaff);
 
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Error fetching data for admin dashboard", e);
@@ -85,7 +99,7 @@ public class AdminDashboardController {
             @RequestParam("managerId") int managerId,
             RedirectAttributes redirectAttributes,
             HttpSession session) {
-        Staff currentStaff = (Staff) session.getAttribute("currentStaff");
+        Staff currentStaff = getCurrentStaff(session);
         if (currentStaff == null || !"Manager".equals(currentStaff.getStaffrole())) {
             redirectAttributes.addFlashAttribute("error", "You don't have permission to perform this action");
             return "redirect:/admindashboard";
