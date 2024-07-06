@@ -136,11 +136,8 @@
                         </div>
                         <div class="card-body">
                             <p class="card-text"><strong>CatIDs: </strong><span
-                                    th:each="catId, catStat : ${booking.catIds}">
-                                    <span th:text="${catId + ': ' + booking.catNames[catStat.index]}"></span>
-                                    <span th:unless="${catStat.last}">, </span>
-                                </span>
-                            </p>
+                                    th:text="${booking.catIdsString}"></span></p>
+
                             <p class="card-text"><strong>RoomID: </strong><span
                                     th:text="${booking.room.roomname}"></span>
                             </p>

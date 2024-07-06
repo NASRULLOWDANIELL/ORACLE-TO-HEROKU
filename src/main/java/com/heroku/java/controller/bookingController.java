@@ -216,7 +216,6 @@ public class bookingController {
             String sql = "SELECT b.bookingid, b.bookingcheckindate, b.bookingcheckoutdate, " +
                                 "b.bookingprice, b.roomid, b.paymentstatus, b.feedbackId, " +
                                 "STRING_AGG(bc.cat_id::text, ',') as cat_ids, " +
-                                "STRING_AGG(ct.catname, ',') as cat_names," +
                                 "bp.paymenttype " +
                         "FROM booking b " +
                         "JOIN booking_cat bc ON b.bookingid = bc.booking_id " +
