@@ -247,9 +247,9 @@ public class bookingController {
             bookings.sort(Comparator.comparingInt(Booking::getBookingid));
             model.addAttribute("bookings", bookings);
 
-            if (bookings.isEmpty()) {
-                model.addAttribute("message", "You have no bookings. Create a new booking now!");
-            }
+            // if (bookings.isEmpty()) {
+            //     model.addAttribute("message", "You have no bookings. Create a new booking now!");
+            // }
 
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Error fetching booking list", e);
