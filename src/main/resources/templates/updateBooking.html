@@ -87,7 +87,7 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
-                        <h2 class="card-title text-center mb-4">Update Booking</h2>
+                        <h2 class="card-title text-center mb-4">Update <span th:text="${'Booking #' + booking.bookingid}"></span></h2>
                         <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
                         <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
                         <form th:action="@{/updateBooking}" th:object="${booking}" method="post">
