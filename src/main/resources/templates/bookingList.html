@@ -120,9 +120,9 @@
 
     <div class="container mt-5">
         <h2 class="text-center mb-4">Your Booking List</h2>
-        <div th:if="${bookings.empty}" class="alert alert-info">
-            <p>Your booking list is empty. Create a new booking now!</p>
-            <a th:href="@{/createBooking}" class="btn btn-primary mt-2">Create New Booking</a>
+        <div th:if="${message}" th:text="${message}"></div>
+        <div th:if="${bookings.empty}">
+            <p>You have no bookings. <a href="/createBooking">Create a new booking now!</a></p>
         </div>
         <div th:unless="${bookings.empty}">
             <div class="mb-3">
@@ -135,13 +135,18 @@
                             <h5 class="card-title" th:text="${'Booking #' + booking.bookingid}"></h5>
                         </div>
                         <div class="card-body">
-                            <p class="card-text"><strong>Cat: </strong><span th:text="${booking.cat.catname}"></span></p>
-                            <p class="card-text"><strong>Room: </strong><span th:text="${booking.room.roomname}"></span></p>
-                            <p class="card-text"><strong>Check-in: </strong><span th:text="${booking.checkindate}"></span></p>
-                            <p class="card-text"><strong>Check-out: </strong><span th:text="${booking.checkoutdate}"></span></p>
+                            <p class="card-text"><strong>Cat: </strong><span th:text="${booking.cat.catname}"></span>
+                            </p>
+                            <p class="card-text"><strong>Room: </strong><span th:text="${booking.room.roomname}"></span>
+                            </p>
+                            <p class="card-text"><strong>Check-in: </strong><span
+                                    th:text="${booking.checkindate}"></span></p>
+                            <p class="card-text"><strong>Check-out: </strong><span
+                                    th:text="${booking.checkoutdate}"></span></p>
                         </div>
                         <div class="card-footer">
-                            <a th:href="@{/updateBooking/{bookingid}(bookingid=${booking.bookingid})}" class="btn btn-sm btn-primary">Update</a>
+                            <a th:href="@{/updateBooking/{bookingid}(bookingid=${booking.bookingid})}"
+                                class="btn btn-sm btn-primary">Update</a>
                             <button type="button" class="btn btn-sm btn-danger" data-toggle="modal"
                                 th:data-target="'#deleteModal' + ${booking.bookingid}">Cancel</button>
                         </div>
@@ -154,7 +159,8 @@
     </div>
 
     <!-- Delete Confirmation Modal -->
-    <div th:each="booking : ${bookings}" class="modal fade" th:id="'deleteModal' + ${booking.bookingid}" tabindex="-1" role="dialog">
+    <div th:each="booking : ${bookings}" class="modal fade" th:id="'deleteModal' + ${booking.bookingid}" tabindex="-1"
+        role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -168,7 +174,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <form th:action="@{/deleteBooking/{bookingid}(bookingid=${booking.bookingid})}" method="post" style="display:inline;">
+                    <form th:action="@{/deleteBooking/{bookingid}(bookingid=${booking.bookingid})}" method="post"
+                        style="display:inline;">
                         <button type="submit" class="btn btn-danger">Cancel Booking</button>
                     </form>
                 </div>
