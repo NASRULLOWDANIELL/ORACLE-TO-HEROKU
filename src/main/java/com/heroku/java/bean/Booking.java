@@ -22,6 +22,7 @@ public class Booking {
     private String custname;
     private String catname;
     private String bookingstatus;
+    private List<Cat> cats;
 
     public String getBookingstatus() {
         return bookingstatus;
@@ -163,5 +164,13 @@ public class Booking {
         return Arrays.stream(catIdsString.split(","))
                 .map(Integer::parseInt)
                 .collect(Collectors.toList());
+    }
+
+    public List<Cat> getCats() {
+        return cats;
+    }
+
+    public void setCats(List<Cat> cats) {
+        this.cats = cats;
     }
 }

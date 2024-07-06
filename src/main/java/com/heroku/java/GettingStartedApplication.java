@@ -30,21 +30,6 @@ public class GettingStartedApplication {
         return "customerindex";
     }
 
-    // @GetMapping("/register")
-    // public String register() {
-    // return "register";
-    // }
-
-    // @GetMapping("/booking")
-    // public String booking() {
-    // return "booking";
-    // }
-
-    // @GetMapping("/login")
-    // public String login(HttpSession session) {
-    // return "login";
-    // }
-
     @GetMapping("/database")
     String database(Map<String, Object> model) {
         try (Connection connection = dataSource.getConnection()) {
