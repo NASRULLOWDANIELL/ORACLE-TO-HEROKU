@@ -210,10 +210,15 @@
                   <td th:text="${staff.staffphoneno}"></td>
                   <td th:text="${staff.managerid}"></td>
                   <td>
-                    <button th:if="${staff.staffrole != 'Staff'}" class="btn btn-primary btn-sm"
-                      th:onclick="'updateManagerId(' + ${staff.staffid} + ')'"><i class="fas fa-eye"></i>
-                      Update Manager ID
-                    </button>
+                    <!-- Only show button if current user is a manager and the staff member is not -->
+                    <form th:if="${currentStaff.staffrole == 'Manager' and staff.staffrole == 'Staff'}"
+                      th:action="@{/updateManager}" method="post">
+                      <input type="hidden" name="staffId" th:value="${staff.staffid}" />
+                      <input type="number" name="managerId" placeholder="New Manager ID" required />
+                      <button type="submit" class="btn btn-primary btn-sm">
+                        <i class="fas fa-eye"></i> Update Manager ID
+                      </button>
+                    </form>
                   </td>
                 </tr>
               </tbody>
@@ -334,40 +339,6 @@
       <p>&copy; 2024 Myvi Cat Hotel</p>
     </div>
   </footer>
-  <script>
-    function updateManagerId(staffId) {
-      // You can implement a modal or form to input the new manager ID
-      let newManagerId = prompt("Enter new Manager ID:");
-
-      if (newManagerId !== null && newManagerId !== "") {
-        // Send an AJAX request to update the manager ID
-        fetch('/updateManagerId', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            staffId: staffId,
-            newManagerId: newManagerId
-          })
-        })
-          .then(response => response.json())
-          .then(data => {
-            if (data.success) {
-              alert('Manager ID updated successfully');
-              // Refresh the page or update the table
-              location.reload();
-            } else {
-              alert('Failed to update Manager ID');
-            }
-          })
-          .catch((error) => {
-            console.error('Error:', error);
-            alert('An error occurred while updating Manager ID');
-          });
-      }
-    }
-  </script>
 
 </body>
 

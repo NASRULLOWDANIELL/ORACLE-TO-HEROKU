@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.heroku.java.bean.Staff;
+
+import jakarta.servlet.http.HttpSession;
+
 import com.heroku.java.bean.Booking;
 import com.heroku.java.bean.Feedback;
 import com.heroku.java.bean.Cat;
@@ -27,6 +30,7 @@ import java.util.logging.Logger;
 @Controller
 public class AdminDashboardController {
 
+    public static final String SESSION_STAFF_ID = "staffid";
     private static final Logger LOGGER = Logger.getLogger(AdminDashboardController.class.getName());
     private final DataSource dataSource;
 
@@ -47,6 +51,7 @@ public class AdminDashboardController {
             model.addAttribute("bookingList", bookingList);
             model.addAttribute("feedbackList", feedbackList);
             model.addAttribute("catList", catList);
+            model.addAttribute("currentStaff", SESSION_STAFF_ID); // Add this line
 
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Error fetching data for admin dashboard", e);
@@ -78,9 +83,16 @@ public class AdminDashboardController {
     @PostMapping("/updateManager")
     public String updateManager(@RequestParam("staffId") int staffId,
             @RequestParam("managerId") int managerId,
-            RedirectAttributes redirectAttributes) {
+            RedirectAttributes redirectAttributes,
+            HttpSession session) {
+        Staff currentStaff = (Staff) session.getAttribute("currentStaff");
+        if (currentStaff == null || !"Manager".equals(currentStaff.getStaffrole())) {
+            redirectAttributes.addFlashAttribute("error", "You don't have permission to perform this action");
+            return "redirect:/admindashboard";
+        }
+
         try (Connection connection = dataSource.getConnection()) {
-            String sql = "UPDATE staff SET managerid = ? WHERE staffid = ?";
+            String sql = "UPDATE staff SET managerid = ? WHERE staffid = ? AND staffrole = 'Staff'";
             try (PreparedStatement stmt = connection.prepareStatement(sql)) {
                 stmt.setInt(1, managerId);
                 stmt.setInt(2, staffId);
@@ -88,7 +100,8 @@ public class AdminDashboardController {
                 if (rowsAffected > 0) {
                     redirectAttributes.addFlashAttribute("success", "Manager updated successfully");
                 } else {
-                    redirectAttributes.addFlashAttribute("error", "Failed to update manager");
+                    redirectAttributes.addFlashAttribute("error",
+                            "Failed to update manager. Make sure the staff exists and is not a manager.");
                 }
             }
         } catch (SQLException e) {
