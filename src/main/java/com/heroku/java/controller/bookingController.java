@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.time.LocalDate;
-import java.time.ZoneId;
+// import java.sql.Date;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -67,8 +67,9 @@ public class bookingController {
             return "redirect:/login";
         }
 
+        List<Cat> cats;
         try (Connection connection = dataSource.getConnection()) {
-            List<Cat> cats = getCustomerCats(connection, custid);
+            cats = getCustomerCats(connection, custid);
             LOGGER.info("Retrieved " + cats.size() + " cats for customer ID: " + custid);
 
             Booking booking = new Booking();
@@ -77,8 +78,9 @@ public class bookingController {
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Error fetching cats", e);
             model.addAttribute("error", "An error occurred while preparing the booking form. Please try again.");
+            return "createBooking";
         }
-
+        model.addAttribute("cats", cats);
         return "createBooking";
     }
 
@@ -119,11 +121,9 @@ public class bookingController {
             model.addAttribute("error", "Please select both check-in and check-out dates.");
             return "createBooking";
         }
-
-        LocalDate checkInDate = booking.getBookingCheckInDate().toInstant().atZone(ZoneId.systemDefault())
-                .toLocalDate();
-        LocalDate checkOutDate = booking.getBookingCheckOutDate().toInstant().atZone(ZoneId.systemDefault())
-                .toLocalDate();
+        
+        LocalDate checkInDate = new java.sql.Date(booking.getBookingCheckInDate().getTime()).toLocalDate();
+        LocalDate checkOutDate = new java.sql.Date(booking.getBookingCheckOutDate().getTime()).toLocalDate();
 
         if (checkInDate.isBefore(currentDate)) {
             model.addAttribute("error", "Check-in date cannot be in the past.");
