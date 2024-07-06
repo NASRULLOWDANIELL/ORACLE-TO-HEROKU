@@ -167,7 +167,7 @@ public class bookingController {
     }
 
     private void insertBooking(Connection connection, int bookingId, Booking booking) throws SQLException {
-        String bookingSql = "INSERT INTO booking (bookingid, roomid, bookingCheckInDate, bookingCheckOutDate, bookingPrice, bookingStatus) VALUES (?, ?, ?, ?, ?, ?)";
+        String bookingSql = "INSERT INTO booking (bookingid, roomid, bookingCheckInDate, bookingCheckOutDate, bookingPrice, bookingStatus, paymentstatus) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = connection.prepareStatement(bookingSql)) {
             ps.setInt(1, bookingId);
             ps.setInt(2, booking.getRoomid());
@@ -175,6 +175,7 @@ public class bookingController {
             ps.setDate(4, new java.sql.Date(booking.getBookingCheckOutDate().getTime()));
             ps.setBigDecimal(5, booking.getBookingPrice());
             ps.setString(6, "CONFIRMED");
+            ps.setString(7, "NOT PAID"); // Set a default payment status
             ps.executeUpdate();
         }
     }
