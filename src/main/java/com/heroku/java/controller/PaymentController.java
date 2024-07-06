@@ -75,7 +75,7 @@ public class PaymentController {
                         payment.setBookingId(bookingId);
                         payment.setPaymentTotal(rs.getDouble("bookingprice")); // Assuming the column name is PRICE
                         model.addAttribute("payment", payment);
-                        return "paymentForm";
+                        return "paymentform";
                     } else {
                         model.addAttribute("error", "Booking not found");
                         return "error";
@@ -131,7 +131,7 @@ public class PaymentController {
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Error processing payment", e);
             model.addAttribute("error", "Payment processing failed. Please try again.");
-            return "paymentForm";
+            return "paymentform";
         }
     }
 
