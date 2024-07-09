@@ -1,74 +1,61 @@
 package com.heroku.java.controller;
 
-import com.heroku.java.bean.Customer;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.sql.DataSource;
+import com.heroku.java.bean.Customer;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.sql.*;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @RestController
-@RequestMapping("/api")
 public class CustomerAPIController {
+    private static final Logger LOGGER = Logger.getLogger(customerController.class.getName());
+
+    private final DataSource dataSource;
 
     @Autowired
-    private DataSource dataSource;
+    public CustomerAPIController(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
-    @GetMapping("/viewaccount")
-    public ResponseEntity<?> viewProfile(@RequestHeader("Authorization") String token) {
-        int custId = validateTokenAndGetCustomerId(token);
-        if (custId == 0) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or expired token");
-        }
+    // ... existing code ...
 
-        try (Connection connection = dataSource.getConnection()) {
-            Customer customer = getCustomerDetails(connection, custId);
-            if (customer == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Customer not found");
+    @GetMapping("/api/customers")
+    public ResponseEntity<List<Customer>> listCustomers() {
+        List<Customer> customers = new ArrayList<>();
+
+        try (Connection connection = this.dataSource.getConnection()) {
+            String sql = "SELECT * FROM customer";
+            try (PreparedStatement statement = connection.prepareStatement(sql);
+                    ResultSet resultSet = statement.executeQuery()) {
+
+                while (resultSet.next()) {
+                    Customer customer = new Customer();
+                    customer.setCustid(resultSet.getInt("custid"));
+                    customer.setCustname(resultSet.getString("custname"));
+                    customer.setCustphoneno(resultSet.getString("custphoneno"));
+                    customer.setCustemail(resultSet.getString("custemail"));
+                    // Don't include the password in the response
+                    customers.add(customer);
+                }
             }
-            return ResponseEntity.ok(customer);
+            return ResponseEntity.ok(customers);
         } catch (SQLException e) {
-            e.printStackTrace(); // Log or handle exception properly
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
+            LOGGER.log(Level.SEVERE, "Error retrieving customer list: " + e.getMessage(), e);
+            return ResponseEntity.status(500).body(null);
         }
     }
 
-    private int validateTokenAndGetCustomerId(String token) {
-        if (token != null && token.startsWith("Bearer ")) {
-            String actualToken = token.substring(7);
-            // Simple example: token is "user_<id>"
-            if (actualToken.startsWith("user_")) {
-                try {
-                    return Integer.parseInt(actualToken.substring(5));
-                } catch (NumberFormatException e) {
-                    return 0;
-                }
-            }
-        }
-        return 0;
-    }
-
-    private Customer getCustomerDetails(Connection connection, int custId) throws SQLException {
-        String query = "SELECT custid, custname, custemail, custpassword, custphoneno FROM customers WHERE custid = ?";
-        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
-            pstmt.setInt(1, custId);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
-                    return new Customer(
-                        rs.getInt("custid"),
-                        rs.getString("custname"),
-                        rs.getString("custemail"),
-                        rs.getString("custpassword"),
-                        rs.getString("custphoneno")
-                    );
-                }
-            }
-        }
-        return null;
-    }
+    // ... existing code ...
 }
