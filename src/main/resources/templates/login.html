@@ -75,6 +75,7 @@
     .social-icons a:hover {
       color: #4a5bb3;
     }
+
     .footer-container {
       display: flex;
       justify-content: space-around;
@@ -108,15 +109,21 @@
             <div class="card-body">
               <h2 class="card-title text-center mb-4">Log In Account</h2>
               <form th:action="@{/login}" th:object="${customer}" method="post">
+                <div th:if="${error}" class="alert alert-danger" role="alert">
+                  <p th:text="${error}"></p>
+                </div>
                 <div class="mb-3">
                   <label for="email" class="form-label">Email Address</label>
                   <input type="email" class="form-control" id="email" th:field="*{custemail}"
                     placeholder="Enter your email..." required>
+                  <small class="text-danger" th:if="${#fields.hasErrors('custemail')}" th:errors="*{custemail}"></small>
                 </div>
                 <div class="mb-3">
                   <label for="password" class="form-label">Password</label>
                   <input type="password" class="form-control" id="password" th:field="*{custpassword}"
                     placeholder="Enter your password..." required>
+                  <small class="text-danger" th:if="${#fields.hasErrors('custpassword')}"
+                    th:errors="*{custpassword}"></small>
                 </div>
                 <div class="d-grid">
                   <button type="submit" class="btn btn-custom">Log in</button>
