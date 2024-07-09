@@ -31,7 +31,8 @@ public class CustomerApiController {
     public ResponseEntity<?> viewAccountApi(HttpSession session) {
         Integer custid = (Integer) session.getAttribute(SESSION_USER_ID);
         if (custid == null || custid == 0) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not logged in");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("User not logged in. Session ID: " + session.getId());
         }
         try (Connection connection = dataSource.getConnection()) {
             Customer customer = getCustomerDetails(connection, custid);
