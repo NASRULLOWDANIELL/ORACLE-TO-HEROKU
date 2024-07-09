@@ -102,7 +102,8 @@
                         <li class="list-inline-item"><a th:href="@{/roomList}">Our Hotel</a></li>
                         <li class="list-inline-item"><a th:href="@{/bookingList}" class="active">Booking</a></li>
                         <li class="list-inline-item" th:if="${session.custid != null}">
-                            <a class="btn btn-outline-primary ml-2" th:href="@{/logout}"> <i class="fa-solid fa-user"></i>
+                            <a class="btn btn-outline-primary ml-2" th:href="@{/logout}"> <i
+                                    class="fa-solid fa-user"></i>
                                 Logout</a>
                         </li>
                     </ul>
@@ -147,7 +148,8 @@
                                         class="btn btn-sm btn-primary mr-2">Update</a>
                                     <form th:action="@{/deleteBooking/{bookingid}(bookingid=${booking.bookingid})}"
                                         method="post" style="display:inline;"
-                                        onsubmit="return confirm('Are you sure you want to delete this booking?');">
+                                        onsubmit="return confirm('Are you sure you want to delete this booking?');"
+                                        th:if="${booking.paymentStatus == 'NOT PAID'}">
                                         <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                                     </form>
                                 </div>
