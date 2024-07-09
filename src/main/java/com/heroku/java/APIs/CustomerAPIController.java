@@ -1,8 +1,9 @@
-package com.heroku.java.controller;
+package com.heroku.java.APIs;
 
 import org.springframework.web.bind.annotation.RestController;
 
 import com.heroku.java.bean.Customer;
+import com.heroku.java.controller.customerController;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.http.ResponseEntity;

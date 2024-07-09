@@ -1,4 +1,4 @@
-package com.heroku.java.controller;
+package com.heroku.java.APIs;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;

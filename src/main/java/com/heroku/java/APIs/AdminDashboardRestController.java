@@ -1,4 +1,4 @@
-package com.heroku.java.controller;
+package com.heroku.java.APIs;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
