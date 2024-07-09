@@ -146,11 +146,11 @@
                                 <div>
                                     <a th:href="@{/updateBooking/{bookingid}(bookingid=${booking.bookingid})}"
                                         class="btn btn-sm btn-primary mr-2"
-                                        th:if="${booking.paymentStatus == 'NOT PAID'}">Update</a>
+                                        th:if="${booking.paymentstatus == 'NOT PAID'}">Update</a>
                                     <form th:action="@{/deleteBooking/{bookingid}(bookingid=${booking.bookingid})}"
                                         method="post" style="display:inline;"
                                         onsubmit="return confirm('Are you sure you want to delete this booking?');"
-                                        th:if="${booking.paymentStatus == 'NOT PAID'}">
+                                        th:if="${booking.paymentstatus == 'NOT PAID'}">
                                         <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                                     </form>
                                 </div>
