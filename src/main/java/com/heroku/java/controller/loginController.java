@@ -5,17 +5,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import com.heroku.java.DAO.CustomerDAO;
-import com.heroku.java.bean.Customer;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.ui.Model;
 import jakarta.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import java.sql.SQLException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import com.heroku.java.DAO.CustomerDAO;
+import com.heroku.java.bean.Customer;
 
 @Controller
 public class loginController {
+    private static final Logger logger = LoggerFactory.getLogger(loginController.class);
     private final DataSource dataSource;
 
     // Constants for session attribute names
@@ -38,15 +40,18 @@ public class loginController {
     public String login(HttpSession session, @RequestParam("custemail") String custemail,
             @RequestParam("custpassword") String custpassword, Model model) {
         try {
+            logger.info("Attempting customer login for email: {}", custemail);
             CustomerDAO customerDAO = new CustomerDAO(dataSource);
             Customer customer = customerDAO.getCustomerByCustemail(custemail);
 
             if (customer == null) {
+                logger.warn("Login attempt failed: Email does not exist: {}", custemail);
                 model.addAttribute("error", "Email does not exist. Please register.");
                 return "login";
             }
 
             if (!verifyPassword(custpassword, customer.getCustpassword())) {
+                logger.warn("Login attempt failed: Incorrect password for email: {}", custemail);
                 model.addAttribute("error", "Incorrect password.");
                 return "login";
             }
@@ -54,31 +59,30 @@ public class loginController {
             session.setAttribute(SESSION_USER_ID, customer.getCustid());
             session.setAttribute(SESSION_USER_EMAIL, custemail);
 
-            System.out.println("Customer ID set in session during login: " + customer.getCustid());
-            System.out.println(
-                    "Customer ID retrieved immediately after setting: " + session.getAttribute(SESSION_USER_ID));
-
+            logger.info("Customer login successful for email: {}", custemail);
             return "redirect:/customerindex";
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("SQL error during customer login", e);
             model.addAttribute("error", "An error occurred. Please try again.");
+            return "login";
+        } catch (Exception e) {
+            logger.error("Unexpected error during customer login", e);
+            model.addAttribute("error", "An unexpected error occurred. Please try again.");
             return "login";
         }
     }
 
     private boolean verifyPassword(String inputPassword, String storedPassword) {
+        // Use a secure password hashing library like BCrypt in a real application
         return inputPassword.equals(storedPassword);
     }
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {
-        // Remove specific attributes
+        logger.info("Customer logout requested");
         session.removeAttribute(SESSION_USER_ID);
         session.removeAttribute(SESSION_USER_EMAIL);
-
-        // Invalidate the entire session
         session.invalidate();
-
         return "redirect:/";
     }
 }

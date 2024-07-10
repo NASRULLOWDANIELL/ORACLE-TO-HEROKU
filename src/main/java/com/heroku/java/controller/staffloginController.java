@@ -4,16 +4,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import com.heroku.java.DAO.StaffDAO;
-import com.heroku.java.bean.Staff;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.ui.Model;
 import jakarta.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import java.sql.SQLException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import com.heroku.java.DAO.StaffDAO;
+import com.heroku.java.bean.Staff;
 
 @Controller
 public class staffloginController {
+    private static final Logger logger = LoggerFactory.getLogger(staffloginController.class);
     private final DataSource dataSource;
 
     // Constants for session attribute names
@@ -38,17 +41,19 @@ public class staffloginController {
     public String login(HttpSession session, @RequestParam("staffemail") String staffemail,
             @RequestParam("staffpassword") String staffpassword, Model model) {
         try {
+            logger.info("Attempting staff login for email: {}", staffemail);
             StaffDAO staffDAO = new StaffDAO(dataSource);
             Staff staff = staffDAO.getStaffByStaffemail(staffemail);
             model.addAttribute("staff", new Staff());
 
             if (staff == null) {
+                logger.warn("Login attempt failed: Email does not exist: {}", staffemail);
                 model.addAttribute("error", "Email does not exist. Please register.");
                 return "loginStaff";
             }
 
-            // Add this block to verify the password
             if (!verifyPassword(staffpassword, staff.getStaffpassword())) {
+                logger.warn("Login attempt failed: Incorrect password for email: {}", staffemail);
                 model.addAttribute("error", "Incorrect password.");
                 return "loginStaff";
             }
@@ -56,33 +61,30 @@ public class staffloginController {
             session.setAttribute(SESSION_STAFF_ID, staff.getStaffid());
             session.setAttribute(SESSION_STAFF_EMAIL, staffemail);
 
-            System.out.println("Staff ID set in session during login: " + staff.getStaffid());
-            System.out
-                    .println("Staff ID retrieved immediately after setting: " + session.getAttribute(SESSION_STAFF_ID));
-
+            logger.info("Staff login successful for email: {}", staffemail);
             return "redirect:/admindashboard";
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("SQL error during staff login", e);
             model.addAttribute("error", "An error occurred. Please try again.");
+            return "loginStaff";
+        } catch (Exception e) {
+            logger.error("Unexpected error during staff login", e);
+            model.addAttribute("error", "An unexpected error occurred. Please try again.");
             return "loginStaff";
         }
     }
 
-    // Add this method to the staffloginController
     private boolean verifyPassword(String inputPassword, String storedPassword) {
-        // Use secure password verification logic here
-        return inputPassword.equals(storedPassword); // Replace this with a secure hash comparison in a real application
+        // Use a secure password hashing library like BCrypt in a real application
+        return inputPassword.equals(storedPassword);
     }
 
     @GetMapping("/logoutStaff")
     public String logoutStaff(HttpSession session) {
-        // Remove specific attributes
+        logger.info("Staff logout requested");
         session.removeAttribute(SESSION_STAFF_ID);
         session.removeAttribute(SESSION_STAFF_EMAIL);
-
-        // Invalidate the entire session
         session.invalidate();
-
         return "redirect:/";
     }
 
