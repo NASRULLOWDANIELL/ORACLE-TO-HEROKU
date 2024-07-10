@@ -12,16 +12,16 @@ public class Booking {
     private Date bookingCheckInDate;
     private Date bookingCheckOutDate;
     private BigDecimal bookingPrice;
-    private Integer catid;
-    private String catIdsString;
-    private String catNamesString;
-    private Integer roomid;
+    private String bookingstatus;
     private String paymentstatus;
+    private Integer roomid;
     private Integer feedbackId;
     private String paymentType;
     private String custname;
+    private Integer catid;
+    private String catIdsString;
     private String catname;
-    private String bookingstatus;
+    private String catNamesString;
     private List<Cat> cats;
 
     public String getBookingstatus() {
