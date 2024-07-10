@@ -224,9 +224,10 @@ public class PaymentController {
 
     @PostMapping("/confirmCashPayment/{bookingId}")
     public String confirmCashPayment(@PathVariable int bookingId, HttpSession session) {
-        Integer custID = (Integer) session.getAttribute(SESSION_USER_ID);
-        if (custID == null) {
-            return "redirect:/login";
+        Integer staffID = (Integer) session.getAttribute(SESSION_STAFF_ID);
+
+        if (staffID == null) {
+            return "redirect:/stafflogin"; // or wherever your staff login page is
         }
 
         try (Connection connection = dataSource.getConnection()) {
