@@ -84,15 +84,7 @@ public class AdminDashboardRestController {
                         newBooking.setCustname(rs.getString("custname"));
                         newBooking.setBookingCheckInDate(rs.getDate("bookingCheckInDate"));
                         newBooking.setBookingCheckOutDate(rs.getDate("bookingCheckOutDate"));
-                        newBooking.setPaymentstatus(rs.getString("bookingPrice"));
-                        newBooking.setPaymentstatus(rs.getString("catid"));
-                        newBooking.setPaymentstatus(rs.getString("catIdsString"));
-                        newBooking.setPaymentstatus(rs.getString("roomid"));
-                        newBooking.setPaymentstatus(rs.getString("feedbackId"));
-                        newBooking.setPaymentstatus(rs.getString("paymentType"));
-                        newBooking.setPaymentstatus(rs.getString("catname"));
-                        newBooking.setPaymentstatus(rs.getString("bookingstatus"));
-
+                        newBooking.setPaymentstatus(rs.getString("paymentstatus"));
                         newBooking.setCats(new ArrayList<>());
                     } catch (SQLException e) {
                         LOGGER.log(Level.SEVERE, "Error setting booking details", e);
