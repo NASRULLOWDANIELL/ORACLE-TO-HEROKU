@@ -116,14 +116,11 @@
                   <label for="email" class="form-label">Email Address</label>
                   <input type="email" class="form-control" id="email" th:field="*{custemail}"
                     placeholder="Enter your email..." required>
-                  <small class="text-danger" th:if="${#fields.hasErrors('custemail')}" th:errors="*{custemail}"></small>
                 </div>
                 <div class="mb-3">
                   <label for="password" class="form-label">Password</label>
                   <input type="password" class="form-control" id="password" th:field="*{custpassword}"
                     placeholder="Enter your password..." required>
-                  <small class="text-danger" th:if="${#fields.hasErrors('custpassword')}"
-                    th:errors="*{custpassword}"></small>
                 </div>
                 <div class="d-grid">
                   <button type="submit" class="btn btn-custom">Log in</button>

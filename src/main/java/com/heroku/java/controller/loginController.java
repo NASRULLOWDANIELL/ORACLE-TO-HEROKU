@@ -32,7 +32,10 @@ public class loginController {
 
     @GetMapping("/login")
     public String showLoginForm(Model model) {
-        model.addAttribute("customer", new Customer());
+        System.out.println("Login form requested");
+        if (!model.containsAttribute("customer")) {
+            model.addAttribute("customer", new Customer());
+        }
         return "login";
     }
 
