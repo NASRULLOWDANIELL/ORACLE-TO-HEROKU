@@ -91,14 +91,19 @@
           <div class="card">
             <div class="card-body">
               <h2 class="card-title text-center mb-4">Log In Staff Account</h2>
+              <div th:if="${error}" class="alert alert-danger" role="alert">
+                <p th:text="${error}"></p>
+              </div>
               <form th:action="@{/loginStaff}" th:object="${staff}" method="post">
                 <div class="mb-3">
                   <label for="staffemail" class="form-label">Email Address</label>
-                  <input type="email" class="form-control" id="staffemail" th:field="*{staffemail}" placeholder="Enter your staff email..." required>
+                  <input type="email" class="form-control" id="staffemail" th:field="*{staffemail}"
+                    placeholder="Enter your staff email..." required>
                 </div>
                 <div class="mb-3">
                   <label for="staffpassword" class="form-label">Password</label>
-                  <input type="password" class="form-control" id="staffpassword" th:field="*{staffpassword}" placeholder="Enter your staff password..." required>
+                  <input type="password" class="form-control" id="staffpassword" th:field="*{staffpassword}"
+                    placeholder="Enter your staff password..." required>
                 </div>
                 <div class="d-grid">
                   <button type="submit" class="btn btn-custom">Log in</button>

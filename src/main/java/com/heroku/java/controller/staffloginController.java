@@ -47,6 +47,12 @@ public class staffloginController {
                 return "loginStaff";
             }
 
+            // Add this block to verify the password
+            if (!verifyPassword(staffpassword, staff.getStaffpassword())) {
+                model.addAttribute("error", "Incorrect password.");
+                return "loginStaff";
+            }
+
             session.setAttribute(SESSION_STAFF_ID, staff.getStaffid());
             session.setAttribute(SESSION_STAFF_EMAIL, staffemail);
 
@@ -60,6 +66,12 @@ public class staffloginController {
             model.addAttribute("error", "An error occurred. Please try again.");
             return "loginStaff";
         }
+    }
+
+    // Add this method to the staffloginController
+    private boolean verifyPassword(String inputPassword, String storedPassword) {
+        // Use secure password verification logic here
+        return inputPassword.equals(storedPassword); // Replace this with a secure hash comparison in a real application
     }
 
     @GetMapping("/logoutStaff")

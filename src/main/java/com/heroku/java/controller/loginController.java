@@ -67,8 +67,7 @@ public class loginController {
     }
 
     private boolean verifyPassword(String inputPassword, String storedPassword) {
-        // Use secure password verification logic here
-        return inputPassword.equals(storedPassword); // Replace this with a secure hash comparison in a real application
+        return inputPassword.equals(storedPassword);
     }
 
     @GetMapping("/logout")
