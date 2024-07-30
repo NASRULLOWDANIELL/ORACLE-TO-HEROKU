@@ -133,7 +133,7 @@
             <td th:text="${business.ownerName}"></td>
             <td th:text="${business.businessType}"></td>
             <td>
-              <a href="https://coop-management-2024-f4cb6cd5cd97.herokuapp.com/viewBusinessDetails" 
+              <a th:href="@{'https://coop-management-2024-f4cb6cd5cd97.herokuapp.com/viewBusinessDetails?businessID=' + ${business.businessID}}" 
                  class="btn btn-primary btn-sm" target="_blank">View Details</a>
             </td>
           </tr>

@@ -20,19 +20,17 @@ public class BusinessController {
     }
 
     @GetMapping("/syujaahBusiness")
-    public String syujaahBusiness(Model model) {
-        try {
-            List<Business> businesses = businessService.fetchBusinesses();
-            for (Business business : businesses) {
-                System.out.println("Business in controller: ownerName=" + business.getOwnerName() + 
-                                   ", businessType=" + business.getBusinessType());
-            }
-            model.addAttribute("businesses", businesses);
-        } catch (Exception e) {
-            System.err.println("Error fetching businesses: " + e.getMessage());
-            e.printStackTrace();
-            model.addAttribute("error", "Unable to fetch business data. Please try again later.");
+public String syujaahBusiness(Model model) {
+    try {
+        List<Business> businesses = businessService.fetchBusinesses();
+        for (Business business : businesses) {
+            System.out.println("Business: " + business.getOwnerName() + ", ID: " + business.getBusinessID());
         }
-        return "businessPage";
+        model.addAttribute("businesses", businesses);
+    } catch (Exception e) {
+        e.printStackTrace();
+        model.addAttribute("error", "Unable to fetch business data. Please try again later.");
     }
+    return "businessPage";
+}
 }

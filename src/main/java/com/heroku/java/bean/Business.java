@@ -3,15 +3,13 @@ package com.heroku.java.bean;
 public class Business {
     private String ownerName;
     private String businessType;
-    
+    private String businessID;  // Note the capital "ID"
 
-    // Constructors
-
-    public Business(String ownerName, String businessType) {
+    // Constructor
+    public Business(String ownerName, String businessType, String businessID) {
         this.ownerName = ownerName;
         this.businessType = businessType;
-        
-
+        this.businessID = businessID;
     }
 
     // Getters and setters
@@ -29,6 +27,14 @@ public class Business {
 
     public void setBusinessType(String businessType) {
         this.businessType = businessType;
+    }
+
+    public String getBusinessID() {
+        return businessID;
+    }
+
+    public void setBusinessID(String businessID) {
+        this.businessID = businessID;
     }
 
    
