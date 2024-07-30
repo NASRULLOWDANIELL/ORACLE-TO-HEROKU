@@ -21,8 +21,6 @@ public class BusinessService {
         RestTemplate restTemplate = new RestTemplate();
         String jsonResponse = restTemplate.getForObject(API_URL, String.class);
         
-        System.out.println("Raw JSON response: " + jsonResponse);
-        
         ObjectMapper objectMapper = new ObjectMapper();
         List<Business> businesses = new ArrayList<>();
         
@@ -34,17 +32,10 @@ public class BusinessService {
                 for (JsonNode businessNode : businessesNode) {
                     String ownerName = businessNode.path("ownerName").asText();
                     String businessType = businessNode.path("businessType").asText();
-                    String businessId = businessNode.path("businessId").asText();
-                    
-                    System.out.println("Parsed business: ownerName=" + ownerName + 
-                                       ", businessType=" + businessType + 
-                                       ", businessId=" + businessId);
-                    
-                    businesses.add(new Business(ownerName, businessType, businessId));
+                    businesses.add(new Business(ownerName, businessType, businessType));
                 }
             }
         } catch (Exception e) {
-            System.err.println("Error parsing JSON: " + e.getMessage());
             e.printStackTrace();
         }
         
