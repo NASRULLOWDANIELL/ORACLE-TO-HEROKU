@@ -3,7 +3,7 @@ package com.heroku.java.bean;
 public class Business {
     private String ownerName;
     private String businessType;
-    private String businessID;
+    private String businessId;
 
     // Constructors
     public Business() {}
@@ -11,7 +11,7 @@ public class Business {
     public Business(String ownerName, String businessType, String businessId) {
         this.ownerName = ownerName;
         this.businessType = businessType;
-        this.businessID= businessID;
+        this.businessId= businessId;
 
     }
 
@@ -33,10 +33,10 @@ public class Business {
     }
 
     public String getBusinessID() {
-        return businessID;
+        return businessId;
     }
 
     public void setBusinessID(String businessID) {
-        this.businessID = businessID;
+        this.businessId = businessId;
     }
 }
