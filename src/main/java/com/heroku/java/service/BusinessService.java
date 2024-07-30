@@ -23,12 +23,13 @@ public class BusinessService {
         
         try {
             JsonNode root = objectMapper.readTree(jsonResponse);
-            if (root.isArray()) {
-                for (JsonNode businessNode : root) {
+            JsonNode businessesNode = root.get("businesses");
+            
+            if (businessesNode != null && businessesNode.isArray()) {
+                for (JsonNode businessNode : businessesNode) {
                     String ownerName = businessNode.path("ownerName").asText();
                     String businessType = businessNode.path("businessType").asText();
-                    String businessId = businessNode.path("businessId").asText();
-                    businesses.add(new Business(ownerName, businessType, businessId));
+                    businesses.add(new Business(ownerName, businessType));
                 }
             }
         } catch (Exception e) {
