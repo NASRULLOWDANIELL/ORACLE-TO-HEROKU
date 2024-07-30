@@ -3,17 +3,16 @@ package com.heroku.java.bean;
 public class Business {
     private String ownerName;
     private String businessType;
+    private String businessId;
 
     // Constructors
     public Business() {}
 
-    public Business(String ownerName, String businessType) {
+    public Business(String ownerName, String businessType, String businessId) {
         this.ownerName = ownerName;
         this.businessType = businessType;
-    }
+        this.businessId = businessId;
 
-    public Business(String ownerName2, String businessType2, String businessId) {
-        //TODO Auto-generated constructor stub
     }
 
     // Getters and setters
@@ -31,5 +30,13 @@ public class Business {
 
     public void setBusinessType(String businessType) {
         this.businessType = businessType;
+    }
+    
+    public String getBusinessId() {
+        return businessId;
+    }
+
+    public void setBusinessId(String businessId) {
+        this.businessId = businessId;
     }
 }
