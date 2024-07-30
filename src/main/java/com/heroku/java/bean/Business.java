@@ -32,11 +32,11 @@ public class Business {
         this.businessType = businessType;
     }
 
-    public String getBusinessID() {
+    public String getBusinessId() {
         return businessId;
     }
 
-    public void setBusinessID(String businessID) {
+    public void setBusinessId(String businessId) {
         this.businessId = businessId;
     }
 }

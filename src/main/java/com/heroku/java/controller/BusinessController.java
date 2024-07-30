@@ -26,7 +26,7 @@ public class BusinessController {
             for (Business business : businesses) {
                 System.out.println("Business in controller: ownerName=" + business.getOwnerName() + 
                                    ", businessType=" + business.getBusinessType() + 
-                                   ", businessId=" + business.getBusinessID());
+                                   ", businessId=" + business.getBusinessId());
             }
             model.addAttribute("businesses", businesses);
         } catch (Exception e) {
