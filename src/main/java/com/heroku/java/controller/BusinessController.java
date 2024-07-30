@@ -12,7 +12,6 @@ import java.util.List;
 
 @Controller
 public class BusinessController {
-
     private final BusinessService businessService;
 
     @Autowired
@@ -24,11 +23,15 @@ public class BusinessController {
     public String syujaahBusiness(Model model) {
         try {
             List<Business> businesses = businessService.fetchBusinesses();
+            for (Business business : businesses) {
+                System.out.println("Business in controller: ownerName=" + business.getOwnerName() + 
+                                   ", businessType=" + business.getBusinessType() + 
+                                   ", businessId=" + business.getBusinessID());
+            }
             model.addAttribute("businesses", businesses);
         } catch (Exception e) {
-            // Log the error
+            System.err.println("Error fetching businesses: " + e.getMessage());
             e.printStackTrace();
-            // Add an error message to the model
             model.addAttribute("error", "Unable to fetch business data. Please try again later.");
         }
         return "businessPage";

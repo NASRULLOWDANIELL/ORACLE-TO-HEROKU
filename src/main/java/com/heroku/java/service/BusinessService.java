@@ -3,7 +3,6 @@ package com.heroku.java.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.heroku.java.bean.Business;
-
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -18,6 +17,8 @@ public class BusinessService {
         RestTemplate restTemplate = new RestTemplate();
         String jsonResponse = restTemplate.getForObject(API_URL, String.class);
         
+        System.out.println("Raw JSON response: " + jsonResponse);
+        
         ObjectMapper objectMapper = new ObjectMapper();
         List<Business> businesses = new ArrayList<>();
         
@@ -29,11 +30,17 @@ public class BusinessService {
                 for (JsonNode businessNode : businessesNode) {
                     String ownerName = businessNode.path("ownerName").asText();
                     String businessType = businessNode.path("businessType").asText();
-                    String businessID = businessNode.path("businessID").asText();
-                    businesses.add(new Business(ownerName, businessType, businessID));
+                    String businessId = businessNode.path("businessId").asText();
+                    
+                    System.out.println("Parsed business: ownerName=" + ownerName + 
+                                       ", businessType=" + businessType + 
+                                       ", businessId=" + businessId);
+                    
+                    businesses.add(new Business(ownerName, businessType, businessId));
                 }
             }
         } catch (Exception e) {
+            System.err.println("Error parsing JSON: " + e.getMessage());
             e.printStackTrace();
         }
         
