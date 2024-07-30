@@ -29,8 +29,8 @@ public class BusinessService {
                 for (JsonNode businessNode : businessesNode) {
                     String ownerName = businessNode.path("ownerName").asText();
                     String businessType = businessNode.path("businessType").asText();
-                    String businessId = businessNode.path("businessId").asText();
-                    businesses.add(new Business(ownerName, businessType, businessId));
+                    String businessID = businessNode.path("businessID").asText();
+                    businesses.add(new Business(ownerName, businessType, businessID));
                 }
             }
         } catch (Exception e) {
