@@ -7,7 +7,7 @@ public class Business {
 
     // Constructors
 
-    public Business(String ownerName, String businessType, String businessId) {
+    public Business(String ownerName, String businessType) {
         this.ownerName = ownerName;
         this.businessType = businessType;
         

@@ -32,7 +32,7 @@ public class BusinessService {
                 for (JsonNode businessNode : businessesNode) {
                     String ownerName = businessNode.path("ownerName").asText();
                     String businessType = businessNode.path("businessType").asText();
-                    businesses.add(new Business(ownerName, businessType, businessType));
+                    businesses.add(new Business(ownerName, businessType));
                 }
             }
         } catch (Exception e) {
