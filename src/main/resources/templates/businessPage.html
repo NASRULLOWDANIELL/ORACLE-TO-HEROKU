@@ -76,16 +76,6 @@
       background-color: #596cd5;
       color: #fff;
     }
-
-    .btn-primary {
-  background-color: #596cd5;
-  border-color: #596cd5;
-}
-
-.btn-primary:hover {
-  background-color: #4a5bb3;
-  border-color: #4a5bb3;
-}
   </style>
 </head>
 
@@ -141,10 +131,6 @@
           <tr th:each="business : ${businesses}">
             <td th:text="${business.ownerName}"></td>
             <td th:text="${business.businessType}"></td>
-            <td> <a th:href="@{'https://coop-management-2024-f4cb6cd5cd97.herokuapp.com/viewBusinessDetails?businessID=' + ${business.businessId}}" 
-                class="btn btn-primary btn-sm" target="_blank">
-               View More Details
-             </a></td>
           </tr>
         </tbody>
       </table>
