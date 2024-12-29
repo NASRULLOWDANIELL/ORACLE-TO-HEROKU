@@ -89,12 +89,33 @@
                 </div>
                 <div class="form-group">
                   <label for="card.cardNumber">Card Number</label>
-                  <input type="text" th:field="*{card.cardNumber}" class="form-control">
-                </div>
+                  <input type="text" 
+                         th:field="*{card.cardNumber}" 
+                         class="form-control"
+                         pattern="[0-9]{16}"
+                         maxlength="16"
+                         title="Please enter a valid 16-digit card number"
+                         placeholder="Enter 16-digit card number"
+                         oninput="this.value = this.value.replace(/[^0-9]/g, '')">
               </div>
-              <input type="hidden" th:field="*{bookingId}">
+                <!-- <div class="form-group">
+                  <label for="card.cardNumber">Card Number</label>
+                  <input type="text" th:field="*{card.cardNumber}" class="form-control">
+                </div> -->
+                <div class="form-group">
+                  <label for="card.cvv">CVV</label>
+                  <input type="text" 
+                         th:field="*{card.cvv}" 
+                         class="form-control" 
+                         pattern="[0-9]{3}" 
+                         maxlength="3" 
+                         title="Please enter exactly 3 digits"
+                         placeholder="Enter 3 digit CVV">
+                </div>
+             </div>
+             <input type="hidden" th:field="*{bookingId}">
               <button type="submit" class="btn btn-primary btn-block">Process Payment</button>
-            </form>
+        </form>
           </div>
         </div>
       </div>

@@ -4,7 +4,15 @@ public class Card {
     private int paymentid;
     private String cardtype;
     private String cardnumber;
+    private String cvv;
 
+    public String getCvv() {
+        return cvv;
+    }
+
+    public void setCvv(String cvv) {
+        this.cvv = cvv;
+    }
     public Card() {
     }
 
