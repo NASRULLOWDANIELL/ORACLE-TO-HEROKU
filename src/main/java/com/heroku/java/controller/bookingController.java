@@ -1,22 +1,37 @@
 package com.heroku.java.controller;
 
+import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
+// import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.heroku.java.bean.Booking;
 import com.heroku.java.bean.Cat;
 
 import jakarta.servlet.http.HttpSession;
-import javax.sql.DataSource;
-import java.sql.*;
-import java.time.LocalDate;
-// import java.sql.Date;
-import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import java.util.concurrent.TimeUnit;
 
 @Controller
 public class bookingController {
@@ -176,18 +191,53 @@ public class bookingController {
     }
 
     private void insertBooking(Connection connection, int bookingId, Booking booking) throws SQLException {
-        String bookingSql = "INSERT INTO booking (bookingid, roomid, bookingCheckInDate, bookingCheckOutDate, bookingPrice, bookingStatus, paymentstatus) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement ps = connection.prepareStatement(bookingSql)) {
-            ps.setInt(1, bookingId);
-            ps.setInt(2, booking.getRoomid());
-            ps.setDate(3, new java.sql.Date(booking.getBookingCheckInDate().getTime()));
-            ps.setDate(4, new java.sql.Date(booking.getBookingCheckOutDate().getTime()));
-            ps.setBigDecimal(5, booking.getBookingPrice());
-            ps.setString(6, "CONFIRMED");
-            ps.setString(7, "NOT PAID"); // Set a default payment status
-            ps.executeUpdate();
+    // First, get the room price
+    String roomPriceSql = "SELECT roomprice FROM room WHERE roomid = ?";
+    BigDecimal roomPrice;
+    try (PreparedStatement ps = connection.prepareStatement(roomPriceSql)) {
+        ps.setInt(1, booking.getRoomid());
+        try (ResultSet rs = ps.executeQuery()) {
+            if (!rs.next()) {
+                throw new SQLException("Room not found");
+            }
+            roomPrice = BigDecimal.valueOf(rs.getDouble("roomprice"));
         }
     }
+    
+    // Calculate number of days between check-in and check-out
+    long diffInMillies = booking.getBookingCheckOutDate().getTime() - booking.getBookingCheckInDate().getTime();
+    long diffInDays = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+    
+    // Calculate total price (room price * number of days)
+    BigDecimal totalPrice = roomPrice.multiply(BigDecimal.valueOf(diffInDays));
+    
+    // Insert the booking with calculated total price
+    String bookingSql = "INSERT INTO booking (bookingid, roomid, bookingCheckInDate, bookingCheckOutDate, bookingPrice, bookingStatus, paymentstatus) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    try (PreparedStatement ps = connection.prepareStatement(bookingSql)) {
+        ps.setInt(1, bookingId);
+        ps.setInt(2, booking.getRoomid());
+        ps.setDate(3, new java.sql.Date(booking.getBookingCheckInDate().getTime()));
+        ps.setDate(4, new java.sql.Date(booking.getBookingCheckOutDate().getTime()));
+        ps.setBigDecimal(5, totalPrice);
+        ps.setString(6, "CONFIRMED");
+        ps.setString(7, "NOT PAID");
+        ps.executeUpdate();
+    }
+}
+
+    // private void insertBooking(Connection connection, int bookingId, Booking booking) throws SQLException {
+    //     String bookingSql = "INSERT INTO booking (bookingid, roomid, bookingCheckInDate, bookingCheckOutDate, bookingPrice, bookingStatus, paymentstatus) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    //     try (PreparedStatement ps = connection.prepareStatement(bookingSql)) {
+    //         ps.setInt(1, bookingId);
+    //         ps.setInt(2, booking.getRoomid());
+    //         ps.setDate(3, new java.sql.Date(booking.getBookingCheckInDate().getTime()));
+    //         ps.setDate(4, new java.sql.Date(booking.getBookingCheckOutDate().getTime()));
+    //         ps.setBigDecimal(5, booking.getBookingPrice());
+    //         ps.setString(6, "CONFIRMED");
+    //         ps.setString(7, "NOT PAID"); // Set a default payment status
+    //         ps.executeUpdate();
+    //     }
+    // }
 
     private void insertBookingCats(Connection connection, int bookingId, List<Integer> selectedCats)
             throws SQLException {
