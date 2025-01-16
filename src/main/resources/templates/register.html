@@ -93,14 +93,10 @@
               <form th:action="@{/register}" th:object="${customer}" method="post" >
                 <div class="mb-3">
                   <label for="custname" class="form-label">Name</label>
-                  <input type="text" 
-                         class="form-control" 
-                         id="custname" 
-                         th:field="*{custname}" 
-                         placeholder="Enter your name..." 
+                  <input type="text" class="form-control" id="custname" 
+                          th:field="*{custname}" placeholder="Enter your name..." 
                          pattern="^[A-Za-z\s]+$" 
-                         title="Name should only contain letters" 
-                         required>
+                         title="Name should only contain letters" required>
               </div>
                 <div class="mb-3">
                   <label for="custemail" class="form-label">Email Address</label>
@@ -108,36 +104,21 @@
                 </div>
                 <div class="mb-3">
                   <label for="custpassword" class="form-label">Password</label>
-                  <input type="password" 
-                         class="form-control" 
-                         id="custpassword" 
-                         th:field="*{custpassword}" 
-                         placeholder="Enter your password..." 
+                  <input type="password" class="form-control" id="custpassword" 
+                         th:field="*{custpassword}" placeholder="Enter your password..." 
                          pattern="^(?=.*[A-Z]).{7,}$" 
                          minlength="7"
                          title="Password must be at least 7 characters long and include at least one capital letter" 
                          required>
               </div>
-                <!-- <div class="mb-3">
-                  <label for="custpassword" class="form-label">Password</label>
-                  <input type="password" class="form-control" id="custpassword" th:field="*{custpassword}" placeholder="Enter your password..." 
-                  title="Name should only contain letters" required>
-                </div> -->
                 <div class="mb-3">
                   <label for="custphoneno" class="form-label">Phone Number</label>
-                  <input type="tel" 
-                         class="form-control" 
-                         id="custphoneno" 
-                         th:field="*{custphoneno}" 
-                         placeholder="Enter your phone number (e.g., 0123456789)" 
+                  <input type="tel" class="form-control" id="custphoneno" 
+                         th:field="*{custphoneno}" placeholder="Enter your phone number (e.g., 0123456789)" 
                          pattern="^(01[0-46-9])-*[0-9]{7,8}$"
                          title="Please enter a valid Malaysian phone number starting with 01, followed by 8-9 digits" 
                          required>
               </div>
-                <!-- <div class="mb-3">
-                  <label for="custphoneno" class="form-label">Phone Number</label>
-                  <input type="tel" class="form-control" id="custphoneno" th:field="*{custphoneno}" placeholder="Enter your phone number..." required>
-                </div> -->
                 <div class="d-grid">
                   <button type="submit" class="btn btn-custom">Register</button>
                 </div>

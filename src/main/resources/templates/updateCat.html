@@ -118,19 +118,10 @@
                                 <input type="text" class="form-control" id="catname" name="catname"
                                     th:field="*{catname}" placeholder="Enter your cat name..." required />
                             </div>
-                            <!-- <div class="form-group">
-                                <label for="catbreed">Cat Breed</label>
-                                <input type="text" class="form-control" id="catbreed" name="catbreed"
-                                    th:field="*{catbreed}" placeholder="Enter cat breed..." required />
-                            </div> -->
                             <div class="form-group">
                                 <label for="catbreed">Cat Breed</label>
-                                <input type="text" 
-                                       class="form-control" 
-                                       id="catbreed" 
-                                       name="catbreed"
-                                       th:field="*{catbreed}" 
-                                       pattern="^[A-Za-z\s]+$"
+                                <input type="text" class="form-control" id="catbreed" name="catbreed"
+                                       th:field="*{catbreed}" pattern="^[A-Za-z\s]+$"
                                        oninvalid="this.setCustomValidity('Please enter only letters (no numbers allowed)')"
                                        oninput="this.setCustomValidity('')"
                                        title="Please enter only letters (no numbers allowed)"
@@ -141,8 +132,9 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="catage">Cat Age</label>
+                                <label for="catage">Cat Age (Years)</label>
                                 <input type="number" class="form-control" id="catage" name="catage" th:field="*{catage}"
+                                    min="0"
                                     placeholder="Enter your cat age..." required />
                             </div>
                             <div class="text-center">

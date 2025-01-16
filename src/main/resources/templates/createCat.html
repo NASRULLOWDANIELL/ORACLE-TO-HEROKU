@@ -96,11 +96,6 @@
                                 <input type="text" class="form-control" id="catname" th:field="*{catname}"
                                     placeholder="Enter your cat name..." required>
                             </div>
-                            <!-- <div class="form-group">
-                                <label for="catbreed">Cat Breed</label>
-                                <input type="text" class="form-control" id="catbreed" th:field="*{catbreed}"
-                                    placeholder="Enter your cat breed..." required>
-                            </div> -->
                             <div class="form-group">
                                 <label for="catbreed">Cat Breed</label>
                                 <input type="text" 
@@ -118,9 +113,10 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="catage">Cat Age</label>
+                                <label for="catage">Cat Age (Years)</label>
                                 <input type="number" class="form-control" id="catage" th:field="*{catage}"
-                                    placeholder="Enter your cat age..." required>
+                                       min="0"
+                                       placeholder="Enter your cat age..." required>
                             </div>
                             <input type="hidden" th:field="*{custid}" />
                             <button type="submit" class="btn btn-custom btn-block">Add Cat</button>

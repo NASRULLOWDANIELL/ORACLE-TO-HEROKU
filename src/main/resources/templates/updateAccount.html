@@ -115,17 +115,26 @@
                             <div class="form-group">
                                 <label for="custname">Name</label>
                                 <input type="text" class="form-control" id="custname" name="custname"
-                                    th:field="*{custname}" placeholder="Enter your name..." required />
+                                    th:field="*{custname}" placeholder="Enter your name..."
+                                    pattern="^[A-Za-z\s]+$" 
+                                    title="Name should only contain letters" required />
                             </div>
                             <div class="form-group">
                                 <label for="custpassword">Password</label>
                                 <input type="password" class="form-control" id="custpassword" name="custpassword"
-                                    th:field="*{custpassword}" placeholder="Enter your password..." required />
+                                    th:field="*{custpassword}" placeholder="Enter your password..." 
+                                    pattern="^(?=.*[A-Z]).{7,}$" 
+                                    minlength="7"
+                                    title="Password must be at least 7 characters long and include at least one capital letter" 
+                                    required />
                             </div>
                             <div class="form-group">
                                 <label for="custphoneno">Phone Number</label>
-                                <input type="text" class="form-control" id="custphoneno" name="custphoneno"
-                                    th:field="*{custphoneno}" placeholder="Enter your phone number..." required />
+                                <input type="tel" class="form-control" id="custphoneno" name="custphoneno"
+                                    th:field="*{custphoneno}" placeholder="Enter your phone number..." 
+                                    pattern="^(01[0-46-9])-*[0-9]{7,8}$"
+                                    title="Please enter a valid Malaysian phone number starting with 01, followed by 8-9 digits" 
+                                    required />
                             </div>
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary mr-2">Update</button>
