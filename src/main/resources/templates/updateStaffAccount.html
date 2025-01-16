@@ -80,7 +80,7 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-3">
-                    <a th:href="@{/}" class="logo">MYVI CAT HOTEL_</a>
+                    <span class="logo">MYVI CAT HOTEL_</span>
                 </div>
                 <div class="col-md-9">
                     <ul class="menu list-inline text-md-right mb-0">
@@ -115,17 +115,27 @@
                             <div class="form-group">
                                 <label for="staffname">Name</label>
                                 <input type="text" class="form-control" name="staffname" th:field="*{staffname}"
-                                    placeholder="Enter your name..." required />
+                                    placeholder="Enter your name..."
+                                    pattern="^[A-Za-z\s]+$" 
+                                    title="Name should only contain letters"
+                                    required />
                             </div>
                             <div class="form-group">
                                 <label for="staffpassword">Password</label>
                                 <input type="password" class="form-control" name="staffpassword"
-                                    th:field="*{staffpassword}" placeholder="Enter your password..." required />
+                                    th:field="*{staffpassword}" placeholder="Enter your password..." 
+                                    pattern="^(?=.*[A-Z]).{7,}$" 
+                                    minlength="7"
+                                    title="Password must be at least 7 characters long and include at least one capital letter" 
+                                    required />
                             </div>
                             <div class="form-group">
                                 <label for="staffphoneno">Phone Number</label>
                                 <input type="text" class="form-control" name="staffphoneno" th:field="*{staffphoneno}"
-                                    placeholder="Enter your phone number..." required />
+                                    placeholder="Enter your phone number..." 
+                                    pattern="^(01[0-46-9])-*[0-9]{7,8}$"
+                                    title="Please enter a valid Malaysian phone number starting with 01, followed by 8-9 digits" 
+                                    required />
                             </div>
                             <div class="form-group">
                                 <label for="managerid">Manager ID</label>
